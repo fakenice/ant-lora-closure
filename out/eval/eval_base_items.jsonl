@@ -1,0 +1,100 @@
+{"id": "e0", "gold": "A", "pred": "A", "parse_path": "first-letter", "outcome": "correct", "raw": "答案是：A. 大杼", "n_new_tokens": 9}
+{"id": "e1", "gold": "A", "pred": "C", "parse_path": "first-letter", "outcome": "wrong", "raw": "正确答案是：C. 非连锁药品零售", "n_new_tokens": 12}
+{"id": "e2", "gold": "B", "pred": "B", "parse_path": "first-letter", "outcome": "correct", "raw": "B. 随餐服用", "n_new_tokens": 8}
+{"id": "e3", "gold": "E", "pred": "E", "parse_path": "first-letter", "outcome": "correct", "raw": "答案是E，胸膜腔开放引流。", "n_new_tokens": 11}
+{"id": "e4", "gold": "C", "pred": "E", "parse_path": "first-letter", "outcome": "wrong", "raw": "E. 肾综合征出血热", "n_new_tokens": 9}
+{"id": "e5", "gold": "D", "pred": "D", "parse_path": "first-letter", "outcome": "correct", "raw": "D", "n_new_tokens": 2}
+{"id": "e6", "gold": "E", "pred": "D", "parse_path": "first-letter", "outcome": "wrong", "raw": "答案是D，香豆素类。", "n_new_tokens": 10}
+{"id": "e7", "gold": "D", "pred": "D", "parse_path": "first-letter", "outcome": "correct", "raw": "答案是：D.肝胃虚寒之胃脘", "n_new_tokens": 12}
+{"id": "e8", "gold": "A", "pred": "A", "parse_path": "first-letter", "outcome": "correct", "raw": "A. 规范行医", "n_new_tokens": 8}
+{"id": "e9", "gold": "E", "pred": "C", "parse_path": "first-letter", "outcome": "wrong", "raw": "答案是：C", "n_new_tokens": 5}
+{"id": "e10", "gold": "A", "pred": "A", "parse_path": "first-letter", "outcome": "correct", "raw": "A. 智力测验", "n_new_tokens": 9}
+{"id": "e11", "gold": "B", "pred": "D", "parse_path": "first-letter", "outcome": "wrong", "raw": "答案是：D. 高位肠梗阻较低", "n_new_tokens": 12}
+{"id": "e12", "gold": "D", "pred": "D", "parse_path": "first-letter", "outcome": "correct", "raw": "答案是D，瞳孔括约肌松弛。", "n_new_tokens": 12}
+{"id": "e13", "gold": "A", "pred": "A", "parse_path": "first-letter", "outcome": "correct", "raw": "A. 雷尼替丁", "n_new_tokens": 9}
+{"id": "e14", "gold": "A", "pred": "C", "parse_path": "first-letter", "outcome": "wrong", "raw": "C. 软膏剂", "n_new_tokens": 8}
+{"id": "e15", "gold": "C", "pred": "C", "parse_path": "first-letter", "outcome": "correct", "raw": "答案是：C. 利福平", "n_new_tokens": 10}
+{"id": "e16", "gold": "D", "pred": "D", "parse_path": "first-letter", "outcome": "correct", "raw": "正确答案是：D. 启动序列", "n_new_tokens": 11}
+{"id": "e17", "gold": "E", "pred": "E", "parse_path": "first-letter", "outcome": "correct", "raw": "E. 以上都是", "n_new_tokens": 6}
+{"id": "e18", "gold": "B", "pred": "B", "parse_path": "first-letter", "outcome": "correct", "raw": "B", "n_new_tokens": 2}
+{"id": "e19", "gold": "B", "pred": "B", "parse_path": "first-letter", "outcome": "correct", "raw": "B. 乙型肝炎", "n_new_tokens": 8}
+{"id": "e20", "gold": "E", "pred": "E", "parse_path": "first-letter", "outcome": "correct", "raw": "答案是E，蚊。", "n_new_tokens": 7}
+{"id": "e21", "gold": "A", "pred": "A", "parse_path": "first-letter", "outcome": "correct", "raw": "A. 正常产程", "n_new_tokens": 8}
+{"id": "e22", "gold": "D", "pred": "E", "parse_path": "first-letter", "outcome": "wrong", "raw": "E. killip分级Ⅲ级", "n_new_tokens": 9}
+{"id": "e23", "gold": "E", "pred": "E", "parse_path": "first-letter", "outcome": "correct", "raw": "正确答案是：E. 异烟肼", "n_new_tokens": 11}
+{"id": "e24", "gold": "D", "pred": "D", "parse_path": "first-letter", "outcome": "correct", "raw": "正确答案是：D. 免疫防御、免疫", "n_new_tokens": 12}
+{"id": "e25", "gold": "B", "pred": "B", "parse_path": "first-letter", "outcome": "correct", "raw": "答案是：B", "n_new_tokens": 5}
+{"id": "e26", "gold": "E", "pred": "B", "parse_path": "first-letter", "outcome": "wrong", "raw": "B", "n_new_tokens": 2}
+{"id": "e27", "gold": "B", "pred": "B", "parse_path": "first-letter", "outcome": "correct", "raw": "正确答案是：B. C3bBb", "n_new_tokens": 12}
+{"id": "e28", "gold": "C", "pred": "C", "parse_path": "first-letter", "outcome": "correct", "raw": "C. 大便检出病原体", "n_new_tokens": 11}
+{"id": "e29", "gold": "D", "pred": "D", "parse_path": "first-letter", "outcome": "correct", "raw": "D. 痰饮", "n_new_tokens": 7}
+{"id": "e30", "gold": "A", "pred": "A", "parse_path": "first-letter", "outcome": "correct", "raw": "A", "n_new_tokens": 2}
+{"id": "e31", "gold": "D", "pred": "D", "parse_path": "first-letter", "outcome": "correct", "raw": "答案是D，超执业范围的违法行为。", "n_new_tokens": 11}
+{"id": "e32", "gold": "B", "pred": "B", "parse_path": "first-letter", "outcome": "correct", "raw": "B. 气泡点法", "n_new_tokens": 9}
+{"id": "e33", "gold": "B", "pred": "B", "parse_path": "first-letter", "outcome": "correct", "raw": "B", "n_new_tokens": 2}
+{"id": "e34", "gold": "E", "pred": "C", "parse_path": "first-letter", "outcome": "wrong", "raw": "正确答案是：C. 外压狭窄，粘", "n_new_tokens": 12}
+{"id": "e35", "gold": "A", "pred": "B", "parse_path": "first-letter", "outcome": "wrong", "raw": "答案是B。", "n_new_tokens": 5}
+{"id": "e36", "gold": "A", "pred": "A", "parse_path": "first-letter", "outcome": "correct", "raw": "A. 丙氨酸", "n_new_tokens": 6}
+{"id": "e37", "gold": "A", "pred": "A", "parse_path": "first-letter", "outcome": "correct", "raw": "A. 先兆子宫破裂", "n_new_tokens": 8}
+{"id": "e38", "gold": "D", "pred": "D", "parse_path": "first-letter", "outcome": "correct", "raw": "D. 手术器械", "n_new_tokens": 7}
+{"id": "e39", "gold": "D", "pred": "D", "parse_path": "first-letter", "outcome": "correct", "raw": "D. 痰培养加药敏试验", "n_new_tokens": 11}
+{"id": "e40", "gold": "C", "pred": "B", "parse_path": "first-letter", "outcome": "wrong", "raw": "答案是：B. 相对生物利用度", "n_new_tokens": 12}
+{"id": "e41", "gold": "B", "pred": "B", "parse_path": "first-letter", "outcome": "correct", "raw": "答案是：B. 散瞳升高眼内压", "n_new_tokens": 12}
+{"id": "e42", "gold": "D", "pred": "D", "parse_path": "first-letter", "outcome": "correct", "raw": "正确答案是：D. 指定检验", "n_new_tokens": 12}
+{"id": "e43", "gold": "A", "pred": "A", "parse_path": "first-letter", "outcome": "correct", "raw": "A. 首次获准进口5年内的", "n_new_tokens": 12}
+{"id": "e44", "gold": "C", "pred": "C", "parse_path": "first-letter", "outcome": "correct", "raw": "C", "n_new_tokens": 2}
+{"id": "e45", "gold": "D", "pred": "D", "parse_path": "first-letter", "outcome": "correct", "raw": "答案是：D. 扶阳抑阴", "n_new_tokens": 11}
+{"id": "e46", "gold": "C", "pred": "C", "parse_path": "first-letter", "outcome": "correct", "raw": "C. 大环内酯类药物", "n_new_tokens": 10}
+{"id": "e47", "gold": "B", "pred": "B", "parse_path": "first-letter", "outcome": "correct", "raw": "B. 四环素类", "n_new_tokens": 8}
+{"id": "e48", "gold": "D", "pred": "D", "parse_path": "first-letter", "outcome": "correct", "raw": "答案是：D. 曲解家属自主权，", "n_new_tokens": 12}
+{"id": "e49", "gold": "E", "pred": "A", "parse_path": "first-letter", "outcome": "wrong", "raw": "正确答案是：A. 是小肠的起始", "n_new_tokens": 12}
+{"id": "e50", "gold": "D", "pred": "D", "parse_path": "first-letter", "outcome": "correct", "raw": "答案是：D. 第一代头孢菌素", "n_new_tokens": 12}
+{"id": "e51", "gold": "C", "pred": "C", "parse_path": "first-letter", "outcome": "correct", "raw": "C. 炎性细胞", "n_new_tokens": 8}
+{"id": "e52", "gold": "D", "pred": "B", "parse_path": "first-letter", "outcome": "wrong", "raw": "答案是：B. 麦角胺", "n_new_tokens": 11}
+{"id": "e53", "gold": "B", "pred": "B", "parse_path": "first-letter", "outcome": "correct", "raw": "答案是：B", "n_new_tokens": 5}
+{"id": "e54", "gold": "E", "pred": "D", "parse_path": "first-letter", "outcome": "wrong", "raw": "D", "n_new_tokens": 2}
+{"id": "e55", "gold": "E", "pred": "E", "parse_path": "first-letter", "outcome": "correct", "raw": "答案是：E. 化学细菌学说", "n_new_tokens": 12}
+{"id": "e56", "gold": "C", "pred": "C", "parse_path": "first-letter", "outcome": "correct", "raw": "C", "n_new_tokens": 2}
+{"id": "e57", "gold": "E", "pred": "C", "parse_path": "first-letter", "outcome": "wrong", "raw": "答案是C，膈低平。", "n_new_tokens": 9}
+{"id": "e58", "gold": "C", "pred": "C", "parse_path": "first-letter", "outcome": "correct", "raw": "C", "n_new_tokens": 2}
+{"id": "e59", "gold": "D", "pred": "D", "parse_path": "first-letter", "outcome": "correct", "raw": "正确答案是：D. 脊髓丘脑", "n_new_tokens": 12}
+{"id": "e60", "gold": "E", "pred": "E", "parse_path": "first-letter", "outcome": "correct", "raw": "答案是：E. 颈部屈向同", "n_new_tokens": 12}
+{"id": "e61", "gold": "E", "pred": "E", "parse_path": "first-letter", "outcome": "correct", "raw": "答案是：E. 夏枯草", "n_new_tokens": 10}
+{"id": "e62", "gold": "B", "pred": "B", "parse_path": "first-letter", "outcome": "correct", "raw": "B. 伤寒", "n_new_tokens": 6}
+{"id": "e63", "gold": "B", "pred": "C", "parse_path": "first-letter", "outcome": "wrong", "raw": "答案是：C", "n_new_tokens": 5}
+{"id": "e64", "gold": "A", "pred": "B", "parse_path": "first-letter", "outcome": "wrong", "raw": "B", "n_new_tokens": 2}
+{"id": "e65", "gold": "D", "pred": "D", "parse_path": "first-letter", "outcome": "correct", "raw": "D. 腹腔穿刺抽液检查", "n_new_tokens": 12}
+{"id": "e66", "gold": "D", "pred": "D", "parse_path": "first-letter", "outcome": "correct", "raw": "D. ABVD方案", "n_new_tokens": 6}
+{"id": "e67", "gold": "A", "pred": "B", "parse_path": "first-letter", "outcome": "wrong", "raw": "B", "n_new_tokens": 2}
+{"id": "e68", "gold": "D", "pred": "D", "parse_path": "first-letter", "outcome": "correct", "raw": "答案是：D. 火热外袭", "n_new_tokens": 12}
+{"id": "e69", "gold": "D", "pred": "D", "parse_path": "first-letter", "outcome": "correct", "raw": "答案是D，花生四烯酸。", "n_new_tokens": 10}
+{"id": "e70", "gold": "B", "pred": "B", "parse_path": "first-letter", "outcome": "correct", "raw": "答案是：B. 狗脊", "n_new_tokens": 10}
+{"id": "e71", "gold": "A", "pred": "A", "parse_path": "first-letter", "outcome": "correct", "raw": "答案是：A", "n_new_tokens": 5}
+{"id": "e72", "gold": "E", "pred": "E", "parse_path": "first-letter", "outcome": "correct", "raw": "答案是：E. 靛玉红", "n_new_tokens": 11}
+{"id": "e73", "gold": "C", "pred": "B", "parse_path": "first-letter", "outcome": "wrong", "raw": "答案是：B", "n_new_tokens": 5}
+{"id": "e74", "gold": "E", "pred": "B", "parse_path": "first-letter", "outcome": "wrong", "raw": "B", "n_new_tokens": 2}
+{"id": "e75", "gold": "B", "pred": "B", "parse_path": "first-letter", "outcome": "correct", "raw": "正确答案是：B. 物理作用、化学", "n_new_tokens": 12}
+{"id": "e76", "gold": "A", "pred": "A", "parse_path": "first-letter", "outcome": "correct", "raw": "A. 生活方式", "n_new_tokens": 6}
+{"id": "e77", "gold": "A", "pred": "A", "parse_path": "first-letter", "outcome": "correct", "raw": "A. 伦理审查", "n_new_tokens": 6}
+{"id": "e78", "gold": "C", "pred": "C", "parse_path": "first-letter", "outcome": "correct", "raw": "答案是：C. 卫生行政主管部门", "n_new_tokens": 11}
+{"id": "e79", "gold": "A", "pred": "A", "parse_path": "first-letter", "outcome": "correct", "raw": "A", "n_new_tokens": 2}
+{"id": "e80", "gold": "C", "pred": "C", "parse_path": "first-letter", "outcome": "correct", "raw": "答案是：C. 3～6个月", "n_new_tokens": 11}
+{"id": "e81", "gold": "A", "pred": "A", "parse_path": "first-letter", "outcome": "correct", "raw": "A. 全冠", "n_new_tokens": 6}
+{"id": "e82", "gold": "E", "pred": "D", "parse_path": "first-letter", "outcome": "wrong", "raw": "答案是：D. 属于见义勇为", "n_new_tokens": 12}
+{"id": "e83", "gold": "B", "pred": "B", "parse_path": "first-letter", "outcome": "correct", "raw": "答案是：B. 氢氧化铝", "n_new_tokens": 11}
+{"id": "e84", "gold": "D", "pred": "D", "parse_path": "first-letter", "outcome": "correct", "raw": "答案是：D. 癃清片", "n_new_tokens": 10}
+{"id": "e85", "gold": "E", "pred": "E", "parse_path": "first-letter", "outcome": "correct", "raw": "E. 膀胱肿瘤", "n_new_tokens": 8}
+{"id": "e86", "gold": "E", "pred": "C", "parse_path": "first-letter", "outcome": "wrong", "raw": "C. 肾合成红细胞生成素增多", "n_new_tokens": 12}
+{"id": "e87", "gold": "D", "pred": "C", "parse_path": "first-letter", "outcome": "wrong", "raw": "答案是：C. 膈下逐瘀汤", "n_new_tokens": 12}
+{"id": "e88", "gold": "B", "pred": "B", "parse_path": "first-letter", "outcome": "correct", "raw": "答案是：B", "n_new_tokens": 5}
+{"id": "e89", "gold": "B", "pred": "D", "parse_path": "first-letter", "outcome": "wrong", "raw": "答案是：D", "n_new_tokens": 5}
+{"id": "e90", "gold": "D", "pred": "D", "parse_path": "first-letter", "outcome": "correct", "raw": "D. 尿三氯化铁试验", "n_new_tokens": 10}
+{"id": "e91", "gold": "D", "pred": "D", "parse_path": "first-letter", "outcome": "correct", "raw": "D. 阵发性室上性心动过", "n_new_tokens": 12}
+{"id": "e92", "gold": "A", "pred": "C", "parse_path": "first-letter", "outcome": "wrong", "raw": "答案是：C. 该企业的主要负责人", "n_new_tokens": 11}
+{"id": "e93", "gold": "C", "pred": "B", "parse_path": "first-letter", "outcome": "wrong", "raw": "答案是：B. 毛蕊异黄酮", "n_new_tokens": 12}
+{"id": "e94", "gold": "C", "pred": "C", "parse_path": "first-letter", "outcome": "correct", "raw": "答案是：C. 巩膜", "n_new_tokens": 9}
+{"id": "e95", "gold": "D", "pred": "D", "parse_path": "first-letter", "outcome": "correct", "raw": "答案是：D. 寿命最长", "n_new_tokens": 10}
+{"id": "e96", "gold": "C", "pred": "B", "parse_path": "first-letter", "outcome": "wrong", "raw": "答案是：B. 氢化萘环", "n_new_tokens": 12}
+{"id": "e97", "gold": "A", "pred": "A", "parse_path": "first-letter", "outcome": "correct", "raw": "A. 头MRI", "n_new_tokens": 6}
+{"id": "e98", "gold": "B", "pred": "B", "parse_path": "first-letter", "outcome": "correct", "raw": "答案是：B. 膜性肾病", "n_new_tokens": 12}
+{"id": "e99", "gold": "D", "pred": "D", "parse_path": "first-letter", "outcome": "correct", "raw": "D. 通过内囊", "n_new_tokens": 7}

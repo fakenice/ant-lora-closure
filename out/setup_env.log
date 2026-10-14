@@ -1,0 +1,95 @@
+++ dirname ./setup_env.sh
++ cd .
++ uv venv --python 3.11 .venv
+Using CPython 3.11.17
+Creating virtual environment at: .venv
+Activate with: .venv\Scripts\activate
++ uv pip install -p .venv/Scripts/python.exe torch==2.6.0 --index-url https://download.pytorch.org/whl/cu124
+Resolved 9 packages in 3.08s
+Downloading networkx (2.0MiB)
+ Downloaded networkx
+Prepared 7 packages in 3.55s
+warning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.
+         If the cache and target directories are on different filesystems, hardlinking may not be supported.
+         If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.
+Installed 9 packages in 1m 56s
+ + filelock==3.32.3
+ + fsspec==2026.7.0
+ + jinja2==3.1.6
+ + markupsafe==3.0.3
+ + mpmath==1.3.0
+ + networkx==3.6.1
+ + sympy==1.13.1
+ + torch==2.6.0+cu124
+ + typing-extensions==4.16.0
++ uv pip install -p .venv/Scripts/python.exe transformers peft datasets accelerate datasketch tqdm
+Resolved 56 packages in 4.58s
+Downloading tokenizers (2.7MiB)
+Downloading pygments (1.2MiB)
+Downloading scipy (34.9MiB)
+Downloading transformers (12.0MiB)
+Downloading numpy (12.0MiB)
+Downloading hf-xet (3.6MiB)
+Downloading pyarrow (27.2MiB)
+ Downloaded pygments
+ Downloaded tokenizers
+ Downloaded hf-xet
+ Downloaded numpy
+ Downloaded transformers
+ Downloaded pyarrow
+ Downloaded scipy
+Prepared 30 packages in 7m 51s
+warning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.
+         If the cache and target directories are on different filesystems, hardlinking may not be supported.
+         If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.
+Installed 47 packages in 17.10s
+ + accelerate==1.15.0
+ + aiohappyeyeballs==2.7.1
+ + aiohttp==3.14.5
+ + aiosignal==1.4.0
+ + annotated-doc==0.0.5
+ + anyio==4.15.1
+ + attrs==26.1.0
+ + click==8.5.0
+ + colorama==0.4.6
+ + datasets==5.1.0
+ + datasketch==2.0.0
+ + dill==0.4.1
+ + frozenlist==1.8.0
+ + h11==0.16.0
+ + hf-xet==1.7.0
+ + httpcore2==2.13.1
+ + httpx2==2.13.1
+ + huggingface-hub==2.2.0
+ + idna==3.20
+ + markdown-it-py==4.2.0
+ + mdurl==0.1.2
+ + multidict==7.1.0
+ + multiprocess==0.70.19
+ + numpy==2.4.6
+ + packaging==26.3
+ + pandas==3.0.6
+ + peft==0.21.2
+ + propcache==0.5.4
+ + psutil==7.2.2
+ + pyarrow==26.0.0
+ + pygments==2.21.0
+ + python-dateutil==2.9.0.post0
+ + pyyaml==6.0.3
+ + regex==2026.9.29
+ + rich==15.0.0
+ + safetensors==0.8.0
+ + scipy==1.17.1
+ + shellingham==1.5.4
+ + six==1.17.0
+ + tokenizers==0.23.3
+ + tqdm==4.70.1
+ + transformers==5.19.0
+ + truststore==0.10.5
+ + typer==0.27.3
+ + tzdata==2026.5
+ + xxhash==4.0.1
+ + yarl==1.25.1
++ .venv/Scripts/python.exe -c 'import torch,transformers,peft,datasets;print('\''torch'\'',torch.__version__,'\''cuda'\'',torch.cuda.is_available());print('\''transformers'\'',transformers.__version__,'\''peft'\'',peft.__version__,'\''datasets'\'',datasets.__version__)'
+torch 2.6.0+cu124 cuda True
+transformers 5.19.0 peft 0.21.2 datasets 5.1.0

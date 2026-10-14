@@ -1,0 +1,6 @@
+=== stage4c run start 2026-10-14 20:06:35 gpu_used=1146MiB ===
+--- train r70_30 start 2026-10-14 20:06:35
+--- train r70_30 rc=0 done 2026-10-14 20:13:46
+--- eval lora_r70_30 start 2026-10-14 20:13:46
+--- eval lora_r70_30 rc=0 done 2026-10-14 20:14:09
+=== stage4c run end 2026-10-14 20:14:09 ===

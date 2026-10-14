@@ -1,0 +1,130 @@
+{
+  "repo": "Qwen/Qwen2.5-1.5B-Instruct",
+  "revision": "main",
+  "endpoint": "https://hf-mirror.com",
+  "method": "sharded staggered ranged GET; HF_HUB_DISABLE_XET=1 because the Xet CAS server returns 401 through the mirror; sizes from /api/models?blobs=true",
+  "n_parts": 6,
+  "stagger_s": 4.0,
+  "elapsed_s": 247.6,
+  "n_files": 9,
+  "total_bytes": 3098971928,
+  "total_gb": 2.89,
+  "api_sizes": {
+    ".gitattributes": 1519,
+    "LICENSE": 11343,
+    "README.md": 4917,
+    "config.json": 660,
+    "generation_config.json": 242,
+    "merges.txt": 1671839,
+    "model.safetensors": 3087467144,
+    "tokenizer.json": 7031645,
+    "tokenizer_config.json": 7305,
+    "vocab.json": 2776833
+  },
+  "files": [
+    {
+      "path": "model.safetensors",
+      "bytes": 3087467144,
+      "expected_bytes": 3087467144,
+      "size_ok": true,
+      "sha256": "dd924a11b4c220f385b51ffa522daea7c9f3d850e31b162bb5661df483c6d3ee",
+      "safetensors_header_ok": true,
+      "download_s": 238.7,
+      "throughput_mbps": 12.9,
+      "n_ranges": 6,
+      "max_attempts": 1,
+      "content_ranges": [
+        "bytes 0-514577857/3087467144",
+        "bytes 514577858-1029155715/3087467144",
+        "bytes 1029155716-1543733573/3087467144",
+        "bytes 1543733574-2058311431/3087467144",
+        "bytes 2058311432-2572889289/3087467144",
+        "bytes 2572889290-3087467143/3087467144"
+      ]
+    },
+    {
+      "path": "config.json",
+      "bytes": 660,
+      "skipped": "exists"
+    },
+    {
+      "path": "generation_config.json",
+      "bytes": 242,
+      "skipped": "exists"
+    },
+    {
+      "path": "tokenizer_config.json",
+      "bytes": 7305,
+      "skipped": "exists"
+    },
+    {
+      "path": "tokenizer.json",
+      "bytes": 7031645,
+      "skipped": "exists"
+    },
+    {
+      "path": "vocab.json",
+      "bytes": 2776833,
+      "skipped": "exists"
+    },
+    {
+      "path": "merges.txt",
+      "bytes": 1671839,
+      "skipped": "exists"
+    },
+    {
+      "path": "LICENSE",
+      "bytes": 11343,
+      "sha256": "832dd9e00a68dd83b3c3fb9f5588dad7dcf337a0db50f7d9483f310cd292e92e",
+      "expected_bytes": 11343,
+      "size_ok": true,
+      "n_ranges": 1
+    },
+    {
+      "path": "README.md",
+      "bytes": 4917,
+      "sha256": "2e1bcd8bd964728a820be709fa0f7b9dd54817a94fd2254c535df70c5e67fada",
+      "expected_bytes": 4917,
+      "size_ok": true,
+      "n_ranges": 1
+    }
+  ],
+  "on_disk": [
+    {
+      "path": "config.json",
+      "bytes": 660
+    },
+    {
+      "path": "generation_config.json",
+      "bytes": 242
+    },
+    {
+      "path": "LICENSE",
+      "bytes": 11343
+    },
+    {
+      "path": "merges.txt",
+      "bytes": 1671839
+    },
+    {
+      "path": "model.safetensors",
+      "bytes": 3087467144
+    },
+    {
+      "path": "README.md",
+      "bytes": 4917
+    },
+    {
+      "path": "tokenizer.json",
+      "bytes": 7031645
+    },
+    {
+      "path": "tokenizer_config.json",
+      "bytes": 7305
+    },
+    {
+      "path": "vocab.json",
+      "bytes": 2776833
+    }
+  ]
+}

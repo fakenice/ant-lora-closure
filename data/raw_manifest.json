@@ -1,0 +1,69 @@
+{
+  "fetched_at": "2026-10-14T08:27:27.623093+00:00",
+  "mirror": "https://hf-mirror.com",
+  "files": [
+    {
+      "slug": "medical_dialog_zh_train_head",
+      "repo": "shibing624/medical",
+      "path": "finetune/train_zh_0.json",
+      "url": "https://hf-mirror.com/datasets/shibing624/medical/resolve/main/finetune/train_zh_0.json",
+      "status": "ok",
+      "local": "data\\raw\\medical_dialog_zh_train_head.jsonl",
+      "bytes": 62914560,
+      "sha256": "9c4108fddf785eedc21089fcb5ff96980a2f80c09afe2d2da571e4af2b10a6b5",
+      "range_requested": 62914560,
+      "range_returned": "bytes 0-62914559/1338359048",
+      "records_complete": 91306,
+      "records_partial_dropped": 1,
+      "keys_first200": [
+        "input",
+        "instruction",
+        "output"
+      ],
+      "last_record_sample": "{\"instruction\": \"性交头晕为什么？，主要症状:性交之后,次数为两次,有头晕现象!为什么?发病时间:无化验检查结果:无\", \"input\": \"\", \"output\": \"你好：你的情况可能脑部供血不足产生的头晕,休息后没事.头晕可见于（晕车,晕船）,高血压病,贫血,脑动脉硬化,烟酒过量等,以下是几种类型的头晕：①脑原性头晕,见于脑动脉硬化(如基底动脉硬化)或颈椎骨关节病引起的脑部血液循环障碍,或由此导致的一过性脑供血不足.其临床特点是头晕,睡眠障碍,记忆力减退三大症状,还有顶枕部头痛,轻瘫,言语障碍情绪易激动等表现,一般病情缓慢发展,此类头晕的特点是在体位转变时容易出现或加重.",
+      "sampling_bias_note": "仅取该文件前 62914560 MB（Ranged GET），不是全量随机抽样；配比结论只能适用于'按文件顺序的前缀样本'。"
+    },
+    {
+      "slug": "cmexam_train",
+      "repo": "fzkuji/CMExam",
+      "path": "train.json",
+      "url": "https://hf-mirror.com/datasets/fzkuji/CMExam/resolve/main/train.json",
+      "status": "ok",
+      "local": "data\\raw\\cmexam_train.jsonl",
+      "bytes": 48807760,
+      "sha256": "4d5b2bccdb234b44109b776779e5999ffee31b14d28f615f1825fcea48cad77e",
+      "range_requested": null,
+      "range_returned": null,
+      "records_complete": 54497,
+      "records_partial_dropped": 0,
+      "keys_first200": [
+        "Answer",
+        "Explanation",
+        "Options",
+        "Question"
+      ],
+      "last_record_sample": "{\"Question\": \"患儿男，3岁。患饮食内伤所致痰食型急惊风，症见发热抽搐、烦躁不安、痰喘气急、惊痫不安。宜选用的中成药是\", \"Options\": [{\"key\": \"A\", \"value\": \"万氏牛黄清心丸\"}, {\"key\": \"B\", \"value\": \"健脾康儿片\"}, {\"key\": \"C\", \"value\": \"牛黄抱龙丸\"}, {\"key\": \"D\", \"value\": \"琥珀抱龙丸\"}, {\"key\": \"E\", \"value\": \"龙牡壮骨颗粒\"}], \"Answer\": \"D\", \"Explanation\": \"本题考查琥珀抱龙丸的主治。宜选用的中成药是琥珀抱龙"
+    },
+    {
+      "slug": "cmexam_test",
+      "repo": "fzkuji/CMExam",
+      "path": "test.json",
+      "url": "https://hf-mirror.com/datasets/fzkuji/CMExam/resolve/main/test.json",
+      "status": "ok",
+      "local": "data\\raw\\cmexam_test.jsonl",
+      "bytes": 6434215,
+      "sha256": "f618d52d8ca700471a86202d6b3c8e2ae6505f48e9bd290f63589b4a3ce1f74b",
+      "range_requested": null,
+      "range_returned": null,
+      "records_complete": 6811,
+      "records_partial_dropped": 0,
+      "keys_first200": [
+        "Answer",
+        "Explanation",
+        "Options",
+        "Question"
+      ],
+      "last_record_sample": "{\"Question\": \"轻粉的使用注意事项有\", \"Options\": [{\"key\": \"A\", \"value\": \"孕妇忌服\"}, {\"key\": \"B\", \"value\": \"忌入胶囊服\"}, {\"key\": \"C\", \"value\": \"服后须漱口\"}, {\"key\": \"D\", \"value\": \"不可长久涂敷\"}, {\"key\": \"E\", \"value\": \"肝肾功能不全者忌服\"}], \"Answer\": \"ACDE\", \"Explanation\": \"本题考查轻粉的使用注意。轻粉的使用注意事项有孕妇忌服（A对）、服后须漱口（C对）、不可长久涂敷（D对）、肝肾功能不全者忌服（"
+    }
+  ]
+}

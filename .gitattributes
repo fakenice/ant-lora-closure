@@ -1,0 +1,9 @@
+# 数据与产物按字节入库：DATASHEET/manifest 里登记的是 sha256，
+# 若被换行转换改写，校验和就对不上了。
+*.jsonl  -text
+*.json   -text
+*.csv    -text
+*.txt    -text
+*.md     text eol=lf
+*.py     text eol=lf
+*.sh     text eol=lf

@@ -1,0 +1,46 @@
+{
+  "seed": 20261014,
+  "generated_by": "scripts/02_clean_dedup.py",
+  "dialog": {
+    "source": "medical_dialog_zh_train_head.jsonl",
+    "stages": {
+      "raw_records": 91306,
+      "drop_response_length": 29089,
+      "drop_low_zh_ratio": 1344,
+      "after_filters": 60873,
+      "minhash_duplicates": 2086,
+      "final_kept": 58787
+    },
+    "lsh_threshold": 0.8,
+    "num_perm": 128,
+    "zh_ratio_floor": 0.5,
+    "response_len_range": [
+      20,
+      900
+    ]
+  },
+  "mcq": {
+    "train_raw": 54497,
+    "test_raw": 6811,
+    "dropped_invalid": {
+      "train_invalid": 8071,
+      "test_invalid": 972
+    },
+    "train_valid": 46426,
+    "test_valid": 5839,
+    "leakage_removed_from_train": 5,
+    "eval_n": 100,
+    "train_pool_after_leak_check": 46421,
+    "answer_letter_distribution_eval": {
+      "A": 21,
+      "B": 19,
+      "E": 19,
+      "C": 15,
+      "D": 26
+    },
+    "n_options_distribution_eval": {
+      "5": 96,
+      "4": 4
+    }
+  }
+}

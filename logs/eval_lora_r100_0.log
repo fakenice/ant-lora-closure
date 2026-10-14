@@ -1,0 +1,35 @@
+eval items=100 adapter=models/lora_r100_0
+Loading weights:   0%|          | 0/338 [00:00<?, ?it/s]Loading weights:   3%|▎         | 11/338 [00:00<00:03, 93.97it/s]Loading weights:   8%|▊         | 27/338 [00:00<00:02, 126.84it/s]Loading weights:  12%|█▏        | 41/338 [00:00<00:02, 105.87it/s]Loading weights:  19%|█▉        | 64/338 [00:00<00:02, 128.40it/s]Loading weights:  25%|██▌       | 85/338 [00:00<00:01, 148.20it/s]Loading weights:  30%|██▉       | 101/338 [00:00<00:01, 150.79it/s]Loading weights:  35%|███▍      | 117/338 [00:00<00:01, 143.80it/s]Loading weights:  39%|███▉      | 133/338 [00:00<00:01, 144.75it/s]Loading weights:  44%|████▍     | 148/338 [00:01<00:01, 142.84it/s]Loading weights:  49%|████▉     | 165/338 [00:01<00:01, 140.95it/s]Loading weights:  56%|█████▌    | 190/338 [00:01<00:00, 170.57it/s]Loading weights:  62%|██████▏   | 208/338 [00:01<00:00, 147.67it/s]Loading weights:  67%|██████▋   | 227/338 [00:01<00:00, 143.11it/s]Loading weights:  74%|███████▍  | 251/338 [00:01<00:00, 146.03it/s]Loading weights:  80%|████████  | 272/338 [00:01<00:00, 160.78it/s]Loading weights:  86%|████████▌ | 289/338 [00:02<00:00, 147.13it/s]Loading weights:  90%|█████████ | 305/338 [00:02<00:00, 149.94it/s]Loading weights:  95%|█████████▍| 321/338 [00:02<00:00, 141.65it/s]Loading weights: 100%|██████████| 338/338 [00:02<00:00, 148.46it/s]
+  merged adapter models/lora_r100_0
+  20/100 correct=15 (8s, 0.41s/item)
+  40/100 correct=29 (17s, 0.42s/item)
+  60/100 correct=43 (26s, 0.44s/item)
+  80/100 correct=58 (35s, 0.44s/item)
+  100/100 correct=69 (45s, 0.45s/item)
+{
+  "tag": "lora_r100_0",
+  "adapter": "models/lora_r100_0",
+  "n_items": 100,
+  "correct": 69,
+  "wrong": 24,
+  "unparseable": 7,
+  "accuracy": 0.69,
+  "wrong_rate": 0.24,
+  "unparseable_rate": 0.07,
+  "wilson_ci95": [
+    0.5937,
+    0.7722
+  ],
+  "chance_note": "五选项单选，随机基线约 20%；评测集正确项字母最多的一档（D）占 26%",
+  "mean_new_tokens": 8.28,
+  "s_per_item": 0.45,
+  "peak_vram_mib": 3128.2,
+  "parse_path_counts": {
+    "answer-marker": 36,
+    "first-letter": 57,
+    "none": 7
+  },
+  "max_new_tokens": 12,
+  "decoding": "greedy",
+  "binomial_note": "n=100 的准确率 95% 半宽约 9.8 个百分点（正态近似）"
+}

@@ -1,0 +1,49 @@
+{
+  "dataset:shibing624/medical": {
+    "n_files": 16,
+    "files": [
+      ".gitattributes",
+      "README.md",
+      "finetune/test_en_1.json",
+      "finetune/test_zh_0.json",
+      "finetune/train_en_1.json",
+      "finetune/train_zh_0.json",
+      "finetune/valid_en_1.json",
+      "finetune/valid_zh_0.json",
+      "medical.py",
+      "pretrain/medical_book_zh.json",
+      "pretrain/test_encyclopedia.json",
+      "pretrain/train_encyclopedia.json",
+      "pretrain/valid_encyclopedia.json",
+      "reward/test.json",
+      "reward/train.json",
+      "reward/valid.json"
+    ]
+  },
+  "dataset:FreedomIntelligence/medical-o1-reasoning-SFT": {
+    "n_files": 6,
+    "files": [
+      ".gitattributes",
+      "README.md",
+      "medical_o1_sft.json",
+      "medical_o1_sft_Chinese.json",
+      "medical_o1_sft_mix.json",
+      "medical_o1_sft_mix_Chinese.json"
+    ]
+  },
+  "model:Qwen/Qwen2.5-1.5B-Instruct": {
+    "n_files": 10,
+    "files": [
+      ".gitattributes",
+      "LICENSE",
+      "README.md",
+      "config.json",
+      "generation_config.json",
+      "merges.txt",
+      "model.safetensors",
+      "tokenizer.json",
+      "tokenizer_config.json",
+      "vocab.json"
+    ]
+  }
+}

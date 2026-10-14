@@ -1,0 +1,17 @@
+# 环境与依赖
+.venv/
+__pycache__/
+*.pyc
+
+# 模型权重与适配器（3.5 GB）：基座由 scripts/03b_fetch_model.py + 03c_fetch_weights.py 重新获取，
+# LoRA 适配器由 run_stage4*.sh 复现；README §8 提到的隔离目录（models/_invalid_smoke、
+# models/_backup_r70_30_1824）同样落在 models/ 下，不入库。
+models/
+
+# 上游原始下载（113 MB，遵循各数据集自身许可，不在此再分发）
+data/raw/
+
+# 由 02_clean_dedup.py 从 data/raw 再生（108 MB）；训练与评测的实际输入见 data/ratios 与
+# data/clean/mcq_eval_100.jsonl（两者均随仓库发布）
+data/clean/dialog_zh.jsonl
+data/clean/mcq_train_pool.jsonl

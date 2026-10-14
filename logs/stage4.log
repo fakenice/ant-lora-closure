@@ -1,0 +1,62 @@
+=== stage4 run start 2026-10-14 17:42:22 steps=150 accum=8 ===
+--- train r100_0 start 2026-10-14 17:42:22
+--- train r100_0 rc=1 done 2026-10-14 18:02:17
+!!! train r100_0 FAILED; tail of log:
+config=r100_0 samples=1200
+Loading weights:   0%|          | 0/338 [00:00<?, ?it/s]Loading weights:   0%|          | 1/338 [00:00<00:37,  8.90it/s]Loading weights:   3%|▎         | 10/338 [00:00<00:06, 53.45it/s]Loading weights:   6%|▌         | 21/338 [00:00<00:04, 70.59it/s]Loading weights:  11%|█         | 37/338 [00:00<00:02, 101.72it/s]Loading weights:  14%|█▍        | 48/338 [00:00<00:02, 102.56it/s]Loading weights:  17%|█▋        | 59/338 [00:00<00:03, 91.64it/s] Loading weights:  20%|██        | 69/338 [00:00<00:02, 93.64it/s]Loading weights:  23%|██▎       | 79/338 [00:00<00:02, 94.03it/s]Loading weights:  26%|██▋       | 89/338 [00:01<00:02, 90.78it/s]Loading weights:  30%|██▉       | 101/338 [00:01<00:02, 92.04it/s]Loading weights:  33%|███▎      | 113/338 [00:01<00:02, 97.04it/s]Loading weights:  38%|███▊      | 128/338 [00:01<00:02, 93.22it/s]Loading weights:  43%|████▎     | 144/338 [00:01<00:01, 108.29it/s]Loading weights:  46%|████▌     | 156/338 [00:01<00:01, 106.43it/s]Loading weights:  49%|████▉     | 167/338 [00:01<00:02, 74.10it/s] Loading weights:  52%|█████▏    | 176/338 [00:02<00:02, 71.69it/s]Loading weights:  55%|█████▍    | 185/338 [00:02<00:02, 64.51it/s]Loading weights:  58%|█████▊    | 196/338 [00:02<00:01, 72.57it/s]Loading weights:  61%|██████    | 206/338 [00:02<00:01, 77.90it/s]Loading weights:  64%|██████▎   | 215/338 [00:02<00:01, 74.95it/s]Loading weights:  68%|██████▊   | 229/338 [00:02<00:01, 87.50it/s]Loading weights:  71%|███████   | 239/338 [00:02<00:01, 84.22it/s]Loading weights:  75%|███████▍  | 253/338 [00:02<00:00, 95.55it/s]Loading weights:  78%|███████▊  | 263/338 [00:03<00:00, 90.18it/s]Loading weights:  82%|████████▏ | 277/338 [00:03<00:00, 97.98it/s]Loading weights:  86%|████████▌ | 289/338 [00:03<00:00, 95.19it/s]Loading weights:  88%|████████▊ | 299/338 [00:03<00:00, 94.19it/s]Loading weights:  91%|█████████▏| 309/338 [00:03<00:00, 91.46it/s]Loading weights:  96%|█████████▌| 323/338 [00:03<00:00, 100.65it/s]Loading weights: 100%|██████████| 338/338 [00:03<00:00, 91.62it/s] 
+--- train r70_30 start 2026-10-14 18:02:17
+--- train r70_30 rc=0 done 2026-10-14 18:24:55
+--- train r30_70 start 2026-10-14 18:24:55
+--- train r30_70 rc=3 done 2026-10-14 18:37:02
+!!! train r30_70 FAILED; tail of log:
+config=r30_70 samples=1200 max_len=512
+Loading weights:   0%|          | 0/338 [00:00<?, ?it/s]Loading weights:   7%|▋         | 22/338 [00:00<00:10, 29.05it/s]Loading weights:   9%|▉         | 32/338 [00:01<00:16, 18.39it/s]Loading weights:  13%|█▎        | 45/338 [00:02<00:15, 18.37it/s]Loading weights:  16%|█▌        | 53/338 [00:02<00:14, 20.08it/s]Loading weights:  17%|█▋        | 56/338 [00:02<00:14, 19.27it/s]Loading weights:  17%|█▋        | 58/338 [00:03<00:16, 16.72it/s]Loading weights:  19%|█▊        | 63/338 [00:03<00:17, 15.75it/s]Loading weights:  19%|█▉        | 65/338 [00:03<00:18, 14.67it/s]Loading weights:  20%|█▉        | 67/338 [00:03<00:20, 13.21it/s]Loading weights:  24%|██▍       | 81/338 [00:04<00:10, 23.87it/s]Loading weights:  25%|██▍       | 84/338 [00:04<00:15, 16.71it/s]Loading weights:  28%|██▊       | 95/338 [00:05<00:12, 19.02it/s]Loading weights:  29%|██▊       | 97/338 [00:05<00:14, 16.92it/s]Loading weights:  31%|███▏      | 106/338 [00:05<00:11, 20.76it/s]Loading weights:  32%|███▏      | 109/338 [00:06<00:14, 15.54it/s]Loading weights:  35%|███▌      | 119/338 [00:06<00:14, 15.58it/s]Loading weights:  37%|███▋      | 125/338 [00:06<00:12, 17.11it/s]Loading weights:  38%|███▊      | 127/338 [00:07<00:15, 13.66it/s]Loading weights:  40%|████      | 136/338 [00:07<00:10, 18.40it/s]Loading weights:  42%|████▏     | 143/338 [00:07<00:10, 18.41it/s]Loading weights:  43%|████▎     | 147/338 [00:08<00:14, 13.02it/s]Loading weights:  47%|████▋     | 159/338 [00:09<00:10, 17.20it/s]Loading weights:  50%|█████     | 169/338 [00:09<00:07, 21.66it/s]Loading weights:  51%|█████▏    | 174/338 [00:10<00:10, 15.27it/s]Loading weights:  55%|█████▍    | 185/338 [00:10<00:07, 20.27it/s]Loading weights:  56%|█████▌    | 188/338 [00:10<00:07, 19.25it/s]Loading weights:  57%|█████▋    | 191/338 [00:10<00:08, 18.33it/s]Loading weights:  59%|█████▉    | 201/338 [00:10<00:05, 24.17it/s]Loading weights:  60%|██████    | 204/338 [00:11<00:07, 18.07it/s]Loading weights:  62%|██████▏   | 209/338 [00:11<00:07, 18.20it/s]Loading weights:  63%|██████▎   | 212/338 [00:11<00:07, 17.25it/s]Loading weights:  64%|██████▎   | 215/338 [00:12<00:07, 16.35it/s]Loading weights:  67%|██████▋   | 226/338 [00:12<00:04, 22.59it/s]Loading weights:  68%|██████▊   | 229/338 [00:12<00:06, 16.13it/s]Loading weights:  70%|██████▉   | 235/338 [00:12<00:05, 19.25it/s]Loading weights:  70%|███████   | 238/338 [00:13<00:05, 17.31it/s]Loading weights:  71%|███████   | 240/338 [00:13<00:06, 15.13it/s]Loading weights:  74%|███████▎  | 249/338 [00:14<00:06, 13.98it/s]Loading weights:  76%|███████▌  | 256/338 [00:14<00:06, 12.01it/s]Loading weights:  80%|███████▉  | 269/338 [00:15<00:03, 18.42it/s]Loading weights:  81%|████████▏ | 275/338 [00:15<00:03, 16.29it/s]Loading weights:  85%|████████▍ | 287/338 [00:16<00:02, 18.61it/s]Loading weights:  86%|████████▌ | 290/338 [00:16<00:02, 17.87it/s]Loading weights:  88%|████████▊ | 297/338 [00:17<00:02, 14.34it/s]Loading weights:  90%|█████████ | 305/338 [00:17<00:01, 17.09it/s]Loading weights:  91%|█████████ | 307/338 [00:17<00:01, 15.60it/s]Loading weights:  91%|█████████▏| 309/338 [00:18<00:02, 11.22it/s]Loading weights:  95%|█████████▌| 322/338 [00:18<00:00, 18.85it/s]Loading weights:  96%|█████████▌| 325/338 [00:18<00:00, 14.81it/s]Loading weights: 100%|██████████| 338/338 [00:18<00:00, 17.84it/s]
+trainable 18.46 M / 1562.18 M (1.18%)
+prefix-mask verified on 200/200 probe records
+loss check: HF=2.088866 response-CE=2.088866 |diff|=0.00e+00
+encoded 1174 rows (dropped 26 over 512 tok, 0 with no trainable token; 0 unmasked)
+  step 10/150 loss=0.917 marginal=3.4s peakAlloc=6267MiB peakResv=6898MiB
+  step 20/150 loss=0.828 marginal=4.0s peakAlloc=6372MiB peakResv=6946MiB
+  step 30/150 loss=0.399 marginal=6.5s peakAlloc=6372MiB peakResv=6946MiB
+  step 40/150 loss=0.934 marginal=5.6s peakAlloc=6372MiB peakResv=7248MiB
+  step 50/150 loss=0.174 marginal=4.0s peakAlloc=6372MiB peakResv=7248MiB
+  step 60/150 loss=0.863 marginal=4.0s peakAlloc=6372MiB peakResv=7248MiB
+  step 70/150 loss=0.931 marginal=3.8s peakAlloc=6372MiB peakResv=7248MiB
+  [abort] two consecutive steps > 25s (last 154s); stopping instead of thrashing
+--- train r0_100 start 2026-10-14 18:37:02
+=== stage4 run start 2026-10-14 18:37:40 steps=150 accum=8 max_len=512 ===
+--- train r100_0 start 2026-10-14 18:37:40
+--- train r0_100 rc=3 done 2026-10-14 18:39:16
+!!! train r0_100 FAILED; tail of log:
+config=r0_100 samples=1200 max_len=512
+Loading weights:   0%|          | 0/338 [00:00<?, ?it/s]Loading weights:   0%|          | 1/338 [00:00<01:32,  3.63it/s]Loading weights:   8%|▊         | 28/338 [00:00<00:03, 89.21it/s]Loading weights:  12%|█▏        | 42/338 [00:00<00:03, 97.67it/s]Loading weights:  16%|█▋        | 55/338 [00:00<00:02, 100.95it/s]Loading weights:  20%|█▉        | 67/338 [00:00<00:02, 93.26it/s] Loading weights:  23%|██▎       | 78/338 [00:00<00:03, 83.77it/s]Loading weights:  26%|██▌       | 88/338 [00:01<00:03, 66.36it/s]Loading weights:  31%|███       | 105/338 [00:01<00:02, 86.11it/s]Loading weights:  34%|███▍      | 116/338 [00:01<00:02, 90.58it/s]Loading weights:  39%|███▉      | 131/338 [00:01<00:02, 90.38it/s]Loading weights:  42%|████▏     | 143/338 [00:01<00:02, 92.15it/s]Loading weights:  45%|████▌     | 153/338 [00:01<00:02, 81.37it/s]Loading weights:  48%|████▊     | 162/338 [00:01<00:02, 75.97it/s]Loading weights:  51%|█████     | 173/338 [00:02<00:02, 79.59it/s]Loading weights:  55%|█████▍    | 185/338 [00:02<00:01, 80.72it/s]Loading weights:  61%|██████    | 205/338 [00:02<00:01, 103.71it/s]Loading weights:  64%|██████▍   | 216/338 [00:02<00:01, 95.26it/s] Loading weights:  67%|██████▋   | 226/338 [00:02<00:01, 96.20it/s]Loading weights:  71%|███████   | 239/338 [00:02<00:01, 96.45it/s]Loading weights:  76%|███████▌  | 256/338 [00:02<00:00, 107.02it/s]Loading weights:  80%|███████▉  | 269/338 [00:03<00:00, 108.84it/s]Loading weights:  83%|████████▎ | 280/338 [00:03<00:00, 105.07it/s]Loading weights:  86%|████████▋ | 292/338 [00:03<00:00, 103.94it/s]Loading weights:  90%|████████▉ | 303/338 [00:03<00:00, 104.93it/s]Loading weights:  93%|█████████▎| 314/338 [00:03<00:00, 99.07it/s] Loading weights:  96%|█████████▌| 324/338 [00:03<00:00, 96.78it/s]Loading weights: 100%|██████████| 338/338 [00:03<00:00, 92.63it/s]
+trainable 18.46 M / 1562.18 M (1.18%)
+prefix-mask verified on 200/200 probe records
+loss check: HF=1.274792 response-CE=1.274792 |diff|=0.00e+00
+encoded 1200 rows (dropped 0 over 512 tok, 0 with no trainable token; 0 unmasked)
+  step 10/150 loss=0.263 marginal=51.1s peakAlloc=4204MiB peakResv=4388MiB
+  [abort] two consecutive steps > 25s (last 51s); stopping instead of thrashing
+--- train r100_0 rc=0 done 2026-10-14 18:49:10
+--- train r70_30 start 2026-10-14 18:49:10
+=== stage4b run start 2026-10-14 19:42:34 steps=150 accum=8 max_len=512 gpu_used=1291MiB ===
+--- train r30_70 start 2026-10-14 19:42:34
+--- train r30_70 rc=0 done 2026-10-14 19:51:13
+--- train r0_100 start 2026-10-14 19:51:13
+--- train r0_100 rc=0 done 2026-10-14 19:58:27
+--- eval base start 2026-10-14 19:58:28
+--- eval base rc=0 done 2026-10-14 19:59:24
+--- eval lora_r100_0 start 2026-10-14 19:59:24
+--- eval lora_r100_0 rc=0 done 2026-10-14 20:00:20
+--- eval lora_r70_30 start 2026-10-14 20:00:20
+--- eval lora_r70_30 rc=0 done 2026-10-14 20:00:44
+--- eval lora_r30_70 start 2026-10-14 20:00:44
+--- eval lora_r30_70 rc=0 done 2026-10-14 20:01:07
+--- eval lora_r0_100 start 2026-10-14 20:01:07
+--- eval lora_r0_100 rc=0 done 2026-10-14 20:01:29
+=== stage4b run end 2026-10-14 20:01:29 ===
+=== stage4c run start 2026-10-14 20:06:35 gpu_used=1146MiB ===
+--- train r70_30 start 2026-10-14 20:06:35
+--- train r70_30 rc=0 done 2026-10-14 20:13:46
+--- eval lora_r70_30 start 2026-10-14 20:13:46
+--- eval lora_r70_30 rc=0 done 2026-10-14 20:14:09
+=== stage4c run end 2026-10-14 20:14:09 ===

@@ -1,0 +1,95 @@
+
+=== search 'CMExam' ===
+   fzkuji/CMExam  dl=932
+   feinianyu/medllm-train-CMExam  dl=70
+   HaimingW/ptb-cmexam  dl=61
+
+=== search 'medqa' ===
+   bigbio/med_qa  dl=11762
+   clinicalnlplab/MedQA_train  dl=239
+   openlifescienceai/medqa  dl=4062
+   genshiai-daichi/GENSHI-MedQA-1M-assets  dl=31
+   GBaker/MedQA-USMLE-4-options  dl=30816
+   GBaker/MedQA-USMLE-4-options-hf  dl=5335
+   GBaker/MedQA-USMLE-4-options-hf-MPNet-IR  dl=47
+   medalpaca/medical_meadow_medqa  dl=3418
+
+=== search 'medmcqa' ===
+   openlifescienceai/medmcqa  dl=61126
+   clinicalnlplab/medMCQA_test  dl=18
+   Archangel-system/medmcqa-openai-native  dl=202
+   society-ethics/medmcqa_age_gender  dl=23
+   society-ethics/medmcqa_age_gender_custom  dl=12
+   joey234/medmcqa-rule-neg  dl=9
+   joey234/medmcqa-rule-neg-prepend  dl=20
+   joey234/medmcqa-original-neg  dl=10
+
+=== search 'chinese medical exam' ===
+
+=== search 'disc-medllm' ===
+
+=== search 'huatuo' ===
+   FreedomIntelligence/huatuo_knowledge_graph_qa  dl=372
+   wangrongsheng/Huatuo-8k  dl=12
+   FreedomIntelligence/huatuo_encyclopedia_qa  dl=818
+   FreedomIntelligence/huatuo_consultation_qa  dl=362
+   FreedomIntelligence/huatuo26M-testdatasets  dl=233
+   wangrongsheng/Huatuo-data  dl=17
+   wangrongsheng/Huatuo-liver-cancer  dl=13
+   FreedomIntelligence/HuatuoGPT-sft-data-v1  dl=717
+
+--- fzkuji/CMExam (932 dl) ---
+    .gitattributes
+    README.md
+    cmexam_dataloading.ipynb
+    cmexam_preprocessing.ipynb
+    docs/example.png
+    docs/overall_comparison.jpg
+    test.json
+    train.json
+    valid.json
+
+--- feinianyu/medllm-train-CMExam (70 dl) ---
+    .gitattributes
+    README.md
+    data/train-00000-of-00001.parquet
+
+--- HaimingW/ptb-cmexam (61 dl) ---
+    .gitattributes
+    README.md
+    data/test-00000-of-00001.parquet
+
+--- clinicalnlplab/MedQA_train (239 dl) ---
+    .gitattributes
+    README.md
+    data/test-00000-of-00001-20ee1003aa715a0c.parquet
+    data/train-00000-of-00001-42c81fa26947a366.parquet
+    data/valid-00000-of-00001-b2127c3196dd06ea.parquet
+
+--- openlifescienceai/medqa (4062 dl) ---
+    .gitattributes
+    README.md
+    data/dev-00000-of-00001.parquet
+    data/test-00000-of-00001.parquet
+    data/train-00000-of-00001.parquet
+
+--- genshiai-daichi/GENSHI-MedQA-1M-assets (31 dl) ---
+    .gitattributes
+    README.md
+    banner.jpg
+    categories_top20.png
+    length_hist.png
+    source_years.png
+
+--- GBaker/MedQA-USMLE-4-options (30816 dl) ---
+    .gitattributes
+    README.md
+    phrases_no_exclude_test.jsonl
+    phrases_no_exclude_train.jsonl
+
+--- GBaker/MedQA-USMLE-4-options-hf (5335 dl) ---
+    .gitattributes
+    README.md
+    dev.json
+    test.json
+    train.json

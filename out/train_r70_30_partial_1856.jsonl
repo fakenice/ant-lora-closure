@@ -1,0 +1,16 @@
+{"event": "setup", "config": "r70_30", "samples": 1200, "trainable_params": 18464768, "total_params": 1562179072, "max_len": 512, "steps": 150, "accum": 8, "lr": 0.0002, "base": "E:\\Desktop\\resume\\ant-lora-closure\\models\\Qwen2.5-1.5B-Instruct", "lora": {"r": 16, "alpha": 32, "dropout": 0.05}, "weights_sha256": "dd924a11b4c220f385b51ffa522daea7c9f3d850e31b162bb5661df483c6d3ee", "torch": "2.6.0+cu124", "cuda": "12.4", "gpu": "NVIDIA GeForce RTX 2080 Ti", "gpu_total_mib": 11263.7, "loss_fn": "response-position CE (verified against HF loss, see loss_check)"}
+{"event": "mask_check", "ok": 200, "n": 200}
+{"event": "loss_check", "n_tokens": 92, "supervised_tokens": 3, "hf_loss": 1.483931, "response_ce": 1.483931, "abs_diff": 0.0, "rel_diff": 0.0}
+{"event": "encode", "kept": 1162, "dropped_too_long": 38, "dropped_no_trainable": 0, "unmasked_rows": 0, "train_tokens": 209273}
+{"event": "step", "gstep": 1, "loss_avg": 2.2093, "marginal_s": 400.48, "s_per_step_mean": 400.48, "peak_alloc_mib": 6093.1, "peak_reserved_mib": 9552.0, "lr": 2e-05, "seq_len": 481}
+{"event": "step", "gstep": 2, "loss_avg": 2.2449, "marginal_s": 9.55, "s_per_step_mean": 205.02, "peak_alloc_mib": 6111.9, "peak_reserved_mib": 9552.0, "lr": 4e-05, "seq_len": 56}
+{"event": "step", "gstep": 3, "loss_avg": 1.3278, "marginal_s": 3.45, "s_per_step_mean": 137.83, "peak_alloc_mib": 6111.9, "peak_reserved_mib": 9552.0, "lr": 6e-05, "seq_len": 99}
+{"event": "step", "gstep": 4, "loss_avg": 1.6956, "marginal_s": 3.35, "s_per_step_mean": 104.21, "peak_alloc_mib": 6111.9, "peak_reserved_mib": 9552.0, "lr": 8e-05, "seq_len": 182}
+{"event": "step", "gstep": 5, "loss_avg": 1.9396, "marginal_s": 3.54, "s_per_step_mean": 84.07, "peak_alloc_mib": 6111.9, "peak_reserved_mib": 9552.0, "lr": 0.0001, "seq_len": 125}
+{"event": "step", "gstep": 6, "loss_avg": 2.3635, "marginal_s": 3.19, "s_per_step_mean": 70.59, "peak_alloc_mib": 6111.9, "peak_reserved_mib": 9552.0, "lr": 0.00012, "seq_len": 193}
+{"event": "step", "gstep": 7, "loss_avg": 2.3071, "marginal_s": 3.1, "s_per_step_mean": 60.95, "peak_alloc_mib": 6111.9, "peak_reserved_mib": 9552.0, "lr": 0.00014, "seq_len": 415}
+{"event": "step", "gstep": 8, "loss_avg": 2.1335, "marginal_s": 3.17, "s_per_step_mean": 53.73, "peak_alloc_mib": 6111.9, "peak_reserved_mib": 9552.0, "lr": 0.00016, "seq_len": 144}
+{"event": "step", "gstep": 9, "loss_avg": 1.4592, "marginal_s": 3.27, "s_per_step_mean": 48.12, "peak_alloc_mib": 6291.4, "peak_reserved_mib": 9552.0, "lr": 0.00018, "seq_len": 94}
+{"event": "step", "gstep": 10, "loss_avg": 1.7773, "marginal_s": 3.27, "s_per_step_mean": 43.64, "peak_alloc_mib": 6291.4, "peak_reserved_mib": 9552.0, "lr": 0.0002, "seq_len": 454}
+{"event": "step", "gstep": 11, "loss_avg": 1.7891, "marginal_s": 3.41, "s_per_step_mean": 39.98, "peak_alloc_mib": 6291.4, "peak_reserved_mib": 9552.0, "lr": 0.0002, "seq_len": 263}
+{"event": "step", "gstep": 12, "loss_avg": 2.2045, "marginal_s": 4.91, "s_per_step_mean": 37.06, "peak_alloc_mib": 6291.4, "peak_reserved_mib": 9552.0, "lr": 0.0002, "seq_len": 55}

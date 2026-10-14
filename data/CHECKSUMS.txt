@@ -1,0 +1,8 @@
+# 随仓库发布的派生数据（训练实际输入 + 评测集）的字节数与 sha256。
+# 生成方式：对文件原始字节直接哈希，不做换行转换（见 .gitattributes 的 -text）。
+
+ba03c7193bb6b050498a0e41e8a8092ebfd290e6cde8109608ef9e82a76130ec    1305640  B   1200 rows  data/ratios/r100_0.jsonl
+336b9537f16890b57ea1020931dda538ad1e04fc327bfd485d95728f02edef0d    1122652  B   1200 rows  data/ratios/r70_30.jsonl
+23896d91483a20acf08f3b1b7f44a20e54ef90f2e74194600bc5bae83363e765     871173  B   1200 rows  data/ratios/r30_70.jsonl
+a6b8be432e45a434c2c8a50386234770ec46aab86528317f1ef7d28741823d1a     664724  B   1200 rows  data/ratios/r0_100.jsonl
+436bb7e2f628449623df059eb01245834f1c50a242cb51dcb10ec97f55b9dc34     135818  B    100 rows  data/clean/mcq_eval_100.jsonl

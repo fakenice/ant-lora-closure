@@ -1,0 +1,14 @@
+
+[medical_dialog_zh_train_head] shibing624/medical :: finetune/train_zh_0.json
+    got medical_dialog_zh_train_head: 62.91 MB (Content-Range=bytes 0-62914559/1338359048)
+    records=91306 partial_dropped=1 keys=['input', 'instruction', 'output']
+
+[cmexam_train] fzkuji/CMExam :: train.json
+    got cmexam_train: 48.81 MB (Content-Range=None)
+    records=54497 partial_dropped=0 keys=['Answer', 'Explanation', 'Options', 'Question']
+
+[cmexam_test] fzkuji/CMExam :: test.json
+    cached cmexam_test (6.43 MB)
+    records=6811 partial_dropped=0 keys=['Answer', 'Explanation', 'Options', 'Question']
+
+manifest -> E:\Desktop\resume\ant-lora-closure\data\raw_manifest.json

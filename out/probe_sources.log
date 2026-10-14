@@ -1,0 +1,53 @@
+
+=== dataset shibing624/medical :: 16 files ===
+    .gitattributes
+    README.md
+    finetune/test_en_1.json
+    finetune/test_zh_0.json
+    finetune/train_en_1.json
+    finetune/train_zh_0.json
+    finetune/valid_en_1.json
+    finetune/valid_zh_0.json
+    medical.py
+    pretrain/medical_book_zh.json
+    pretrain/test_encyclopedia.json
+    pretrain/train_encyclopedia.json
+    pretrain/valid_encyclopedia.json
+    reward/test.json
+    reward/train.json
+    reward/valid.json
+    [peek 0.60 MB] finetune/test_en_1.json -> '{"instruction": "If you are a doctor, please answer the medical questions based on the patient\'s description.", "input": "Hello and Thank you. 64 year old male.Diagnosed and treated prostate ca this past summer.Four stin'
+    [peek 0.30 MB] finetune/test_zh_0.json -> '{"instruction": "包皮割完有点痒是怎么了，以前包茎。包皮割了为什么龟头有点痒，是不是龟头被阴毛弄到所以痒痒，但是龟头没什么特别的，也米有红，就是有时候有点痒。感染了吗，就是很单纯痒一下在乎怎样的协助：我是怎么了。", "input": "", "output": "包皮割完后由于局部伤口又分泌物，而且尿液工业污染等，会致使龟头局部不干净，再次出现刺激性发疼的指导意见：如果伤口没泛红，就没感染，具有正常的现象，可以注意局部'
+    [peek 139.10 MB] finetune/train_en_1.json -> '{"instruction": "If you are a doctor, please answer the medical questions based on the patient\'s description.", "input": "I had a cholesterol test done and the results are concerning. Ttl cholesterol was 229, triglycerid'
+    [peek 1338.36 MB] finetune/train_zh_0.json -> '{"instruction": "血热的临床表现是什么?", "input": "", "output": "初发或复发病不久。皮疹发展迅速，呈点滴状、钱币状或混合状。常见丘疹、斑丘疹、大小不等的斑片，潮红、鲜红或深红色。散布于体表各处或几处，以躯干、四肢多见，亦可先从头面开始，逐渐发展至全身。新皮疹不断出现，表面覆有银白色鳞屑，干燥易脱落，剥刮后有点状出血。可有同形反应;伴瘙痒、心烦口渴。大便秘结、小便短黄，舌质红赤，苔薄黄或根部黄厚'
+    [peek 0.61 MB] finetune/valid_en_1.json -> '{"instruction": "If you are a doctor, please answer the medical questions based on the patient\'s description.", "input": "For two months. Have been experiencing red bumps popping out legs and back of arms. Some have pus '
+    [peek 0.31 MB] finetune/valid_zh_0.json -> '{"instruction": "小孩五岁，脐周淋巴结肿大，小孩五岁，脐周淋巴结肿大，输液后不痛也不烧了，就是淋巴大了，原来9.3mm*3.4mm现在10mm*5mm又吃了半月克拉霉素和猴头菌提取物颗粒查了一下，变成10mm*6mm更大了，怎么办呀？请医生帮助，谢谢", "input": "", "output": "你好，考虑肠系膜淋巴结炎，本病常与上呼吸道感染有联系。临床表现为发热、腹痛、呕吐，或发生腹泻或便秘。腹痛有时象绞痛在右下'
+    [peek 40.16 MB] pretrain/medical_book_zh.json -> '{"text": "本章介绍了临床药理学的概念与发展概况，以及其主要研究内容和主要职能。阐述了新药的临床药理评价并介绍了临床试验I、II、川、W期的主要内容。简述了临床药理试验设计的主要方法及其应用。除此之外，对千临床试验的伦理学要求也做了简要阐述。\\n临床药理学(Clinical Pharmacology)作为药理学科的分支，是研究药物在人体内作用规律和入体与药物间相互作用过程的交叉学科。它以药理学与临床医学为基础，阐述药物代谢动力学'
+    [peek 0.82 MB] pretrain/test_encyclopedia.json -> '{"text": "宫颈口粘连怎么回事？宫颈口粘连其实是一件非常麻烦的病症，比如说会导致女性朋友无法正常排卵，女性可能会闭经，女性朋友也会失去生育能力，所以这种疾病出现之后，大家必须要积极面对，调整好自己的心态，根据病情程度可以选择药物或者是宫腔镜的治疗手段。对女性而言子宫非常关键，如果子宫稍微有一点问题，那么很有可能导致女性朋友月经推迟，有很多妇科疾病，甚至也会失去生育能力。所以现在很多年轻女性在发现自己子宫有问题之后，都会特别焦虑，'
+    [peek 591.03 MB] pretrain/train_encyclopedia.json -> '{"text": "毒蕈中毒预防是什么？1.切勿采摘自己不认识的蘑菇食用。2.毫无识别毒蕈经验者，千万不要自采蘑菇。3.预防措施：加强宣传、避免误食。4.有毒野生菇（菌）类常具备以下特征：1）色泽鲜艳度高。2）伞形等菇（菌）表面呈鱼鳞状。3）菇柄上有环状突起物。4）菇柄底部有不规则突起物。5）野生菇（菌）采下或受损，其受损部流出乳汁。"}\n{"text": "孕妇得了霉菌性阴道炎不治疗会影响胎儿吗？在目前很多的孕妇并没有能够顺利度过孕期'
+    [peek 0.81 MB] pretrain/valid_encyclopedia.json -> '{"text": "进行性脊髓性肌萎缩症的病理改变是什么?？颈脊髓最常受累。脊髓前角细胞变性，细胞肿胀，核移位或消失，胶质增生，但前角和脊膜未见炎症反应，也无血管改变。锥体束于某些病例有退变，但临床很少发现锥体束征。"}\n{"text": "甲状腺危象的临床表现和处理方法是什么？甲状腺危象又称甲亢危象，是甲状腺毒症急性加重的一个综合征，发生原因可能与循环中的甲状腺激素水平增高有关。多发生于较重甲亢未予治疗或治疗不充分的患者。常见诱因有感'
+    [peek 0.11 MB] reward/test.json -> '{"question": "肛门病变可能是什么疾病的症状?", "response_chosen": "食管克罗恩病", "response_rejected": "肛门病变可能与多种不同类型的病症有关。"}\n{"question": "白带增多发黄怎么个情况？，最近几天，感觉自己的内裤一天下来会有比较多偏黄的粘液痕迹。刚开始以为是尿液比较黄，经过仔细观察发觉是泛黄的白带。医生，您好白带增多泛黄怎么回事？", "response_cho'
+    [peek 3.09 MB] reward/train.json -> '{"question": "治疗阳痿吃什么药呢？，性生活一直很正常的，但是这段时间感觉性欲变低了，有时勃起都感觉很困难，试过许多的方法都没效果，听朋友说我这种情况可能会是早泄，想知道治疗早泄的药物？", "response_chosen": "男子早泄、早泄病症的再次发生，多由恣情纵欲，或青年误犯性交，至命门火衰，精气虚寒；或思量忧郁，伤损心脾；或因恐惧伤肾，也有因湿热下注，宗筋弛而痿的。但主要是肾阳虚衰而痿。肾阳为那身阳气之根本，有温'
+    [peek 0.08 MB] reward/valid.json -> '{"question": "发烧39怎样降温，无", "response_chosen": "你的这种情况可以先用酒精擦浴退热，然后再查明发热的病因，引起发热的原因很多，最常见的是感染，其次是结缔组织病、恶性肿瘤等。先不急着用药。", "response_rejected": "发热39度是正常体温范围之内的。如果出现高烧症状时应及时就医并遵从医生建议进行治疗和药物控制。"}\n{"question": "哺乳期腰肌劳损怎么治", "re'
+
+=== dataset FreedomIntelligence/medical-o1-reasoning-SFT :: 6 files ===
+    .gitattributes
+    README.md
+    medical_o1_sft.json
+    medical_o1_sft_Chinese.json
+    medical_o1_sft_mix.json
+    medical_o1_sft_mix_Chinese.json
+
+=== model Qwen/Qwen2.5-1.5B-Instruct :: 10 files ===
+    .gitattributes
+    LICENSE
+    README.md
+    config.json
+    generation_config.json
+    merges.txt
+    model.safetensors
+    tokenizer.json
+    tokenizer_config.json
+    vocab.json
+
+manifest written: E:\Desktop\resume\ant-lora-closure\data\candidates_manifest.json

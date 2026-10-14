@@ -1,0 +1,38 @@
+{
+  "seed": 20261014,
+  "n_per_config": 1200,
+  "pool_sizes": {
+    "dialog": 58787,
+    "mcq": 46421
+  },
+  "configs": [
+    {
+      "name": "r100_0",
+      "dialog_frac": 1.0,
+      "n_dialog": 1200,
+      "n_mcq": 0,
+      "written": 1200
+    },
+    {
+      "name": "r70_30",
+      "dialog_frac": 0.7,
+      "n_dialog": 840,
+      "n_mcq": 360,
+      "written": 1200
+    },
+    {
+      "name": "r30_70",
+      "dialog_frac": 0.3,
+      "n_dialog": 360,
+      "n_mcq": 840,
+      "written": 1200
+    },
+    {
+      "name": "r0_100",
+      "dialog_frac": 0.0,
+      "n_dialog": 0,
+      "n_mcq": 1200,
+      "written": 1200
+    }
+  ]
+}

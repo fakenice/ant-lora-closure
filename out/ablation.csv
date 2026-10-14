@@ -1,0 +1,6 @@
+run,kind,dialog_rows,mcq_rows,optimizer_steps,micro_batch,train_log_complete,steps_logged,s_per_step,train_wall_s,peak_alloc_mib,peak_reserved_mib,loss_first,loss_final,loss_min,loss_first10,loss_last10,rows_with_trainable_tokens,rows_dropped_too_long,mask_probe_ok,loss_fn_abs_diff,n_items,correct,wrong,unparseable,accuracy,ci95_low,ci95_high,mean_new_tokens,s_per_item,eval_peak_vram_mib
+base（无 SFT）,baseline,,,,,,,,,,,,,,,,,,,,100,73,27,0,0.73,0.6357,0.8073,8.48,0.47,2978.3
+r100_0,lora,1200,0,150,8,True,150,3.88,581.2,6421.1,11068.0,2.6662,2.3887,1.6955,2.6662,2.3887,1149,51,200/200,0.0,100,69,24,7,0.69,0.5937,0.7722,8.28,0.45,3128.2
+r70_30,lora,840,360,150,8,True,150,2.78,417.4,6438.7,9554.0,1.9458,1.6937,0.6293,1.9458,1.6937,1162,38,200/200,0.0,100,74,26,0,0.74,0.6463,0.816,2.0,0.12,3128.2
+r30_70,lora,360,840,150,8,True,150,2.9,434.7,6456.3,9992.0,1.0602,0.9969,0.1766,1.0602,0.9968,1174,26,200/200,0.0,100,71,29,0,0.71,0.6146,0.7899,2.0,0.12,3128.2
+r0_100,lora,0,1200,150,8,True,150,2.81,421.6,4720.9,7012.0,0.4342,0.3252,0.0082,0.4342,0.3252,1200,0,200/200,0.0,100,70,30,0,0.7,0.6041,0.7811,2.0,0.11,3128.2

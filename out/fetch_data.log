@@ -1,0 +1,12 @@
+
+[medical_dialog_zh_train_head] shibing624/medical :: finetune/train_zh_0.json
+  [FAIL] HTTP Error 429: Too Many Requests
+
+[cmexam_train] fzkuji/CMExam :: train.json
+  [FAIL] HTTP Error 429: Too Many Requests
+
+[cmexam_test] fzkuji/CMExam :: test.json
+    got cmexam_test: 6.43 MB (Content-Range=None)
+    records=6811 partial_dropped=0 keys=['Answer', 'Explanation', 'Options', 'Question']
+
+manifest -> E:\Desktop\resume\ant-lora-closure\data\raw_manifest.json

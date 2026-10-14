@@ -1,0 +1,27 @@
+{
+  "tag": "lora_r100_0",
+  "adapter": "models/lora_r100_0",
+  "n_items": 100,
+  "correct": 69,
+  "wrong": 24,
+  "unparseable": 7,
+  "accuracy": 0.69,
+  "wrong_rate": 0.24,
+  "unparseable_rate": 0.07,
+  "wilson_ci95": [
+    0.5937,
+    0.7722
+  ],
+  "chance_note": "五选项单选，随机基线约 20%；评测集正确项字母最多的一档（D）占 26%",
+  "mean_new_tokens": 8.28,
+  "s_per_item": 0.45,
+  "peak_vram_mib": 3128.2,
+  "parse_path_counts": {
+    "answer-marker": 36,
+    "first-letter": 57,
+    "none": 7
+  },
+  "max_new_tokens": 12,
+  "decoding": "greedy",
+  "binomial_note": "n=100 的准确率 95% 半宽约 9.8 个百分点（正态近似）"
+}

@@ -1,0 +1,16 @@
+=== stage4b run start 2026-10-14 19:42:34 steps=150 accum=8 max_len=512 gpu_used=1291MiB ===
+--- train r30_70 start 2026-10-14 19:42:34
+--- train r30_70 rc=0 done 2026-10-14 19:51:13
+--- train r0_100 start 2026-10-14 19:51:13
+--- train r0_100 rc=0 done 2026-10-14 19:58:27
+--- eval base start 2026-10-14 19:58:28
+--- eval base rc=0 done 2026-10-14 19:59:24
+--- eval lora_r100_0 start 2026-10-14 19:59:24
+--- eval lora_r100_0 rc=0 done 2026-10-14 20:00:20
+--- eval lora_r70_30 start 2026-10-14 20:00:20
+--- eval lora_r70_30 rc=0 done 2026-10-14 20:00:44
+--- eval lora_r30_70 start 2026-10-14 20:00:44
+--- eval lora_r30_70 rc=0 done 2026-10-14 20:01:07
+--- eval lora_r0_100 start 2026-10-14 20:01:07
+--- eval lora_r0_100 rc=0 done 2026-10-14 20:01:29
+=== stage4b run end 2026-10-14 20:01:29 ===
