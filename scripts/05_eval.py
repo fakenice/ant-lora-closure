@@ -13,6 +13,7 @@ import argparse
 import json
 import re
 import time
+from collections import Counter
 from pathlib import Path
 
 import torch
@@ -28,9 +29,9 @@ LETTER = re.compile(r"([A-E])")
 SYSTEM = "你是一名严谨的医学助手。请用中文回答。"
 
 
-def load_eval():
+def load_eval(path: Path = EVAL_SET):
     rows = []
-    with EVAL_SET.open("r", encoding="utf-8") as f:
+    with path.open("r", encoding="utf-8") as f:
         for line in f:
             line = line.strip()
             if line.endswith("}"):
@@ -53,14 +54,22 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--adapter", default="base", help="'base' or a path under models/")
     ap.add_argument("--limit", type=int, default=0, help="optional subset for a smoke test")
+    ap.add_argument("--eval-file", default=str(EVAL_SET),
+                    help="JSONL eval set; defaults to data/clean/mcq_eval_100.jsonl")
+    ap.add_argument("--tag", default=None, help="output tag; defaults to the adapter name")
     a = ap.parse_args()
 
     OUT.mkdir(parents=True, exist_ok=True)
-    tag = "base" if a.adapter == "base" else Path(a.adapter).name
-    rows = load_eval()
+    eval_path = Path(a.eval_file)
+    if not eval_path.is_absolute():
+        eval_path = ROOT / eval_path
+    tag = a.tag or ("base" if a.adapter == "base" else Path(a.adapter).name)
+    rows = load_eval(eval_path)
+    if not rows:
+        raise SystemExit(f"empty eval set: {eval_path}")
     if a.limit:
         rows = rows[: a.limit]
-    print(f"eval items={len(rows)} adapter={a.adapter}")
+    print(f"eval items={len(rows)} adapter={a.adapter} file={eval_path}")
 
     tok = AutoTokenizer.from_pretrained(BASE)
     model = AutoModelForCausalLM.from_pretrained(BASE, dtype=torch.float16, device_map="cuda:0")
@@ -108,10 +117,11 @@ def main() -> int:
     centre = (phat + z**2 / (2 * n)) / den
     half = z * (phat * (1 - phat) / n + z**2 / (4 * n**2)) ** 0.5 / den
     summary = {
-        "tag": tag, "adapter": a.adapter, "n_items": n, "correct": c, "wrong": w, "unparseable": u,
+        "tag": tag, "adapter": a.adapter, "eval_file": str(eval_path), "n_items": n, "correct": c, "wrong": w, "unparseable": u,
         "accuracy": round(c / n, 4), "wrong_rate": round(w / n, 4), "unparseable_rate": round(u / n, 4),
         "wilson_ci95": [round(max(0.0, centre - half), 4), round(min(1.0, centre + half), 4)],
-        "chance_note": "五选项单选，随机基线约 20%；评测集正确项字母最多的一档（D）占 26%",
+        "chance_note": "五选项单选，随机基线约 20%；本评测集正确项字母分布见 answer_letter_distribution",
+        "answer_letter_distribution": dict(Counter(r["gold"] for r in rows)),
         "mean_new_tokens": round(sum(x["n_new_tokens"] for x in results) / n, 2),
         "s_per_item": round((time.time() - t0) / n, 2),
         "peak_vram_mib": round(torch.cuda.max_memory_allocated() / 2**20, 1),

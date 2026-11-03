@@ -1,0 +1,56 @@
+eval items=500 adapter=models/lora_r70_30_s20261014 file=E:\Desktop\projects\ant-lora-closure\data\clean\mcq_eval_500.jsonl
+Loading weights:   0%|          | 0/338 [00:00<?, ?it/s]Loading weights:   3%|▎         | 9/338 [00:00<00:06, 49.30it/s]Loading weights:   7%|▋         | 23/338 [00:00<00:03, 86.41it/s]Loading weights:  11%|█         | 37/338 [00:00<00:02, 101.64it/s]Loading weights:  15%|█▌        | 52/338 [00:00<00:02, 114.45it/s]Loading weights:  19%|█▉        | 65/338 [00:00<00:02, 105.57it/s]Loading weights:  23%|██▎       | 77/338 [00:00<00:02, 96.74it/s] Loading weights:  28%|██▊       | 95/338 [00:00<00:02, 110.98it/s]Loading weights:  32%|███▏      | 107/338 [00:01<00:02, 106.97it/s]Loading weights:  36%|███▌      | 122/338 [00:01<00:01, 116.72it/s]Loading weights:  40%|███▉      | 134/338 [00:01<00:01, 116.15it/s]Loading weights:  43%|████▎     | 146/338 [00:01<00:01, 114.10it/s]Loading weights:  47%|████▋     | 158/338 [00:01<00:01, 112.85it/s]Loading weights:  51%|█████     | 173/338 [00:01<00:01, 93.29it/s] Loading weights:  56%|█████▌    | 188/338 [00:01<00:01, 103.96it/s]Loading weights:  62%|██████▏   | 208/338 [00:01<00:01, 120.29it/s]Loading weights:  66%|██████▋   | 224/338 [00:02<00:00, 124.89it/s]Loading weights:  70%|███████   | 237/338 [00:02<00:01, 99.00it/s] Loading weights:  74%|███████▍  | 251/338 [00:02<00:00, 105.44it/s]Loading weights:  78%|███████▊  | 263/338 [00:02<00:00, 102.64it/s]Loading weights:  81%|████████  | 274/338 [00:02<00:00, 99.91it/s] Loading weights:  85%|████████▍ | 287/338 [00:02<00:00, 101.23it/s]Loading weights:  89%|████████▉ | 301/338 [00:02<00:00, 104.46it/s]Loading weights:  93%|█████████▎| 316/338 [00:02<00:00, 110.93it/s]Loading weights: 100%|██████████| 338/338 [00:03<00:00, 138.59it/s]Loading weights: 100%|██████████| 338/338 [00:03<00:00, 109.87it/s]
+  merged adapter models/lora_r70_30_s20261014
+  20/500 correct=16 (4s, 0.19s/item)
+  40/500 correct=31 (7s, 0.18s/item)
+  60/500 correct=45 (11s, 0.18s/item)
+  80/500 correct=61 (16s, 0.20s/item)
+  100/500 correct=74 (19s, 0.19s/item)
+  120/500 correct=87 (23s, 0.19s/item)
+  140/500 correct=101 (26s, 0.19s/item)
+  160/500 correct=111 (30s, 0.19s/item)
+  180/500 correct=127 (34s, 0.19s/item)
+  200/500 correct=143 (37s, 0.19s/item)
+  220/500 correct=157 (41s, 0.19s/item)
+  240/500 correct=175 (45s, 0.19s/item)
+  260/500 correct=186 (48s, 0.19s/item)
+  280/500 correct=200 (52s, 0.19s/item)
+  300/500 correct=215 (55s, 0.18s/item)
+  320/500 correct=228 (59s, 0.18s/item)
+  340/500 correct=243 (63s, 0.18s/item)
+  360/500 correct=255 (66s, 0.18s/item)
+  380/500 correct=270 (70s, 0.18s/item)
+  400/500 correct=282 (73s, 0.18s/item)
+  420/500 correct=296 (78s, 0.19s/item)
+  440/500 correct=309 (82s, 0.19s/item)
+  460/500 correct=320 (85s, 0.19s/item)
+  480/500 correct=329 (89s, 0.19s/item)
+  500/500 correct=341 (92s, 0.18s/item)
+{
+  "tag": "r70_30_s20261014_500",
+  "adapter": "models/lora_r70_30_s20261014",
+  "eval_file": "E:\\Desktop\\projects\\ant-lora-closure\\data\\clean\\mcq_eval_500.jsonl",
+  "n_items": 500,
+  "correct": 341,
+  "wrong": 158,
+  "unparseable": 1,
+  "accuracy": 0.682,
+  "wrong_rate": 0.316,
+  "unparseable_rate": 0.002,
+  "wilson_ci95": [
+    0.6399,
+    0.7213
+  ],
+  "chance_note": "五选项单选，随机基线约 20%；评测集正确项字母最多的一档（D）占 26%",
+  "mean_new_tokens": 2.02,
+  "s_per_item": 0.18,
+  "peak_vram_mib": 3128.2,
+  "parse_path_counts": {
+    "first-letter": 499,
+    "none": 1,
+    "answer-marker": 0
+  },
+  "max_new_tokens": 12,
+  "decoding": "greedy",
+  "binomial_note": "n=500 的准确率 95% 半宽约 4.4 个百分点（正态近似）"
+}

@@ -101,12 +101,24 @@ def main() -> int:
     ap.add_argument("--max_len", type=int, default=512)
     ap.add_argument("--slow_step_abort", type=float, default=25.0,
                     help="abort after two optimizer steps slower than this (VRAM spill guard)")
+    ap.add_argument("--seed", type=int, default=20261014,
+                    help="training seed (shuffle/dropout); data ratios stay fixed")
+    ap.add_argument("--tag", default=None,
+                    help="output suffix; defaults to --config. Use r70_30_s1 etc. for seed runs")
+    ap.add_argument("--overwrite", action="store_true",
+                    help="allow writing into an existing adapter directory")
     a = ap.parse_args()
 
     OUT.mkdir(parents=True, exist_ok=True)
     MODELS.mkdir(parents=True, exist_ok=True)
-    run_dir = MODELS / f"lora_{a.config}"
-    log_f = (OUT / f"train_{a.config}.jsonl").open("w", encoding="utf-8")
+    tag = a.tag or a.config
+    run_dir = MODELS / f"lora_{tag}"
+    log_path = OUT / f"train_{tag}.jsonl"
+    if run_dir.exists() and not a.overwrite:
+        raise SystemExit(f"{run_dir} already exists; pass --tag or --overwrite")
+    if log_path.exists() and not a.overwrite:
+        raise SystemExit(f"{log_path} already exists; pass --tag or --overwrite")
+    log_f = log_path.open("w", encoding="utf-8")
 
     def log(event: str, **kw) -> None:
         log_f.write(json.dumps({"event": event, **kw}, ensure_ascii=False) + "\n")
@@ -120,7 +132,7 @@ def main() -> int:
                 rows.append(json.loads(line))
     print(f"config={a.config} samples={len(rows)} max_len={a.max_len}")
 
-    torch.manual_seed(20261014)
+    torch.manual_seed(a.seed)
     tok = AutoTokenizer.from_pretrained(BASE)
     model = AutoModelForCausalLM.from_pretrained(BASE, dtype=torch.float16, device_map="cuda:0")
     model.enable_input_require_grads()
@@ -135,7 +147,7 @@ def main() -> int:
     trainable = sum(p.numel() for p in model.parameters() if p.requires_grad)
     total = sum(p.numel() for p in model.parameters())
     print(f"trainable {trainable/1e6:.2f} M / {total/1e6:.2f} M ({100*trainable/total:.2f}%)")
-    log("setup", config=a.config, samples=len(rows), trainable_params=trainable,
+    log("setup", config=a.config, tag=tag, seed=a.seed, samples=len(rows), trainable_params=trainable,
         total_params=total, max_len=a.max_len, steps=a.steps, accum=a.accum, lr=a.lr,
         base=BASE, lora={"r": 16, "alpha": 32, "dropout": 0.05},
         weights_sha256="dd924a11b4c220f385b51ffa522daea7c9f3d850e31b162bb5661df483c6d3ee",
@@ -203,7 +215,7 @@ def main() -> int:
     prev_marginal = 0.0
     peak_alloc = peak_reserved = 0.0
     gstep = 0
-    rng = torch.Generator().manual_seed(20261014)
+    rng = torch.Generator().manual_seed(a.seed)
     order = torch.randperm(len(enc), generator=rng).tolist()
     ptr = 0
     opt.zero_grad(set_to_none=True)
@@ -259,7 +271,7 @@ def main() -> int:
 
     model.save_pretrained(run_dir)
     tok.save_pretrained(run_dir)
-    summary = {"config": a.config, "steps": gstep,
+    summary = {"config": a.config, "tag": tag, "seed": a.seed, "steps": gstep,
                "first_loss": round(sum(all_step_losses[:10]) / len(all_step_losses[:10]), 4),
                "final_loss": round(sum(all_step_losses[-10:]) / len(all_step_losses[-10:]), 4),
                "min_loss": round(min(all_step_losses), 4),

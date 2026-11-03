@@ -1,0 +1,22 @@
+config=r100_0 samples=1200 max_len=512
+Loading weights:   0%|          | 0/338 [00:00<?, ?it/s]Loading weights:   1%|▏         | 5/338 [00:00<00:06, 49.83it/s]Loading weights:   5%|▌         | 18/338 [00:00<00:03, 96.65it/s]Loading weights:   9%|▊         | 29/338 [00:00<00:03, 102.19it/s]Loading weights:  13%|█▎        | 45/338 [00:00<00:02, 115.12it/s]Loading weights:  17%|█▋        | 57/338 [00:00<00:02, 112.07it/s]Loading weights:  20%|██        | 69/338 [00:00<00:02, 98.08it/s] Loading weights:  25%|██▍       | 83/338 [00:00<00:02, 103.46it/s]Loading weights:  30%|██▉       | 100/338 [00:00<00:02, 116.64it/s]Loading weights:  35%|███▍      | 117/338 [00:01<00:01, 130.93it/s]Loading weights:  39%|███▉      | 131/338 [00:01<00:02, 98.57it/s] Loading weights:  42%|████▏     | 143/338 [00:01<00:01, 99.08it/s]Loading weights:  47%|████▋     | 159/338 [00:01<00:01, 110.21it/s]Loading weights:  51%|█████     | 173/338 [00:01<00:01, 115.80it/s]Loading weights:  55%|█████▌    | 186/338 [00:01<00:01, 115.78it/s]Loading weights:  60%|██████    | 203/338 [00:01<00:01, 119.08it/s]Loading weights:  64%|██████▍   | 217/338 [00:01<00:00, 123.35it/s]Loading weights:  68%|██████▊   | 230/338 [00:02<00:00, 124.51it/s]Loading weights:  72%|███████▏  | 245/338 [00:02<00:00, 129.68it/s]Loading weights:  77%|███████▋  | 261/338 [00:02<00:00, 132.61it/s]Loading weights:  82%|████████▏ | 276/338 [00:02<00:00, 125.12it/s]Loading weights:  86%|████████▌ | 289/338 [00:02<00:00, 123.04it/s]Loading weights:  89%|████████▉ | 302/338 [00:02<00:00, 124.41it/s]Loading weights:  93%|█████████▎| 315/338 [00:02<00:00, 124.81it/s]Loading weights:  97%|█████████▋| 329/338 [00:02<00:00, 124.59it/s]Loading weights: 100%|██████████| 338/338 [00:02<00:00, 119.39it/s]
+trainable 18.46 M / 1562.18 M (1.18%)
+prefix-mask verified on 200/200 probe records
+loss check: HF=2.357524 response-CE=2.357524 |diff|=2.38e-07
+encoded 1149 rows (dropped 51 over 512 tok, 0 with no trainable token; 0 unmasked)
+  step 10/150 loss=2.912 marginal=3.8s peakAlloc=6425MiB peakResv=11684MiB
+  step 20/150 loss=2.965 marginal=3.5s peakAlloc=6425MiB peakResv=11684MiB
+  step 30/150 loss=2.613 marginal=3.6s peakAlloc=6425MiB peakResv=11684MiB
+  step 40/150 loss=2.124 marginal=3.5s peakAlloc=6425MiB peakResv=11684MiB
+  step 50/150 loss=2.570 marginal=3.9s peakAlloc=6425MiB peakResv=11684MiB
+  step 60/150 loss=2.536 marginal=3.8s peakAlloc=6425MiB peakResv=11684MiB
+  step 70/150 loss=2.103 marginal=3.9s peakAlloc=6425MiB peakResv=11684MiB
+  step 80/150 loss=2.483 marginal=3.6s peakAlloc=6425MiB peakResv=11684MiB
+  step 90/150 loss=2.284 marginal=3.6s peakAlloc=6425MiB peakResv=11684MiB
+  step 100/150 loss=2.683 marginal=3.5s peakAlloc=6425MiB peakResv=11684MiB
+  step 110/150 loss=2.549 marginal=3.6s peakAlloc=6425MiB peakResv=11684MiB
+  step 120/150 loss=2.466 marginal=4.0s peakAlloc=6425MiB peakResv=11684MiB
+  step 130/150 loss=2.595 marginal=3.4s peakAlloc=6425MiB peakResv=11684MiB
+  step 140/150 loss=2.073 marginal=3.4s peakAlloc=6425MiB peakResv=11684MiB
+  step 150/150 loss=1.826 marginal=3.6s peakAlloc=6425MiB peakResv=11684MiB
+{"config": "r100_0", "tag": "r100_0_s20261016", "seed": 20261016, "steps": 150, "first_loss": 2.5115, "final_loss": 2.1789, "min_loss": 1.6195, "s_per_step_overall": 3.75, "peak_alloc_mib": 6425.4, "peak_reserved_mib": 11684.0, "trainable_rows": 1149, "dropped_too_long": 51, "adapter_dir": "models\\lora_r100_0_s20261016"}

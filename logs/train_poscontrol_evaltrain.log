@@ -1,0 +1,22 @@
+config=poscontrol_evaltrain samples=500 max_len=512
+Loading weights:   0%|          | 0/338 [00:00<?, ?it/s]Loading weights:   2%|▏         | 7/338 [00:00<00:04, 69.59it/s]Loading weights:   7%|▋         | 23/338 [00:00<00:03, 100.47it/s]Loading weights:  10%|█         | 35/338 [00:00<00:03, 93.24it/s] Loading weights:  14%|█▍        | 47/338 [00:00<00:02, 99.96it/s]Loading weights:  17%|█▋        | 59/338 [00:00<00:02, 106.20it/s]Loading weights:  22%|██▏       | 73/338 [00:00<00:02, 111.40it/s]Loading weights:  25%|██▌       | 85/338 [00:00<00:02, 106.00it/s]Loading weights:  28%|██▊       | 96/338 [00:00<00:02, 106.77it/s]Loading weights:  32%|███▏      | 107/338 [00:01<00:02, 103.29it/s]Loading weights:  35%|███▍      | 118/338 [00:01<00:02, 103.33it/s]Loading weights:  39%|███▉      | 133/338 [00:01<00:01, 112.81it/s]Loading weights:  43%|████▎     | 145/338 [00:01<00:01, 103.81it/s]Loading weights:  46%|████▌     | 156/338 [00:01<00:01, 102.82it/s]Loading weights:  50%|█████     | 169/338 [00:01<00:01, 110.12it/s]Loading weights:  54%|█████▍    | 183/338 [00:01<00:01, 110.93it/s]Loading weights:  60%|██████    | 203/338 [00:01<00:01, 114.04it/s]Loading weights:  64%|██████▎   | 215/338 [00:02<00:01, 110.78it/s]Loading weights:  67%|██████▋   | 227/338 [00:02<00:01, 110.79it/s]Loading weights:  72%|███████▏  | 243/338 [00:02<00:00, 122.91it/s]Loading weights:  76%|███████▌  | 256/338 [00:02<00:00, 123.73it/s]Loading weights:  80%|███████▉  | 269/338 [00:02<00:00, 123.44it/s]Loading weights:  83%|████████▎ | 282/338 [00:02<00:00, 114.97it/s]Loading weights:  87%|████████▋ | 294/338 [00:02<00:00, 114.79it/s]Loading weights:  91%|█████████ | 306/338 [00:02<00:00, 101.04it/s]Loading weights:  95%|█████████▍| 321/338 [00:02<00:00, 110.74it/s]Loading weights: 100%|██████████| 338/338 [00:02<00:00, 113.67it/s]
+trainable 18.46 M / 1562.18 M (1.18%)
+prefix-mask verified on 200/200 probe records
+loss check: HF=1.150083 response-CE=1.150083 |diff|=0.00e+00
+encoded 500 rows (dropped 0 over 512 tok, 0 with no trainable token; 0 unmasked)
+  step 10/150 loss=0.361 marginal=3.3s peakAlloc=4538MiB peakResv=7060MiB
+  step 20/150 loss=0.405 marginal=3.6s peakAlloc=4538MiB peakResv=7060MiB
+  step 30/150 loss=0.369 marginal=4.7s peakAlloc=4692MiB peakResv=7060MiB
+  step 40/150 loss=0.076 marginal=3.5s peakAlloc=4692MiB peakResv=7060MiB
+  step 50/150 loss=0.145 marginal=3.6s peakAlloc=4692MiB peakResv=7060MiB
+  step 60/150 loss=0.518 marginal=3.3s peakAlloc=4692MiB peakResv=7060MiB
+  step 70/150 loss=0.143 marginal=3.4s peakAlloc=4692MiB peakResv=7060MiB
+  step 80/150 loss=0.215 marginal=3.3s peakAlloc=4695MiB peakResv=7060MiB
+  step 90/150 loss=0.133 marginal=3.5s peakAlloc=4695MiB peakResv=7060MiB
+  step 100/150 loss=0.337 marginal=3.3s peakAlloc=4695MiB peakResv=7060MiB
+  step 110/150 loss=0.005 marginal=3.3s peakAlloc=4695MiB peakResv=7060MiB
+  step 120/150 loss=0.001 marginal=3.3s peakAlloc=4695MiB peakResv=7060MiB
+  step 130/150 loss=0.000 marginal=4.3s peakAlloc=4695MiB peakResv=7060MiB
+  step 140/150 loss=0.000 marginal=3.7s peakAlloc=4695MiB peakResv=7060MiB
+  step 150/150 loss=0.000 marginal=4.0s peakAlloc=4696MiB peakResv=7060MiB
+{"config": "poscontrol_evaltrain", "tag": "poscontrol_evaltrain", "seed": 20261014, "steps": 150, "first_loss": 0.4867, "final_loss": 0.006, "min_loss": 0.0001, "s_per_step_overall": 3.59, "peak_alloc_mib": 4696.5, "peak_reserved_mib": 7060.0, "trainable_rows": 500, "dropped_too_long": 0, "adapter_dir": "models\\lora_poscontrol_evaltrain"}

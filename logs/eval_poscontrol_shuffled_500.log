@@ -1,0 +1,56 @@
+eval items=500 adapter=models/lora_poscontrol_shuffled file=E:\Desktop\projects\ant-lora-closure\data\clean\mcq_eval_500.jsonl
+Loading weights:   0%|          | 0/338 [00:00<?, ?it/s]Loading weights:   2%|▏         | 8/338 [00:00<00:04, 69.25it/s]Loading weights:   7%|▋         | 24/338 [00:00<00:03, 102.19it/s]Loading weights:  12%|█▏        | 41/338 [00:00<00:02, 121.85it/s]Loading weights:  17%|█▋        | 59/338 [00:00<00:02, 137.02it/s]Loading weights:  22%|██▏       | 73/338 [00:00<00:02, 118.65it/s]Loading weights:  26%|██▌       | 88/338 [00:00<00:02, 124.87it/s]Loading weights:  31%|███▏      | 106/338 [00:00<00:01, 119.44it/s]Loading weights:  36%|███▋      | 123/338 [00:00<00:01, 132.16it/s]Loading weights:  41%|████      | 137/338 [00:01<00:01, 130.76it/s]Loading weights:  46%|████▌     | 155/338 [00:01<00:01, 123.86it/s]Loading weights:  51%|█████     | 171/338 [00:01<00:01, 131.10it/s]Loading weights:  55%|█████▍    | 185/338 [00:01<00:01, 119.60it/s]Loading weights:  60%|██████    | 204/338 [00:01<00:01, 129.11it/s]Loading weights:  65%|██████▌   | 221/338 [00:01<00:00, 137.18it/s]Loading weights:  71%|███████   | 239/338 [00:01<00:00, 127.65it/s]Loading weights:  76%|███████▌  | 256/338 [00:02<00:00, 131.03it/s]Loading weights:  80%|███████▉  | 270/338 [00:02<00:00, 129.24it/s]Loading weights:  84%|████████▍ | 284/338 [00:02<00:00, 123.47it/s]Loading weights:  88%|████████▊ | 299/338 [00:02<00:00, 123.15it/s]Loading weights:  92%|█████████▏| 312/338 [00:02<00:00, 117.35it/s]Loading weights:  96%|█████████▌| 324/338 [00:02<00:00, 115.06it/s]Loading weights: 100%|██████████| 338/338 [00:02<00:00, 127.79it/s]
+  merged adapter models/lora_poscontrol_shuffled
+  20/500 correct=3 (3s, 0.16s/item)
+  40/500 correct=6 (6s, 0.15s/item)
+  60/500 correct=8 (9s, 0.15s/item)
+  80/500 correct=14 (12s, 0.15s/item)
+  100/500 correct=17 (15s, 0.15s/item)
+  120/500 correct=21 (18s, 0.15s/item)
+  140/500 correct=25 (21s, 0.15s/item)
+  160/500 correct=29 (24s, 0.15s/item)
+  180/500 correct=31 (27s, 0.15s/item)
+  200/500 correct=34 (30s, 0.15s/item)
+  220/500 correct=38 (33s, 0.15s/item)
+  240/500 correct=41 (36s, 0.15s/item)
+  260/500 correct=46 (39s, 0.15s/item)
+  280/500 correct=49 (42s, 0.15s/item)
+  300/500 correct=53 (45s, 0.15s/item)
+  320/500 correct=55 (48s, 0.15s/item)
+  340/500 correct=57 (51s, 0.15s/item)
+  360/500 correct=61 (54s, 0.15s/item)
+  380/500 correct=63 (57s, 0.15s/item)
+  400/500 correct=66 (60s, 0.15s/item)
+  420/500 correct=72 (63s, 0.15s/item)
+  440/500 correct=76 (66s, 0.15s/item)
+  460/500 correct=79 (69s, 0.15s/item)
+  480/500 correct=84 (72s, 0.15s/item)
+  500/500 correct=88 (74s, 0.15s/item)
+{
+  "tag": "poscontrol_shuffled_500",
+  "adapter": "models/lora_poscontrol_shuffled",
+  "eval_file": "E:\\Desktop\\projects\\ant-lora-closure\\data\\clean\\mcq_eval_500.jsonl",
+  "n_items": 500,
+  "correct": 88,
+  "wrong": 410,
+  "unparseable": 2,
+  "accuracy": 0.176,
+  "wrong_rate": 0.82,
+  "unparseable_rate": 0.004,
+  "wilson_ci95": [
+    0.1451,
+    0.2118
+  ],
+  "chance_note": "五选项单选，随机基线约 20%；评测集正确项字母最多的一档（D）占 26%",
+  "mean_new_tokens": 2.0,
+  "s_per_item": 0.15,
+  "peak_vram_mib": 3128.2,
+  "parse_path_counts": {
+    "none": 2,
+    "first-letter": 498,
+    "answer-marker": 0
+  },
+  "max_new_tokens": 12,
+  "decoding": "greedy",
+  "binomial_note": "n=500 的准确率 95% 半宽约 4.4 个百分点（正态近似）"
+}

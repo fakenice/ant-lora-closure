@@ -54,6 +54,41 @@
 
 编码阶段被丢弃的超长样本：`r100_0` 51 条（1149 行可训练）、`r70_30` 38 条（1162）、`r30_70` 26 条（1174）、`r0_100` 0 条（1200）。评测吞吐 0.45 s/题（对话档）vs 0.11–0.12 s/题（含考题档），评测峰值显存 2978 MiB（基座）/ 3128 MiB（挂 adapter）。机器可读版本：`out/summary.json`、`out/ablation.csv`、`out/ablation.md`、`out/resources.md`；逐题记录在 `out/eval/eval_*_items.jsonl`。
 
+### 多种子 × 500 题复现（2026-11-03）
+
+为补上“单 seed、n=100”两条限制，新增 **4 档 × 3 seed × 150 步 = 12 次训练**，并在 500 题上评测 base + 12 个 adapter。500 题 = 原 100 题原样保留 + 400 道新题；扩题前先与现有 46,421 条训练池做题干哈希比对，**排除 172 道会泄漏的题**，最终 500 题与训练池重叠为 **0**（`scripts/03d_build_eval_500.py`、`data/stats/eval500_report.json`）。
+
+| 配比 | 3 seed 均值 | SD | 范围 | 对 base 均值差 | 原 100 题子集 | 不可解析 / 500 |
+|---|---|---|---|---|---|---|
+| base（无 SFT） | **65.8%**（329/500） | — | — | — | **73.0%** | 1 |
+| `r100_0` | 58.5% | 4.5 pt | 54.4–63.4% | **−7.3 pt** | 65.0% | 29–74 |
+| `r70_30` | **68.2%** | 1.0 pt | 67.2–69.2% | **+2.4 pt** | 73.0% | 0–1 |
+| `r30_70` | 66.8% | 3.4 pt | 63.4–70.2% | +1.0 pt | 71.3% | 0–1 |
+| `r0_100` | 66.9% | 1.9 pt | 64.8–68.6% | +1.1 pt | 66.7% | 0 |
+
+- **负结论没有变。** 唯一均值高于 base 的是 `r70_30`（+2.4 pt），但三个 seed 的配对 McNemar p 分别为 0.266 / 0.543 / 0.089，均大于 0.05；三 seed 的 95% t 区间约为 **−0.1 ~ +4.9 pt**，跨 0。不能写成“70:30 提升准确率”。base 只跑了一个 seed，其自身波动未估计。
+- **`r30_70` 的单 seed 显著不复现。** seed 20261014 上 p=0.020，但同档另外两个 seed 为 +1.0 / −2.4 pt；三 seed 均值 +1.0 pt，不构成稳定效应。
+- **`r100_0` 的下降是格式，不是知识。** 500 题上 29–74 题不可解析（旧 100 题是 7 题）；纯对话档保留长答语，混入考题后输出塌缩为单个字母，这个方向与旧结果一致。
+- **旧 100 题偏容易。** base 在旧 100 题上 73.0%，在 500 题上 65.8%；新增 400 题上 base 为 64.0%。因此旧表的绝对准确率不能与新 500 题直接比较，只能做同题内的 arm 对比。
+- **原 100 题子集也没有一档超过 base。** `r70_30` 为 73.0%（与 base 持平），其余 65.0–71.3%；旧表的“74 vs 73”是单 seed 的波动。
+
+机器可读结果：`out/multiseed_500_summary.{json,csv,md}`；逐题记录在 `out/eval/eval_*_s*_500_items.jsonl`。全流程串行约 2 h 40 min（09:38–12:18）。
+
+### 阳性对照与标签打乱对照（2026-11-03）
+
+为排除“评测管线本身测不出差异”，用同一 500 题构造两个诊断 arm，各训练 150 步：
+
+| arm | 训练标签 | 500 题准确率 | Wilson 95% | 对 base | 不可解析 | McNemar p |
+|---|---|---|---|---|---|---|
+| `poscontrol_evaltrain` | 这 500 题的正确字母（**故意泄漏**） | **99.2%**（496/500） | 98.0–99.7% | +33.4 pt | 0 | 4.5e−49 |
+| `poscontrol_shuffled` | 同题面，确定性错误字母 | **17.6%**（88/500） | 14.5–21.2% | −48.2 pt | 2 | 5.1e−48 |
+
+- 阳性对照接近满分，说明训练、LoRA 挂载、生成与字母解析这条链能测出**标签特异**的增益；不是“管线坏了”。
+- 打乱标签掉到五选一随机基线附近（17.6%），说明这个增益不是“输出单个字母”带来的格式效应。
+- **边界**：阳性对照学的是“题面→字母”的直接映射，属于记忆诊断，不能证明 1,200 行 × 1 epoch 的真实知识增益有足够功效。它排除的是“评测/训练管线失效”，不是“训练预算不足”。
+
+产物：`out/positive_control_summary.{json,md}`；`data/stats/positive_control_report.json`。
+
 ## 5. 结论
 
 1. **配比之间没有可区分的准确率差异。** 最大值 `r70_30` 74% 与最小值 `r100_0` 69% 相差 5 个百分点，而 n=100 时 Wilson 半宽约 ±8–9 个百分点，五组区间两两重叠。按"区间重叠的差值不可作为结论"的口径，这里只能说"看不出差异"，不能说"70:30 最优"。
@@ -61,15 +96,17 @@
 3. **配比真正改变的是格式与成本，这一点可观测且方向一致。** 纯对话档 `r100_0` 保留长答语风格：36/100 走"答案："标记解析、平均生成 8.28 token、**7 题不可解析**（例如输出 `答案是：高位肠梗阻较低位肠梗阻`，没有字母）。凡是混入考题数据的档位都塌缩成"只输出一个字母"（2.0 token，100% first-letter 解析，0 题不可解析）。这是 SFT 语料格式对输出分布的作用，不是知识变化。
 4. **训练成本由格式长度驱动，不由配比驱动。** `r100_0` 的 reserved 峰值 11,068 MiB（离 11,263 MiB 只差 195 MiB，正是最容易触发 WDDM 溢出的那一档）与 581 s 墙钟；`r0_100` 只要 7,012 MiB / 422 s。对话样本更长 → 序列更长 → 显存和时间都更高，与"数据里医疗内容占比"无关。
 5. 因此这个实验支撑的说法是：**"我在消费级显卡上做了一套带数据登记、泄漏剔除、prompt 屏蔽校验和确定性评测的中文医疗指令消融流程，并给出了负结论与格式效应"**；不支撑"我通过调配数据比例把医学选择题准确率提升了 X 个百分点"。
+6. **500 题 × 3 seed 复现后，负结论不变。** 没有一档在三个 seed 上都显著高于 base；`r70_30` 均值 +2.4 pt 但 p>0.05，`r30_70` 的单 seed p=0.020 未复现。可以直接说"多 seed 后仍看不到稳定提升"。
+7. **管线灵敏度已由阳性对照验证。** 用评测题正确标签训练的诊断 arm 达 99.2%，同题打乱标签只有 17.6%（接近随机基线），说明训练+评测能测出标签特异的增益，且不是格式效应；但这是记忆诊断，不能替代真实知识增益的功效分析。
 
 ## 6. 限制（不可回避）
 
 1. 对话语料是 4.7% 前缀样本，配比结论只在该前缀内成立。
-2. n=100 → 半宽 ±约 10 个百分点；要做配比排序至少需要 10× 的题量或多 seed 重复。
-3. 单一 seed、单 epoch、无重复：模型间的差值无法与随机种子效应分离。
+2. 旧 100 题的半宽约 ±10 个百分点；2026-11-03 已用 500 题 × 3 seed 复现（见 §4），500 题下两比例 MDE 约 8 pt，仍只能测中等以上效应。
+3. 单 seed 已由 3 seed 覆盖，阳性对照已做；剩余的是**单 epoch、单模型（1.5B）、短训练预算**。阳性对照（99.2% vs 打乱 17.6%）只排除"管线失效"，仍不能区分"配比无影响"与"1,200 行 × 1 epoch 本身不足以移动基座"。
 4. 训练目标与评测目标同构（都是"读题→出字母"），所以"混考题→输出更规范"是必然结果，不能读成医学能力提升。
 5. `max_len=512` 丢弃了最长的那部分对话样本（`r100_0` 丢 51 条），长度截断对不同档位的影响不等。
-6. 五选项题随机基线 20%，字母 D 在评测集正确项里占 26%，模型若有字母偏好会被这个先验放大（本评测未做去偏处理）。
+6. 五选项题随机基线 20%。旧 100 题里正确项字母 D 占 26%；新 500 题为 A 94 / B 105 / C 109 / D 103 / E 89（D=20.6%），字母偏好的影响变小但没有消失（本评测未做去偏处理）。
 7. fp16 + 1.5B + 11 GB 的绝对值只对本机成立，不能外推到其他硬件。
 8. CMExam 数据许可与用途限制见 `docs/DATASHEET.md`，本仓库未重新分发原始数据。
 
@@ -83,9 +120,12 @@ python scripts/03_make_ratios.py        # 四档配比（seed 20261014）
 python scripts/03c_fetch_weights.py     # 分片下载基座权重并校验 sha256（需 HF_HUB_DISABLE_XET=1）
 bash run_stage4b.sh                     # 训练缺失配比 + 全部评测（含显存闸门，见 §8）
 python scripts/06_collect_results.py    # 汇总 out/summary.json / ablation.csv / ablation.md / resources.md
+python scripts/03d_build_eval_500.py    # 500 题集：原 100 题 + 400 道无训练池重叠的新题
+bash scripts/run_multiseed_500.sh       # 4 档 × 3 seed 训练 + base/12 adapter 的 500 题评测
+python scripts/03e_build_positive_control.py  # 阳性/打乱标签诊断集（故意泄漏）
 ```
 
-单档可控重跑：`python scripts/04_train_lora.py --config r70_30 --steps 150 --accum 8 --max_len 512 --slow_step_abort 25`，评测 `python scripts/05_eval.py --adapter models/lora_r70_30`（或 `base`）。
+单档可控重跑：`python scripts/04_train_lora.py --config r70_30 --steps 150 --accum 8 --max_len 512 --seed 20261015 --tag r70_30_s20261015`，评测 `python scripts/05_eval.py --adapter models/lora_r70_30_s20261015 --eval-file data/clean/mcq_eval_500.jsonl --tag r70_30_s20261015_500`。
 
 ## 8. 过程中的三次事故与处理（如实记录）
 
@@ -100,12 +140,14 @@ python scripts/06_collect_results.py    # 汇总 out/summary.json / ablation.csv
 | 路径 | 内容 |
 |---|---|
 | `data/raw_manifest.json`、`data/stats/quality_report.json` | 原始取数与清洗漏斗计数 |
-| `data/clean/dialog_zh.jsonl`（58,787）、`mcq_eval_100.jsonl`、`mcq_train_pool.jsonl`（46,421） | 清洗后语料 |
-| `data/ratios/*.jsonl` + `ratios_manifest.json` | 四档配比与 seed |
+| `data/clean/dialog_zh.jsonl`（58,787）、`mcq_eval_100.jsonl`、`mcq_eval_500.jsonl`、`mcq_train_pool.jsonl`（46,421） | 清洗后语料；500 题集保留原 100 题并过滤 172 道训练池重叠题 |
+| `data/ratios/*.jsonl` + `ratios_manifest.json` | 四档配比与 seed；另有 `poscontrol_evaltrain.jsonl` / `poscontrol_shuffled.jsonl`（诊断用，故意泄漏） |
 | `models/Qwen2.5-1.5B-Instruct/` | 基座权重（sha256 已校验） |
-| `models/lora_*`（4 份） | 150-step LoRA adapter |
-| `out/train_<cfg>.jsonl` | 逐事件：setup / mask_check / loss_check / encode / step / done |
-| `out/eval/eval_*.json` + `_items.jsonl` | 五组评测汇总与逐题记录 |
-| `out/summary.json`、`ablation.csv`、`ablation.md`、`resources.md` | 消融表与资源账 |
+| `models/lora_*`（4 份原版） + `models/lora_*_s2026*`（12 份多种子） | 150-step LoRA adapter |
+| `out/train_<cfg>.jsonl`、`out/train_*_s2026*.jsonl` | 逐事件：setup / mask_check / loss_check / encode / step / done |
+| `out/eval/eval_*.json` + `_items.jsonl` | 评测汇总与逐题记录（100 题与 500 题两套） |
+| `out/multiseed_500_summary.{json,csv,md}` | 4 档 × 3 seed 的均值/SD、配对 McNemar、原 100 题子集 |
+| `out/positive_control_summary.{json,md}`、`data/stats/positive_control_report.json` | 阳性对照（99.2%）与打乱标签（17.6%）诊断 |
+| `out/summary.json`、`ablation.csv`、`ablation.md`、`resources.md` | 原四档消融表与资源账 |
 | `docs/DATASHEET.md` | 来源登记、漏斗、抽样偏差、许可与限制 |
 | `logs/` | 每档训练与评测的原始日志、`stage4.log` 运行序列 |

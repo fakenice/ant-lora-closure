@@ -1,0 +1,55 @@
+eval items=500 adapter=base file=E:\Desktop\projects\ant-lora-closure\data\clean\mcq_eval_500.jsonl
+Loading weights:   0%|          | 0/338 [00:00<?, ?it/s]Loading weights:   7%|▋         | 23/338 [00:00<00:10, 29.66it/s]Loading weights:  10%|█         | 35/338 [00:01<00:11, 27.28it/s]Loading weights:  11%|█         | 38/338 [00:01<00:13, 23.00it/s]Loading weights:  14%|█▍        | 47/338 [00:02<00:16, 17.67it/s]Loading weights:  15%|█▌        | 52/338 [00:02<00:16, 17.49it/s]Loading weights:  17%|█▋        | 59/338 [00:03<00:17, 16.14it/s]Loading weights:  21%|██        | 70/338 [00:03<00:18, 14.28it/s]Loading weights:  24%|██▍       | 81/338 [00:04<00:15, 16.21it/s]Loading weights:  25%|██▍       | 83/338 [00:04<00:16, 15.19it/s]Loading weights:  28%|██▊       | 95/338 [00:04<00:11, 20.81it/s]Loading weights:  29%|██▉       | 98/338 [00:05<00:15, 15.91it/s]Loading weights:  31%|███       | 104/338 [00:05<00:14, 16.56it/s]Loading weights:  32%|███▏      | 108/338 [00:06<00:16, 14.08it/s]Loading weights:  35%|███▍      | 118/338 [00:06<00:10, 20.53it/s]Loading weights:  36%|███▌      | 121/338 [00:06<00:14, 15.18it/s]Loading weights:  37%|███▋      | 125/338 [00:07<00:14, 15.15it/s]Loading weights:  38%|███▊      | 127/338 [00:07<00:14, 14.18it/s]Loading weights:  38%|███▊      | 129/338 [00:07<00:15, 13.32it/s]Loading weights:  42%|████▏     | 143/338 [00:07<00:09, 20.90it/s]Loading weights:  43%|████▎     | 145/338 [00:08<00:10, 18.37it/s]Loading weights:  44%|████▍     | 149/338 [00:08<00:11, 17.03it/s]Loading weights:  46%|████▌     | 155/338 [00:08<00:11, 15.94it/s]Loading weights:  48%|████▊     | 161/338 [00:09<00:09, 18.01it/s]Loading weights:  50%|████▉     | 168/338 [00:09<00:09, 17.84it/s]Loading weights:  51%|█████     | 172/338 [00:10<00:11, 14.21it/s]Loading weights:  51%|█████▏    | 174/338 [00:10<00:12, 13.49it/s]Loading weights:  55%|█████▍    | 185/338 [00:11<00:11, 12.97it/s]Loading weights:  60%|██████    | 203/338 [00:11<00:06, 19.75it/s]Loading weights:  61%|██████    | 205/338 [00:11<00:07, 18.45it/s]Loading weights:  64%|██████▎   | 215/338 [00:12<00:07, 16.55it/s]Loading weights:  65%|██████▌   | 221/338 [00:12<00:06, 17.67it/s]Loading weights:  67%|██████▋   | 228/338 [00:13<00:05, 20.45it/s]Loading weights:  68%|██████▊   | 231/338 [00:13<00:05, 19.05it/s]Loading weights:  70%|██████▉   | 235/338 [00:13<00:06, 14.87it/s]Loading weights:  71%|███████▏  | 241/338 [00:13<00:05, 17.65it/s]Loading weights:  72%|███████▏  | 245/338 [00:14<00:05, 16.58it/s]Loading weights:  75%|███████▍  | 252/338 [00:14<00:04, 20.93it/s]Loading weights:  75%|███████▌  | 255/338 [00:14<00:04, 18.83it/s]Loading weights:  76%|███████▋  | 258/338 [00:15<00:06, 12.61it/s]Loading weights:  77%|███████▋  | 260/338 [00:15<00:06, 11.92it/s]Loading weights:  80%|███████▉  | 270/338 [00:15<00:03, 18.59it/s]Loading weights:  81%|████████  | 273/338 [00:15<00:04, 15.87it/s]Loading weights:  82%|████████▏ | 277/338 [00:16<00:03, 16.18it/s]Loading weights:  83%|████████▎ | 280/338 [00:16<00:03, 17.80it/s]Loading weights:  84%|████████▍ | 284/338 [00:16<00:04, 11.43it/s]Loading weights:  86%|████████▋ | 292/338 [00:17<00:02, 15.65it/s]Loading weights:  87%|████████▋ | 294/338 [00:17<00:03, 14.13it/s]Loading weights:  89%|████████▉ | 301/338 [00:17<00:02, 18.37it/s]Loading weights:  90%|█████████ | 305/338 [00:17<00:01, 16.94it/s]Loading weights:  92%|█████████▏| 312/338 [00:18<00:01, 20.48it/s]Loading weights:  93%|█████████▎| 315/338 [00:18<00:01, 18.42it/s]Loading weights:  95%|█████████▍| 320/338 [00:18<00:01, 17.87it/s]Loading weights:  95%|█████████▌| 322/338 [00:19<00:01, 12.17it/s]Loading weights: 100%|██████████| 338/338 [00:19<00:00, 17.57it/s]
+  20/500 correct=14 (16s, 0.81s/item)
+  40/500 correct=30 (29s, 0.73s/item)
+  60/500 correct=45 (44s, 0.73s/item)
+  80/500 correct=60 (57s, 0.72s/item)
+  100/500 correct=73 (73s, 0.73s/item)
+  120/500 correct=84 (87s, 0.73s/item)
+  140/500 correct=101 (101s, 0.72s/item)
+  160/500 correct=114 (115s, 0.72s/item)
+  180/500 correct=127 (128s, 0.71s/item)
+  200/500 correct=139 (143s, 0.71s/item)
+  220/500 correct=154 (158s, 0.72s/item)
+  240/500 correct=171 (170s, 0.71s/item)
+  260/500 correct=179 (183s, 0.71s/item)
+  280/500 correct=192 (200s, 0.72s/item)
+  300/500 correct=207 (215s, 0.72s/item)
+  320/500 correct=219 (227s, 0.71s/item)
+  340/500 correct=232 (241s, 0.71s/item)
+  360/500 correct=246 (255s, 0.71s/item)
+  380/500 correct=258 (272s, 0.72s/item)
+  400/500 correct=269 (286s, 0.72s/item)
+  420/500 correct=284 (299s, 0.71s/item)
+  440/500 correct=297 (314s, 0.71s/item)
+  460/500 correct=309 (330s, 0.72s/item)
+  480/500 correct=316 (343s, 0.72s/item)
+  500/500 correct=329 (358s, 0.72s/item)
+{
+  "tag": "base_500",
+  "adapter": "base",
+  "eval_file": "E:\\Desktop\\projects\\ant-lora-closure\\data\\clean\\mcq_eval_500.jsonl",
+  "n_items": 500,
+  "correct": 329,
+  "wrong": 170,
+  "unparseable": 1,
+  "accuracy": 0.658,
+  "wrong_rate": 0.34,
+  "unparseable_rate": 0.002,
+  "wilson_ci95": [
+    0.6154,
+    0.6982
+  ],
+  "chance_note": "五选项单选，随机基线约 20%；评测集正确项字母最多的一档（D）占 26%",
+  "mean_new_tokens": 8.45,
+  "s_per_item": 0.72,
+  "peak_vram_mib": 2986.4,
+  "parse_path_counts": {
+    "answer-marker": 0,
+    "first-letter": 499,
+    "none": 1
+  },
+  "max_new_tokens": 12,
+  "decoding": "greedy",
+  "binomial_note": "n=500 的准确率 95% 半宽约 4.4 个百分点（正态近似）"
+}

@@ -1,0 +1,56 @@
+{
+  "leaky_by_design": true,
+  "runs": [
+    {
+      "adapter": "base",
+      "tag": "base_500",
+      "note": "No SFT",
+      "n_items": 500,
+      "correct": 329,
+      "accuracy": 0.658,
+      "wilson_95": [
+        0.6154,
+        0.6982
+      ],
+      "unparseable": 1,
+      "delta_vs_base": 0.0,
+      "base_only": 0,
+      "arm_only": 0,
+      "mcnemar_p_vs_base": 1.0
+    },
+    {
+      "adapter": "poscontrol_evaltrain",
+      "tag": "poscontrol_evaltrain_500",
+      "note": "Trained on the 500 eval questions (leaky by design)",
+      "n_items": 500,
+      "correct": 496,
+      "accuracy": 0.992,
+      "wilson_95": [
+        0.9796,
+        0.9969
+      ],
+      "unparseable": 0,
+      "delta_vs_base": 0.334,
+      "base_only": 1,
+      "arm_only": 168,
+      "mcnemar_p_vs_base": 4.5437000071567326e-49
+    },
+    {
+      "adapter": "poscontrol_shuffled",
+      "tag": "poscontrol_shuffled_500",
+      "note": "Same questions, deterministic wrong label",
+      "n_items": 500,
+      "correct": 88,
+      "accuracy": 0.176,
+      "wilson_95": [
+        0.1451,
+        0.2118
+      ],
+      "unparseable": 2,
+      "delta_vs_base": -0.482,
+      "base_only": 275,
+      "arm_only": 34,
+      "mcnemar_p_vs_base": 5.1212611317787855e-48
+    }
+  ]
+}

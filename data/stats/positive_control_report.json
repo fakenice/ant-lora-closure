@@ -1,0 +1,22 @@
+{
+  "leaky_by_design": true,
+  "purpose": "positive control: can the training/eval pipeline detect a learnable gain?",
+  "eval_set": "data\\clean\\mcq_eval_500.jsonl",
+  "n_rows": 500,
+  "seed": 20261103,
+  "positive_label_distribution": {
+    "A": 94,
+    "B": 105,
+    "E": 89,
+    "C": 109,
+    "D": 103
+  },
+  "shuffled_label_distribution": {
+    "B": 106,
+    "C": 90,
+    "A": 102,
+    "E": 96,
+    "D": 106
+  },
+  "warning": "Do not report positive-control accuracy as a model capability; it is trained on the test questions."
+}

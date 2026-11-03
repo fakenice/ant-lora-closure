@@ -1,0 +1,23 @@
+{
+  "seed": 20261103,
+  "raw_test": 6811,
+  "valid_test": 5839,
+  "original_100_preserved": 100,
+  "new_candidates_after_leak_filter": 5557,
+  "test_questions_excluded_by_train_overlap": 172,
+  "added": 400,
+  "total": 500,
+  "train_overlap_after_build": 0,
+  "answer_letter_distribution": {
+    "A": 94,
+    "B": 105,
+    "E": 89,
+    "C": 109,
+    "D": 103
+  },
+  "n_options_distribution": {
+    "5": 486,
+    "4": 14
+  },
+  "generated_by": "scripts/03d_build_eval_500.py"
+}

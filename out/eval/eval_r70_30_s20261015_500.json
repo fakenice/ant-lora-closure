@@ -1,0 +1,35 @@
+{
+  "tag": "r70_30_s20261015_500",
+  "adapter": "models/lora_r70_30_s20261015",
+  "eval_file": "E:\\Desktop\\projects\\ant-lora-closure\\data\\clean\\mcq_eval_500.jsonl",
+  "n_items": 500,
+  "correct": 336,
+  "wrong": 164,
+  "unparseable": 0,
+  "accuracy": 0.672,
+  "wrong_rate": 0.328,
+  "unparseable_rate": 0.0,
+  "wilson_ci95": [
+    0.6297,
+    0.7117
+  ],
+  "chance_note": "五选项单选，随机基线约 20%；本评测集正确项字母分布见 answer_letter_distribution",
+  "mean_new_tokens": 2.0,
+  "s_per_item": 0.15,
+  "peak_vram_mib": 3128.2,
+  "parse_path_counts": {
+    "none": 0,
+    "answer-marker": 0,
+    "first-letter": 500
+  },
+  "max_new_tokens": 12,
+  "decoding": "greedy",
+  "binomial_note": "n=500 的准确率 95% 半宽约 4.4 个百分点（正态近似）",
+  "answer_letter_distribution": {
+    "A": 94,
+    "B": 105,
+    "E": 89,
+    "C": 109,
+    "D": 103
+  }
+}
