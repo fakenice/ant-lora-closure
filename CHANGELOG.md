@@ -5,7 +5,8 @@
 ## [Unreleased]
 
 - 计划：0.5B 基座上的配比复现（把「配比收益依赖基座规模」从假设变成实测，GPU ~1 天）
-- 计划：外部对照表（Qwen2.5 技术报告与中文医疗指令 SOTA 的已发表数字，逐条带出处与口径差异）
+- 2026-11-18 新增 `docs/external_baselines.md`：CMExam / HuatuoGPT-II / CMB / DISC 已发表数字
+  逐条带出处核对＋口径差异清单；README 加 §4b「外部对照」节
 
 ## [v1.0] - 2026-11-18
 
