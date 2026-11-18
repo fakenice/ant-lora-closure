@@ -120,6 +120,7 @@
 bash setup_env.sh                       # 本机 .venv（torch 2.6.0+cu124 / peft / datasets / datasketch）
 python scripts/01_fetch_data.py         # 取数 + 字节/sha256 登记（含前缀抽样声明）
 python scripts/02_clean_dedup.py        # 清洗漏斗 + MinHash 去重 + 泄漏剔除
+python scripts/02b_export_pool_hashes.py # 训练池题干哈希导出（CI 无池可跑泄漏测试；46,421 行 → 45,640 唯一哈希）
 python scripts/03_make_ratios.py        # 四档配比（seed 20261014）
 python scripts/03c_fetch_weights.py     # 分片下载基座权重并校验 sha256（需 HF_HUB_DISABLE_XET=1）
 bash run_stage4b.sh                     # 训练缺失配比 + 全部评测（含显存闸门，见 §8）
@@ -157,7 +158,7 @@ python scripts/09_make_figures.py         # README 图（out/figures/*.png，从
 | 路径 | 内容 |
 |---|---|
 | `data/raw_manifest.json`、`data/stats/quality_report.json` | 原始取数与清洗漏斗计数 |
-| `data/clean/dialog_zh.jsonl`（58,787）、`mcq_eval_100.jsonl`、`mcq_eval_500.jsonl`、`mcq_train_pool.jsonl`（46,421） | 清洗后语料；500 题集保留原 100 题并过滤 172 道训练池重叠题 |
+| `data/clean/dialog_zh.jsonl`（58,787）、`mcq_eval_100.jsonl`、`mcq_eval_500.jsonl`、`mcq_train_pool.jsonl`（46,421）、`mcq_train_pool_qhashes.txt` | 清洗后语料；500 题集保留原 100 题并过滤 172 道训练池重叠题。两份大 jsonl 不入库（见 .gitignore），评测集随仓库发布；训练池只发布归一题干哈希（`02b` 再生，本地有池时测试会校验哈希未过期） |
 | `data/ratios/*.jsonl` + `ratios_manifest.json` | 四档配比与 seed；另有 `poscontrol_evaltrain.jsonl` / `poscontrol_shuffled.jsonl`（诊断用，故意泄漏） |
 | `models/Qwen2.5-1.5B-Instruct/` | 基座权重（sha256 已校验） |
 | `models/lora_*`（4 份原版） + `models/lora_*_s2026*`（12 份多种子） | 150-step LoRA adapter |
