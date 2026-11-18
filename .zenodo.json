@@ -1,0 +1,23 @@
+{
+  "title": "ant-lora-closure：中文医疗问答 LoRA 数据配比受控消融与确定性评测（单机闭合实验）",
+  "version": "v1.0",
+  "publication_date": "2026-11-18",
+  "upload_type": "software",
+  "language": "zh",
+  "authors": [
+    {
+      "name": "Wu, Yiting"
+    }
+  ],
+  "description": "<p>Controlled ablation of Chinese-medical instruction-data mixing ratios for LoRA fine-tuning of Qwen2.5-1.5B on a single RTX 2080 Ti: 91,306 dialogues cleaned to 58,787 (MinHash dedup), train/eval leakage removed (5 exact duplicates, then 172 overlapping items at the 500-question tier), four ratio arms x 3 seeds, McNemar paired tests, positive and shuffled-label controls. Headline is a negative result: no ratio gives a stable accuracy gain at this scale.</p><p>ant-lora-closure：把「对话数据配比」设计成受控消融的单机闭合实验；配比未带来稳定提升（负结果），全部产物与日志随仓库发布。</p>",
+  "keywords": [
+    "LoRA",
+    "PEFT",
+    "Qwen2.5",
+    "Chinese medical QA",
+    "data mixing",
+    "ablation",
+    "McNemar test",
+    "negative results"
+  ]
+}
