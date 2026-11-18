@@ -171,3 +171,17 @@ python scripts/09_make_figures.py         # README 图（out/figures/*.png，从
 | `out/summary.json`、`ablation.csv`、`ablation.md`、`resources.md` | 原四档消融表与资源账 |
 | `docs/DATASHEET.md` | 来源登记、漏斗、抽样偏差、许可与限制 |
 | `logs/` | 每档训练与评测的原始日志、`stage4.log` 运行序列 |
+
+## 10. 引用（How to cite）
+
+本仓库以 GitHub Release v1.0 作为固定引用版本；机器可读元数据见根目录 `CITATION.cff`（GitHub 会自动在侧栏展示引用建议）。本仓库的核心价值是负结论与泄漏控制口径，引用时请保留「四档配比不可区分」这一限定。若后续分配了 DOI，请优先引用 DOI。
+
+```bibtex
+@software{wu2026antloraclosure,
+  author  = {{吴奕婷 (Yiting Wu)}},
+  title   = {ant-lora-closure：中文医疗问答 LoRA 数据配比受控消融与确定性评测（单机闭合实验）},
+  url     = {https://github.com/fakenice/ant-lora-closure},
+  version = {1.0},
+  date    = {2026-11-18}
+}
+```

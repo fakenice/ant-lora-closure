@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: >-
+  如果您使用本仓库或其公开发布的实验结果（含负结论），请引用以下元数据（README 中另有 BibTeX 条目）。
+title: "ant-lora-closure：中文医疗问答 LoRA 数据配比受控消融与确定性评测（单机闭合实验）"
+authors:
+  - family-names: Wu
+    given-names: Yiting
+repository-code: "https://github.com/fakenice/ant-lora-closure"
+url: "https://github.com/fakenice/ant-lora-closure"
+version: "1.0"
+date-released: "2026-11-18"
