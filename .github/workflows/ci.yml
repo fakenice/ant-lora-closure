@@ -1,0 +1,67 @@
+# CI 只覆盖无 GPU 可再生的层：数据完整性测试、结果汇总再生（drift gate）、
+# 图的断言重算、字节编译。训练与评测需要 2080 Ti + 基座权重，不在 CI 范围。
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  integrity:
+    name: data-integrity tests (python ${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: run unittest suite (stdlib only)
+        run: python -m unittest discover -s tests -v
+
+  regenerate:
+    name: summaries and figures regenerate byte-identically
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: install (matplotlib only; no torch needed)
+        run: pip install matplotlib==3.11.2
+      - name: rebuild summaries from committed per-run logs
+        run: |
+          python scripts/06_collect_results.py
+          python scripts/07_multiseed_summary.py
+          python scripts/08_positive_control_summary.py
+      - name: drift gate - committed text artifacts must be reproducible
+        run: |
+          git diff --exit-code -- \
+            out/summary.json out/ablation.csv out/ablation.md out/resources.md \
+            out/multiseed_500_summary.json out/multiseed_500_summary.csv out/multiseed_500_summary.md \
+            out/positive_control_summary.json out/positive_control_summary.md
+      - name: figures recompute from item logs and assert against summaries
+        run: python scripts/09_make_figures.py
+
+  compile:
+    name: all scripts byte-compile
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: compileall
+        run: python -m compileall -q scripts tests

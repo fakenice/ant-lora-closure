@@ -111,10 +111,10 @@ def main() -> int:
 
     (OUT / "multiseed_500_summary.json").write_text(
         json.dumps({"base": base, "runs": rows, "by_config": summary_rows},
-                   ensure_ascii=False, indent=2), encoding="utf-8")
+                   ensure_ascii=False, indent=2), encoding="utf-8", newline="\n")
 
     with (OUT / "multiseed_500_summary.csv").open("w", encoding="utf-8", newline="") as f:
-        w = csv.DictWriter(f, fieldnames=list(rows[0].keys()) if rows else ["config"])
+        w = csv.DictWriter(f, fieldnames=list(rows[0].keys()) if rows else ["config"], lineterminator="\n")
         w.writeheader()
         w.writerows(rows)
 
@@ -139,7 +139,7 @@ def main() -> int:
                  f"{100*r['mean_delta_vs_base']:+.1f} pt | {100*r['mean_first100']:.1f}% |")
     L += ["", "Paired p is the exact McNemar test against base on the same 500 questions; "
           "a p above 0.05 is not evidence of a gain."]
-    (OUT / "multiseed_500_summary.md").write_text("\n".join(L) + "\n", encoding="utf-8")
+    (OUT / "multiseed_500_summary.md").write_text("\n".join(L) + "\n", encoding="utf-8", newline="\n")
     print("\n".join(L))
     return 0
 

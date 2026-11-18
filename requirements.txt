@@ -5,3 +5,4 @@ datasets>=3.0
 accelerate>=1.0
 datasketch>=1.6
 tqdm
+matplotlib>=3.8

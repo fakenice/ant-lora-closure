@@ -74,6 +74,10 @@
 
 机器可读结果：`out/multiseed_500_summary.{json,csv,md}`；逐题记录在 `out/eval/eval_*_s*_500_items.jsonl`。全流程串行约 2 h 40 min（09:38–12:18）。
 
+![多种子×500 题](out/figures/fig1_multiseed_500.png)
+
+![阳性对照](out/figures/fig2_positive_control.png)
+
 ### 阳性对照与标签打乱对照（2026-11-03）
 
 为排除“评测管线本身测不出差异”，用同一 500 题构造两个诊断 arm，各训练 150 步：
@@ -123,7 +127,20 @@ python scripts/06_collect_results.py    # 汇总 out/summary.json / ablation.csv
 python scripts/03d_build_eval_500.py    # 500 题集：原 100 题 + 400 道无训练池重叠的新题
 bash scripts/run_multiseed_500.sh       # 4 档 × 3 seed 训练 + base/12 adapter 的 500 题评测
 python scripts/03e_build_positive_control.py  # 阳性/打乱标签诊断集（故意泄漏）
+python scripts/09_make_figures.py         # README 图（out/figures/*.png，从逐题日志重算并与 summary 断言）
 ```
+
+依赖锁定：`requirements.lock.txt`（2026-11-18 由本机复现环境 `uv pip freeze` 导出，Python 3.11；torch 需 `--extra-index-url https://download.pytorch.org/whl/cu124`）。
+
+## 7b. 持续验证（CI）
+
+`.github/workflows/ci.yml` 只覆盖**无 GPU 可再生**的三层，训练/评测不在 CI 范围：
+
+1. 数据完整性测试（`tests/`，纯 stdlib，Python 3.11/3.13 双版本）；
+2. drift gate：从已提交的逐题日志重跑 06/07/08，`git diff --exit-code` 要求已提交汇总与再生结果逐字节一致；
+3. 图：`09_make_figures.py` 从逐题 jsonl 重算 correct/unparseable 计数并与 `multiseed_500_summary.json`、`positive_control_summary.json` 断言，对不上就拒绝出图。
+
+图产物本身（png 字节）不进 drift gate——matplotlib 版本变化会改写 png 字节，CI 校验的是数字一致性而非二进制。
 
 单档可控重跑：`python scripts/04_train_lora.py --config r70_30 --steps 150 --accum 8 --max_len 512 --seed 20261015 --tag r70_30_s20261015`，评测 `python scripts/05_eval.py --adapter models/lora_r70_30_s20261015 --eval-file data/clean/mcq_eval_500.jsonl --tag r70_30_s20261015_500`。
 
@@ -147,6 +164,8 @@ python scripts/03e_build_positive_control.py  # 阳性/打乱标签诊断集（�
 | `out/train_<cfg>.jsonl`、`out/train_*_s2026*.jsonl` | 逐事件：setup / mask_check / loss_check / encode / step / done |
 | `out/eval/eval_*.json` + `_items.jsonl` | 评测汇总与逐题记录（100 题与 500 题两套） |
 | `out/multiseed_500_summary.{json,csv,md}` | 4 档 × 3 seed 的均值/SD、配对 McNemar、原 100 题子集 |
+| `out/figures/fig1_multiseed_500.png`、`fig2_positive_control.png` | README 图（`scripts/09_make_figures.py` 生成，出图前与两份 summary 断言） |
+| `requirements.lock.txt` | 本机环境完整依赖锁定（uv pip freeze 导出） |
 | `out/positive_control_summary.{json,md}`、`data/stats/positive_control_report.json` | 阳性对照（99.2%）与打乱标签（17.6%）诊断 |
 | `out/summary.json`、`ablation.csv`、`ablation.md`、`resources.md` | 原四档消融表与资源账 |
 | `docs/DATASHEET.md` | 来源登记、漏斗、抽样偏差、许可与限制 |

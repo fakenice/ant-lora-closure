@@ -66,7 +66,7 @@ def main() -> int:
 
     (OUT / "positive_control_summary.json").write_text(
         json.dumps({"leaky_by_design": True, "runs": rows}, ensure_ascii=False, indent=2),
-        encoding="utf-8")
+        encoding="utf-8", newline="\n")
 
     L = ["# Positive control (leaky by design)", "",
          "The positive-control adapter is trained on the same 500 questions it is evaluated on. "
@@ -80,7 +80,7 @@ def main() -> int:
                  f"{r['unparseable']} | " + ("<1e-300" if r['mcnemar_p_vs_base'] <= 1e-300 else f"{r['mcnemar_p_vs_base']:.3g}") + " |")
     L += ["", "Interpretation: a near-ceiling positive control plus a near-chance shuffled control "
           "means the pipeline can detect a label-specific gain; it does not mean the model learned medicine."]
-    (OUT / "positive_control_summary.md").write_text("\n".join(L) + "\n", encoding="utf-8")
+    (OUT / "positive_control_summary.md").write_text("\n".join(L) + "\n", encoding="utf-8", newline="\n")
     print("\n".join(L))
     return 0
 

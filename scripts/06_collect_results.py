@@ -157,7 +157,7 @@ def main() -> int:
         summary["runs"].append(rec)
 
     (OUT / "summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2),
-                                      encoding="utf-8")
+                                      encoding="utf-8", newline="\n")
 
     fields = ["run", "kind", "dialog_rows", "mcq_rows", "optimizer_steps", "micro_batch",
               "train_log_complete", "steps_logged", "s_per_step", "train_wall_s",
@@ -167,7 +167,7 @@ def main() -> int:
               "n_items", "correct", "wrong", "unparseable", "accuracy", "ci95_low", "ci95_high",
               "mean_new_tokens", "s_per_item", "eval_peak_vram_mib"]
     with (OUT / "ablation.csv").open("w", newline="", encoding="utf-8") as fh:
-        w = csv.DictWriter(fh, fieldnames=fields, extrasaction="ignore")
+        w = csv.DictWriter(fh, fieldnames=fields, extrasaction="ignore", lineterminator="\n")
         w.writeheader()
         for rec in summary["runs"]:
             w.writerow(rec)
@@ -194,7 +194,7 @@ def main() -> int:
             rec.get("loss_last10") or "-",
             pct(rec.get("accuracy")), ci, rec.get("wrong", "-"),
             rec.get("unparseable", "-"), rec.get("mean_new_tokens") or "-"))
-    (OUT / "ablation.md").write_text("\n".join(md) + "\n", encoding="utf-8")
+    (OUT / "ablation.md").write_text("\n".join(md) + "\n", encoding="utf-8", newline="\n")
 
     res = ["# 算力与资源账（本机 RTX 2080 Ti 11 GB，fp16 + LoRA r16）", "",
            "| 运行 | 可训练参数 | 样本数 | 优化步 | 梯度累积 | s/步 | 训练墙钟 s | 峰值 alloc MiB | 峰值 reserved MiB | 评测 s/题 | 评测峰值显存 MiB |",
@@ -209,7 +209,7 @@ def main() -> int:
             rec.get("s_per_item") or "-", rec.get("eval_peak_vram_mib") or "-"))
     res += ["", "评测口径：100 题 CMExam 单选题，贪心解码，exact-letter 计分，无 LLM judge。",
             f"基座：Qwen2.5-1.5B-Instruct（fp16 权重 3,087,467,144 B，本地 `models/`）。"]
-    (OUT / "resources.md").write_text("\n".join(res) + "\n", encoding="utf-8")
+    (OUT / "resources.md").write_text("\n".join(res) + "\n", encoding="utf-8", newline="\n")
 
     print(f"wrote out/summary.json, ablation.csv/md, resources.md for {len(summary['runs'])} runs")
     for rec in summary["runs"]:
