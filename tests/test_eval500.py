@@ -16,6 +16,7 @@ ROOT = Path(__file__).resolve().parents[1]
 EVAL_100 = ROOT / "data" / "clean" / "mcq_eval_100.jsonl"
 EVAL_500 = ROOT / "data" / "clean" / "mcq_eval_500.jsonl"
 TRAIN_POOL = ROOT / "data" / "clean" / "mcq_train_pool.jsonl"
+POOL_HASHES = ROOT / "data" / "clean" / "mcq_train_pool_qhashes.txt"
 
 
 def load(path: Path) -> list[dict]:
@@ -36,7 +37,14 @@ class Eval500Integrity(unittest.TestCase):
     def setUpClass(cls):
         cls.rows = load(EVAL_500)
         cls.original = load(EVAL_100)
-        cls.train_hashes = {qhash(r["question"]) for r in load(TRAIN_POOL)}
+        # the committed hash export is the CI-visible source of truth (the pool
+        # itself is not redistributed); regenerate it with scripts/02b_export_pool_hashes.py
+        cls.train_hashes = set(POOL_HASHES.read_text(encoding="utf-8").split())
+        if TRAIN_POOL.exists():
+            # locally, prove the export still matches the pool it came from
+            derived = {qhash(r["question"]) for r in load(TRAIN_POOL)}
+            assert derived == cls.train_hashes, \
+                "mcq_train_pool_qhashes.txt is stale against mcq_train_pool.jsonl; rerun 02b"
 
     def test_has_500_rows(self):
         self.assertEqual(len(self.rows), 500)
