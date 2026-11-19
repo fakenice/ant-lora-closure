@@ -6,6 +6,12 @@ Reads out/eval/eval_<tag>.json and the per-item JSONL files, then reports:
   * a paired McNemar test against the base model on the same 500 questions;
   * accuracy on the original 100-item subset (ids e0..e99) for continuity.
 
+TAG_PREFIX namespaces the whole aggregation to a tagged sweep (e.g. q05b_ for the
+2026-11-20 0.5B scale check): eval files are looked up as eval_<prefix><tag> and the
+three output files gain a _<prefix> suffix, so a scale check can never overwrite the
+published 1.5B summary. With the variable unset this script is byte-for-byte the
+published one.
+
 Usage: .venv/Scripts/python.exe scripts/07_multiseed_summary.py
 """
 from __future__ import annotations
@@ -13,6 +19,7 @@ from __future__ import annotations
 import csv
 import json
 import math
+import os
 import statistics
 from math import comb
 from pathlib import Path
@@ -22,6 +29,9 @@ OUT = ROOT / "out"
 EVAL_DIR = OUT / "eval"
 CONFIGS = ["r100_0", "r70_30", "r30_70", "r0_100"]
 SEEDS = [20261014, 20261015, 20261016]
+# "" keeps the published 1.5B artifact names; sweeps carry e.g. "q05b_".
+TAG_PREFIX = os.environ.get("TAG_PREFIX", "")
+SUF = f"_{TAG_PREFIX.strip('_')}" if TAG_PREFIX else ""
 
 
 def load_json(path: Path):
@@ -58,16 +68,16 @@ def mcnemar(b: int, c: int) -> float:
 
 
 def main() -> int:
-    base = load_json(EVAL_DIR / "eval_base_500.json")
-    base_items = load_items(EVAL_DIR / "eval_base_500_items.jsonl")
+    base = load_json(EVAL_DIR / f"eval_{TAG_PREFIX}base_500.json")
+    base_items = load_items(EVAL_DIR / f"eval_{TAG_PREFIX}base_500_items.jsonl")
     if base is None or base_items is None:
-        raise SystemExit("base_500 eval missing; run scripts/run_multiseed_500.sh")
+        raise SystemExit(f"{TAG_PREFIX}base_500 eval missing; run scripts/run_multiseed_500.sh")
     base_ok = {r["id"] for r in base_items if r["outcome"] == "correct"}
 
     rows = []
     for cfg in CONFIGS:
         for seed in SEEDS:
-            tag = f"{cfg}_s{seed}_500"
+            tag = f"{TAG_PREFIX}{cfg}_s{seed}_500"
             summary = load_json(EVAL_DIR / f"eval_{tag}.json")
             items = load_items(EVAL_DIR / f"eval_{tag}_items.jsonl")
             if summary is None or items is None:
@@ -109,16 +119,23 @@ def main() -> int:
             "max_mcnemar_p": max(r["mcnemar_p_vs_base"] for r in sub),
         })
 
-    (OUT / "multiseed_500_summary.json").write_text(
-        json.dumps({"base": base, "runs": rows, "by_config": summary_rows},
-                   ensure_ascii=False, indent=2), encoding="utf-8", newline="\n")
+    # Unprefixed runs keep the published payload and file names byte-for-byte; a
+    # tagged sweep gains a prefix header so its artifacts state which base they ran on.
+    payload: dict = {"base": base, "runs": rows, "by_config": summary_rows}
+    if TAG_PREFIX:
+        payload = {"tag_prefix": TAG_PREFIX, "base_model": base.get("base_model"), **payload}
+    (OUT / f"multiseed_500{SUF}_summary.json").write_text(
+        json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8", newline="\n")
 
-    with (OUT / "multiseed_500_summary.csv").open("w", encoding="utf-8", newline="") as f:
+    with (OUT / f"multiseed_500{SUF}_summary.csv").open("w", encoding="utf-8", newline="") as f:
         w = csv.DictWriter(f, fieldnames=list(rows[0].keys()) if rows else ["config"], lineterminator="\n")
         w.writeheader()
         w.writerows(rows)
 
-    L = ["# Multi-seed 500-item evaluation", "",
+    title = "# Multi-seed 500-item evaluation"
+    if TAG_PREFIX:
+        title += f" (base: {base.get('base_model') or TAG_PREFIX})"
+    L = [title, "",
          f"Base: {base['correct']}/{base['n_items']} = {100*base['accuracy']:.1f}% "
          f"(Wilson {100*base['wilson_ci95'][0]:.1f}–{100*base['wilson_ci95'][1]:.1f}%)", "",
          "## Per-seed", "",
@@ -139,7 +156,7 @@ def main() -> int:
                  f"{100*r['mean_delta_vs_base']:+.1f} pt | {100*r['mean_first100']:.1f}% |")
     L += ["", "Paired p is the exact McNemar test against base on the same 500 questions; "
           "a p above 0.05 is not evidence of a gain."]
-    (OUT / "multiseed_500_summary.md").write_text("\n".join(L) + "\n", encoding="utf-8", newline="\n")
+    (OUT / f"multiseed_500{SUF}_summary.md").write_text("\n".join(L) + "\n", encoding="utf-8", newline="\n")
     print("\n".join(L))
     return 0
 

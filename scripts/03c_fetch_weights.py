@@ -22,9 +22,16 @@ os.environ["HF_HUB_DISABLE_XET"] = "1"
 os.environ.setdefault("HF_ENDPOINT", "https://hf-mirror.com")
 
 ROOT = Path(__file__).resolve().parents[1]
-REPO = "Qwen/Qwen2.5-1.5B-Instruct"
+# Default stays the published 1.5B base. Set BASE_REPO to fetch another one
+# (the 2026-11-20 scale check uses Qwen/Qwen2.5-0.5B-Instruct); the destination
+# folder and the registry file then follow the repo name so a second base can
+# never overwrite the published out/model_download.json record.
+REPO = os.environ.get("BASE_REPO", "Qwen/Qwen2.5-1.5B-Instruct")
 REVISION = "main"
-DEST = ROOT / "models" / "Qwen2.5-1.5B-Instruct"
+DEST = ROOT / "models" / REPO.split("/")[-1]
+REGISTRY = (ROOT / "out" / "model_download.json"
+            if REPO == "Qwen/Qwen2.5-1.5B-Instruct"
+            else ROOT / "out" / f"model_download_{REPO.split('/')[-1]}.json")
 MIRROR = "https://hf-mirror.com"
 UA = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)", "Accept": "*/*"}
 
@@ -38,8 +45,10 @@ STAGGER_S = 4.0
 CHUNK = 32 * 1024 * 1024
 MAX_ATTEMPTS = 10
 # model.safetensors size as reported by /api/models/Qwen/Qwen2.5-1.5B-Instruct?blobs=true
-# on 2026-10-14; refreshed from the API at run time when reachable.
-KNOWN_SIZE = {"model.safetensors": 3_087_467_144}
+# on 2026-10-14; refreshed from the API at run time when reachable. Only valid for
+# that repo — a different BASE_REPO must get its size from the API or the run refuses.
+KNOWN_SIZE = ({"model.safetensors": 3_087_467_144}
+              if REPO == "Qwen/Qwen2.5-1.5B-Instruct" else {})
 
 
 def resolved_url(path: str) -> str:
@@ -60,19 +69,31 @@ def backoff_for(exc, attempt: int) -> float:
     return min(60.0, 5.0 * attempt + random.uniform(0, 5))
 
 
-def api_sizes() -> dict:
-    """Best-effort refresh of exact byte sizes from the mirror's public API."""
+def api_listing() -> tuple[dict, dict]:
+    """Best-effort refresh of byte sizes and upstream sha256 digests.
+
+    /api/models/<repo>?blobs=true carries the LFS sha256 of each large file, which is
+    the digest Hugging Face computed for the published weights. Sizes alone cannot
+    prove the mirror handed back the right bytes, so a scale check on a new base
+    records both and refuses to keep a file whose digest differs.
+    """
     url = f"{MIRROR}/api/models/{REPO}?blobs=true"
     for attempt in range(1, 4):
         try:
             req = urllib.request.Request(url, headers={**UA, "Accept": "application/json"})
             with urllib.request.urlopen(req, timeout=60) as r:
                 data = json.loads(r.read().decode("utf-8"))
-            return {s["rfilename"]: s.get("size") or 0 for s in data.get("siblings", [])}
+            sizes, shas = {}, {}
+            for s in data.get("siblings", []):
+                sizes[s["rfilename"]] = s.get("size") or 0
+                sha = (s.get("lfs") or {}).get("sha256")
+                if sha:
+                    shas[s["rfilename"]] = sha
+            return sizes, shas
         except Exception as exc:  # noqa: BLE001
             print(f"   api listing attempt {attempt}: {type(exc).__name__}: {exc}", flush=True)
             time.sleep(backoff_for(exc, attempt))
-    return {}
+    return {}, {}
 
 
 def open_ranged(url: str, lo: int, hi: int):
@@ -137,7 +158,8 @@ def fetch_range(url: str, lo: int, hi: int, idx: int, out_dir: Path) -> dict:
     raise RuntimeError(f"part {idx} failed after {MAX_ATTEMPTS} attempts: {last_err}")
 
 
-def assemble(url: str, name: str, total: int, parts_dir: Path) -> dict:
+def assemble(url: str, name: str, total: int, parts_dir: Path,
+             expected_sha: str | None = None) -> dict:
     if not probe(url):
         raise RuntimeError(f"{name}: mirror will not serve byte ranges")
     step = (total + PARTS - 1) // PARTS
@@ -167,6 +189,13 @@ def assemble(url: str, name: str, total: int, parts_dir: Path) -> dict:
         raise RuntimeError(f"{name}: assembled {got} != expected {total}")
     with target.open("rb") as fh:
         digest = hashlib.file_digest(fh, "sha256").hexdigest()
+    if expected_sha and digest != expected_sha:
+        # Keep the evidence, force a refetch: a file that hashes differently from the
+        # upstream LFS digest is not the published weight set.
+        aside = target.with_name(f"{name}.sha256_mismatch")
+        target.rename(aside)
+        raise RuntimeError(f"{name}: sha256 {digest} != upstream {expected_sha} "
+                           f"(moved to {aside.name})")
     header_ok = False
     with target.open("rb") as fh:
         n = int.from_bytes(fh.read(8), "little")
@@ -177,7 +206,9 @@ def assemble(url: str, name: str, total: int, parts_dir: Path) -> dict:
             except Exception:  # noqa: BLE001
                 header_ok = False
     return {"path": name, "bytes": got, "expected_bytes": total, "size_ok": True,
-            "sha256": digest, "safetensors_header_ok": header_ok,
+            "sha256": digest, "sha256_upstream": expected_sha,
+            "sha256_checked_against_upstream": expected_sha is not None,
+            "safetensors_header_ok": header_ok,
             "download_s": round(time.time() - t0, 1),
             "throughput_mbps": round(got / 1e6 / max(1.0, time.time() - t0), 1),
             "n_ranges": len(bounds), "max_attempts": max(r["attempts"] for r in results),
@@ -204,7 +235,7 @@ def main() -> int:
     DEST.mkdir(parents=True, exist_ok=True)
     parts_dir = DEST / ".parts"
     parts_dir.mkdir(exist_ok=True)
-    sizes = api_sizes()
+    sizes, shas = api_listing()
     for name, size in sizes.items():
         if size:
             KNOWN_SIZE[name] = size
@@ -213,16 +244,27 @@ def main() -> int:
     for name in WEIGHTS:
         target = DEST / name
         total = KNOWN_SIZE.get(name)
+        expected_sha = shas.get(name)
         if not total:
             raise RuntimeError(f"{name}: no known byte size; refusing to guess")
         if target.exists() and target.stat().st_size == total:
+            # Size alone does not prove the bytes are the published weights, so a
+            # file already on disk is hashed against the upstream digest too.
+            with target.open("rb") as fh:
+                disk_sha = hashlib.file_digest(fh, "sha256").hexdigest()
+            if expected_sha and disk_sha != expected_sha:
+                raise RuntimeError(f"{name}: on-disk sha256 {disk_sha} != upstream "
+                                   f"{expected_sha}; delete the file and refetch")
             records.append({"path": name, "bytes": total, "expected_bytes": total,
-                            "size_ok": True, "skipped": "already complete on disk"})
-            print(f"skip {name}: already complete ({total/1e9:.2f} GB)")
+                            "size_ok": True, "sha256": disk_sha,
+                            "sha256_upstream": expected_sha,
+                            "sha256_checked_against_upstream": expected_sha is not None,
+                            "skipped": "already complete on disk"})
+            print(f"skip {name}: already complete ({total/1e9:.2f} GB)", flush=True)
             continue
         print(f"downloading {name} ({total/1e9:.3f} GB) via {PARTS} staggered ranged GETs...",
               flush=True)
-        rec = assemble(resolved_url(name), name, total, parts_dir)
+        rec = assemble(resolved_url(name), name, total, parts_dir, expected_sha)
         records.append(rec)
         print(f"   {name}: {rec['bytes']/1e9:.3f} GB in {rec['download_s']}s "
               f"({rec['throughput_mbps']} MB/s, header_ok={rec['safetensors_header_ok']})",
@@ -249,7 +291,7 @@ def main() -> int:
         "api_sizes": sizes, "files": records,
         "on_disk": [{"path": str(p.relative_to(DEST)), "bytes": p.stat().st_size} for p in files],
     }
-    (ROOT / "out" / "model_download.json").write_text(
+    REGISTRY.write_text(
         json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
     if not list(parts_dir.glob("part_*")):
         parts_dir.rmdir()

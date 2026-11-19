@@ -45,3 +45,23 @@
 13. **下载路线固定为 hf-mirror + 分片 Ranged GET，且必须 `HF_HUB_DISABLE_XET=1`**
     （镜像 Xet CAS 返回 401）并按 `Retry-After` 退避；留痕 `out/model_download.json`
     （`README.md` §1）。
+
+## 2026-11-20（规模复核准备：同一配方换 0.5B 基座）
+
+14. **换基座只换基座，其余全部沿用已发布值**：基座由 `scripts/base_model.py` 一处解析
+    （`BASE_MODEL_DIR` 选目录），训练（`04_train_lora.py`）与评测（`05_eval.py`）共用同一
+    解释器，杜绝「在这个基座上训、在那个基座上评」；步数、accum、`max_len`、seed 列表、
+    四档配比、LoRA 超参、评测文件一律不动。
+15. **规模复核的产物必须与已发布产物不同名**：所有输出走 `--tag`／`TAG_PREFIX` 命名空间
+    （adapter 目录、训练与评测日志、三份汇总文件），前缀为空时逐字节等于发布版；
+    `tests/test_scale_check.py` 断言两套文件名互不相交、且发布汇总引用的评测文件仍在，
+    CI 的 drift gate 因此不受影响。
+16. **权重同一性以 sha256 判据落实，不靠「文件名一样」假设**：`03c_fetch_weights.py` 把
+    HF API `/api/models/<repo>?blobs=true` 报的 LFS sha256 记进登记文件，
+    `base_model.resolve()` 在训练前复核实际字节（不符即拒跑；评测只报目录名，不复核）。
+17. **镜像 LFS 全线 502 时改走 ModelScope，判据不变**：下载脚本对 ModelScope 的分片
+    Ranged GET 产物算 sha256，与 HF API 报的 LFS 摘要逐位比对（其 CDN 对象路径本身就是
+    该摘要的分段 `lfs-objects/fd/f7/56fa…`），不吻合就删除并非零退出；换的只是下载通道，
+    不是换一份来历不明的权重。脚本留在仓库外（`E:/Desktop/resume/ms_fetch.py`），
+    仓库内的可复现入口仍是 `03c_fetch_weights.py`＋登记文件里的摘要。
+

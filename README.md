@@ -158,6 +158,30 @@ python scripts/09_make_figures.py         # README 图（out/figures/*.png，从
 
 单档可控重跑：`python scripts/04_train_lora.py --config r70_30 --steps 150 --accum 8 --max_len 512 --seed 20261015 --tag r70_30_s20261015`，评测 `python scripts/05_eval.py --adapter models/lora_r70_30_s20261015 --eval-file data/clean/mcq_eval_500.jsonl --tag r70_30_s20261015_500`。
 
+## 7c. 规模复核：同一配方换 0.5B 基座（2026-11-20 起）
+
+结论 6 说的"看不到稳定提升"只在 1.5B 上验证过。要判断它是否随基座规模成立，
+只需要换权重、不动配方：
+
+```bash
+BASE_REPO=Qwen/Qwen2.5-0.5B-Instruct .venv/Scripts/python.exe -Xutf8 scripts/03c_fetch_weights.py
+# 权重落位后（登记文件 out/model_download_Qwen2.5-0.5B-Instruct.json 记录 sha256）：
+BASE_MODEL_DIR=Qwen2.5-0.5B-Instruct TAG_PREFIX=q05b_ \
+  LOG=logs/multiseed_500_0p5b.log bash scripts/run_multiseed_500.sh
+```
+
+三处设计保证它撬不动已发布结果：① 基座路径由 `scripts/base_model.py` 单点解析，训练与
+评测读同一个解析器，`BASE_MODEL_DIR` 不设就是发布版的 1.5B；② 产物全部带 `TAG_PREFIX`
+命名空间（`models/lora_q05b_*`、`out/train_q05b_*.jsonl`、`out/eval/eval_q05b_*.json`、
+`out/multiseed_500_q05b_summary.*`），前缀为空时三份汇总产物与已提交版本逐字节相同
+（CI drift gate 仍在跑这条）；③ 训练启动前按登记文件复核权重的 sha256，字节不同就拒跑。
+步数、accum、`max_len`、seed、四档配比、LoRA 超参、评测集一律沿用发布值——基座是唯一
+被有意改变的变量。
+
+2026-11-20 的取数实况：hf-mirror 当天对所有 LFS 大文件返回 HTTP 502（小文件与 API 正常，
+直连 huggingface.co 被连接重置），因此 0.5B 权重改从 ModelScope 分片下载，再以 HF API 报的
+LFS sha256（`fdf756fa…`）逐位校验后才放入 `models/`；校验口径见 `docs/DECISIONS.md` 第 17 条。
+
 ## 8. 过程中的三次事故与处理（如实记录）
 
 1. **两个训练循环抢同一张卡。** 用后台任务停掉一个循环时，它的 python 子进程和 bash 循环都还活着，于是两组 150-step 训练并发 → 单步时间飙到 154 s，`r30_70`、`r0_100` 被新加的慢步保护中止（rc=3）。处理：确认 `nvidia-smi` 显存回落到 1.3 GB 才重启，并在 `run_stage4b.sh` / `run_stage4c.sh` 开头加硬闸门——启动前显存占用 > 4000 MiB 直接 `exit 9`。教训：`TaskStop` 杀不掉子孙进程，重启前必须查显存和日志。

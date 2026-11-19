@@ -19,8 +19,12 @@ from pathlib import Path
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
+import base_model
+
 ROOT = Path(__file__).resolve().parents[1]
-BASE = str(ROOT / "models" / "Qwen2.5-1.5B-Instruct")
+# The base weights come from scripts/base_model.py, the same resolver
+# scripts/04_train_lora.py uses, so a sweep cannot train on one base and score on
+# another. BASE_MODEL_DIR selects the folder; unset keeps the published 1.5B base.
 EVAL_SET = ROOT / "data" / "clean" / "mcq_eval_100.jsonl"
 OUT = ROOT / "out" / "eval"
 MAX_NEW = 12
@@ -71,6 +75,9 @@ def main() -> int:
         rows = rows[: a.limit]
     print(f"eval items={len(rows)} adapter={a.adapter} file={eval_path}")
 
+    base_info = base_model.resolve(verify=False)
+    BASE = base_info["path"]
+    print(f"base={base_info['base']} ({BASE})")
     tok = AutoTokenizer.from_pretrained(BASE)
     model = AutoModelForCausalLM.from_pretrained(BASE, dtype=torch.float16, device_map="cuda:0")
     if a.adapter != "base":
@@ -117,7 +124,8 @@ def main() -> int:
     centre = (phat + z**2 / (2 * n)) / den
     half = z * (phat * (1 - phat) / n + z**2 / (4 * n**2)) ** 0.5 / den
     summary = {
-        "tag": tag, "adapter": a.adapter, "eval_file": str(eval_path), "n_items": n, "correct": c, "wrong": w, "unparseable": u,
+        "tag": tag, "adapter": a.adapter, "base_model": base_info["base"],
+        "eval_file": str(eval_path), "n_items": n, "correct": c, "wrong": w, "unparseable": u,
         "accuracy": round(c / n, 4), "wrong_rate": round(w / n, 4), "unparseable_rate": round(u / n, 4),
         "wilson_ci95": [round(max(0.0, centre - half), 4), round(min(1.0, centre + half), 4)],
         "chance_note": "五选项单选，随机基线约 20%；本评测集正确项字母分布见 answer_letter_distribution",

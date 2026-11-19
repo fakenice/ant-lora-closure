@@ -20,6 +20,8 @@ optimizer step, and the run aborts after two consecutive steps slower than
 --slow_step_abort rather than burning an hour thrashing.
 
 Usage: .venv/Scripts/python.exe scripts/04_train_lora.py --config r70_30 [--steps 150]
+Scale check (different base, same recipe): set BASE_MODEL_DIR=models/<dir> name
+before the call — see scripts/run_multiseed_500.sh, which does exactly that.
 """
 import argparse
 import json
@@ -31,17 +33,21 @@ import torch.nn.functional as F
 from peft import LoraConfig, TaskType, get_peft_model
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
+import base_model
+
 ROOT = Path(__file__).resolve().parents[1]
 RATIOS = ROOT / "data" / "ratios"
 MODELS = ROOT / "models"
 OUT = ROOT / "out"
 
-# Local copy (fetched via scripts/03c_fetch_weights.py). The hub id is not usable
-# here because hf-mirror aborts snapshot_download through the Xet CAS backend.
-BASE = str(MODELS / "Qwen2.5-1.5B-Instruct")
-if not (MODELS / "Qwen2.5-1.5B-Instruct" / "model.safetensors").exists():
-    raise SystemExit("model.safetensors missing in models/Qwen2.5-1.5B-Instruct; "
-                     "run scripts/03c_fetch_weights.py first")
+# Which weights to train on, and the digest they must have, come from scripts/
+# base_model.py so training and evaluation cannot diverge. Local copies are fetched
+# by scripts/03c_fetch_weights.py (the hub id is unusable here because hf-mirror
+# aborts snapshot_download through the Xet CAS backend). The default is the published
+# 1.5B base; BASE_MODEL_DIR selects another one for the 2026-11-20 scale check. Artifacts
+# are namespaced by --tag, which the sweep script prefixes, so an override cannot write
+# over a published run directory, training log or eval file. The sha256 of the weights
+# is computed inside base_model.resolve(); there is no second copy here.
 IGNORE = -100
 
 
@@ -118,6 +124,10 @@ def main() -> int:
         raise SystemExit(f"{run_dir} already exists; pass --tag or --overwrite")
     if log_path.exists() and not a.overwrite:
         raise SystemExit(f"{log_path} already exists; pass --tag or --overwrite")
+    # Resolve and hash the base weights before creating any file: an abort should not
+    # leave an empty train_<tag>.jsonl behind, and the digest recorded in the setup
+    # event must describe the weights this run actually loads.
+    base_info = base_model.resolve()
     log_f = log_path.open("w", encoding="utf-8")
 
     def log(event: str, **kw) -> None:
@@ -130,9 +140,11 @@ def main() -> int:
             line = line.strip()
             if line.endswith("}"):
                 rows.append(json.loads(line))
-    print(f"config={a.config} samples={len(rows)} max_len={a.max_len}")
+    print(f"config={a.config} samples={len(rows)} max_len={a.max_len} "
+          f"base={base_info['base']} sha256={str(base_info['weights_sha256'])[:12]}…")
 
     torch.manual_seed(a.seed)
+    BASE = base_info["path"]
     tok = AutoTokenizer.from_pretrained(BASE)
     model = AutoModelForCausalLM.from_pretrained(BASE, dtype=torch.float16, device_map="cuda:0")
     model.enable_input_require_grads()
@@ -149,8 +161,9 @@ def main() -> int:
     print(f"trainable {trainable/1e6:.2f} M / {total/1e6:.2f} M ({100*trainable/total:.2f}%)")
     log("setup", config=a.config, tag=tag, seed=a.seed, samples=len(rows), trainable_params=trainable,
         total_params=total, max_len=a.max_len, steps=a.steps, accum=a.accum, lr=a.lr,
-        base=BASE, lora={"r": 16, "alpha": 32, "dropout": 0.05},
-        weights_sha256="dd924a11b4c220f385b51ffa522daea7c9f3d850e31b162bb5661df483c6d3ee",
+        base=BASE, base_dir=base_info["base"], lora={"r": 16, "alpha": 32, "dropout": 0.05},
+        weights_sha256=base_info["weights_sha256"],
+        weights_sha256_recorded=base_info["expected_sha256"],
         torch=torch.__version__, cuda=torch.version.cuda,
         gpu=torch.cuda.get_device_name(0),
         gpu_total_mib=round(torch.cuda.get_device_properties(0).total_memory / 2**20, 1),
