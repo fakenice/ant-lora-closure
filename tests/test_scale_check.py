@@ -1,10 +1,11 @@
 """Guards for the 2026-11-20 scale check (same four ratios on a 0.5B base).
 
 The scale check runs the published sweep script with two extra environment variables,
-so the risk is not the science but the plumbing: training on one base while scoring on
-another, writing 0.5B artifacts over the published 1.5B ones, or silently training on
-weights that are not the published files. These tests lock those three properties
-without touching the GPU.
+so the plumbing risks are: training on one base while scoring on another, writing 0.5B
+artifacts over the published 1.5B ones, or silently training on weights that are not the
+published files. These tests lock those three properties without touching the GPU, and
+then lock what the comparison artifact (scripts/10_scale_compare.py) says - so that a
+future edit of the data cannot quietly flip 结论 8 while the README still asserts it.
 """
 from __future__ import annotations
 
@@ -61,10 +62,21 @@ class BaseResolution(unittest.TestCase):
         self.assertNotEqual(self.bm.registry_path(), self.bm.OUT / "model_download.json")
 
     def test_missing_weights_abort(self):
-        os.environ["BASE_MODEL_DIR"] = "Qwen2.5-0.5B-Instruct"
-        with self.assertRaises(SystemExit) as ctx:
-            self.bm.resolve()
-        self.assertIn("model.safetensors missing", str(ctx.exception))
+        """Run against a scratch models dir so the abort is deterministic whether or not
+        the real 0.5B weights happen to sit in models/ on the machine running the test."""
+        import tempfile
+        with tempfile.TemporaryDirectory() as td:
+            models = Path(td)
+            (models / "Qwen2.5-0.5B-Instruct").mkdir()
+            saved_models, saved_out = self.bm.MODELS, self.bm.OUT
+            self.bm.MODELS, self.bm.OUT = models, models / "out"
+            os.environ["BASE_MODEL_DIR"] = "Qwen2.5-0.5B-Instruct"
+            try:
+                with self.assertRaises(SystemExit) as ctx:
+                    self.bm.resolve()
+                self.assertIn("model.safetensors missing", str(ctx.exception))
+            finally:
+                self.bm.MODELS, self.bm.OUT = saved_models, saved_out
 
     def test_digest_mismatch_aborts(self):
         import tempfile
@@ -146,6 +158,79 @@ class SweepScriptContract(unittest.TestCase):
     def test_sweep_still_refuses_a_busy_gpu(self):
         self.assertIn("free_mib > 8000", self.sh)
         self.assertIn("ollama ps", self.sh)
+
+
+class ScaleCompareArtifact(unittest.TestCase):
+    """out/scale_compare_500.* must stay consistent with the two published summaries.
+
+    This is the regression lock on the answer itself: the scale check concluded that at
+    0.5B no ratio arm separates from base and no config pair separates, while at 1.5B the
+    only separation involves r100_0 and is mostly the unparseable-answers penalty. If any
+    of that changes because the artifacts change, these asserts fail instead of the README.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        cls.doc = json.loads((ROOT / "out" / "scale_compare_500.json")
+                             .read_text(encoding="utf-8"))
+        cls.scales = {s["label"]: s for s in cls.doc["scales"]}
+
+    def test_both_scales_present_with_the_expected_prefixes(self):
+        self.assertEqual(set(self.scales), {"1.5B", "0.5B"})
+        self.assertEqual(self.scales["1.5B"]["tag_prefix"], "")
+        self.assertEqual(self.scales["0.5B"]["tag_prefix"], "q05b_")
+        self.assertEqual(self.scales["1.5B"]["base_model"], "Qwen2.5-1.5B-Instruct")
+        self.assertEqual(self.scales["0.5B"]["base_model"], "Qwen2.5-0.5B-Instruct")
+
+    def test_base_numbers_match_the_published_multiseed_summaries(self):
+        for label, prefix in (("1.5B", ""), ("0.5B", "q05b_")):
+            name = f"multiseed_500{'_' + prefix.strip('_') if prefix else ''}_summary.json"
+            pub = json.loads((ROOT / "out" / name).read_text(encoding="utf-8"))
+            s = self.scales[label]
+            self.assertEqual(s["base_acc"], pub["base"]["accuracy"])
+            self.assertEqual(s["base_correct"], pub["base"]["correct"])
+            for arm in s["arms"]:
+                sub = [r for r in pub["runs"] if r["config"] == arm["config"]]
+                self.assertEqual(sum(r["unparseable"] for r in sub), arm["unparseable_total"])
+                self.assertEqual([r["mcnemar_p_vs_base"] for r in sub],
+                                 arm["mcnemar_p_vs_base"])
+
+    def test_headline_verdict_of_the_scale_check(self):
+        small, big = self.scales["0.5B"], self.scales["1.5B"]
+        self.assertFalse(any(a["delta_ci_excludes_0"] for a in small["arms"]),
+                         "a 0.5B arm separated from base: the 结论 8 wording is now wrong")
+        self.assertFalse(any(p["excludes_0"] for p in small["pairs"]),
+                         "two 0.5B ratios separated: 配比无稳定提升 no longer holds at 0.5B")
+        self.assertEqual(len(small["pairs"]), 6)
+        separated = [p for p in big["pairs"] if p["excludes_0"]]
+        self.assertTrue(all("r100_0" in (p["a"], p["b"]) for p in separated),
+                        "a non-r100_0 pair separated at 1.5B: revisit 结论 3/8")
+        r100_big = next(a for a in big["arms"] if a["config"] == "r100_0")
+        self.assertLess(r100_big["delta_vs_base"], 0)
+        self.assertLess(abs(r100_big["delta_vs_base_parseable"]), 2.0)
+
+    def test_arm_ordering_and_item_counts_are_stable(self):
+        for s in self.scales.values():
+            self.assertEqual([a["config"] for a in s["arms"]],
+                             ["r100_0", "r70_30", "r30_70", "r0_100"])
+            self.assertEqual(s["base_n"], 500)
+            for a in s["arms"]:
+                self.assertLessEqual(a["unparseable_capped_total"], a["unparseable_total"])
+        # the training data per arm is identical across scales by construction
+        big, small = self.scales["1.5B"], self.scales["0.5B"]
+        self.assertEqual([(a["trainable_rows"], a["dropped_too_long"]) for a in big["arms"]],
+                         [(a["trainable_rows"], a["dropped_too_long"]) for a in small["arms"]])
+
+    def test_bootstrap_is_declared_and_finite(self):
+        b = self.doc["boot"]
+        self.assertEqual((b["B"], b["seed"]), (2000, 42))
+        self.assertIn("item", b["unit"])
+        self.assertIn("training randomness", b["caveat"])
+        for s in self.scales.values():
+            for a in s["arms"]:
+                lo, hi = a["delta_ci95"]
+                self.assertLessEqual(lo, a["delta_vs_base"])
+                self.assertLessEqual(a["delta_vs_base"], hi)
 
 
 if __name__ == "__main__":

@@ -1,5 +1,6 @@
-# CI 只覆盖无 GPU 可再生的层：数据完整性测试、结果汇总再生（drift gate）、
-# 图的断言重算、字节编译。训练与评测需要 2080 Ti + 基座权重，不在 CI 范围。
+# CI 只覆盖无 GPU 可再生的四层：数据完整性测试、结果汇总再生（drift gate，含 09 的图断言与
+# 10 的两规模对照）、README 结论口径校验（scripts/11_verify_claims.py）、字节编译。
+# 训练与评测需要 2080 Ti + 基座权重，不在 CI 范围。
 name: CI
 
 on:
@@ -46,14 +47,18 @@ jobs:
           python scripts/06_collect_results.py
           python scripts/07_multiseed_summary.py
           python scripts/08_positive_control_summary.py
+          python scripts/10_scale_compare.py
       - name: drift gate - committed text artifacts must be reproducible
         run: |
           git diff --exit-code -- \
             out/summary.json out/ablation.csv out/ablation.md out/resources.md \
             out/multiseed_500_summary.json out/multiseed_500_summary.csv out/multiseed_500_summary.md \
-            out/positive_control_summary.json out/positive_control_summary.md
+            out/positive_control_summary.json out/positive_control_summary.md \
+            out/scale_compare_500.json out/scale_compare_500.csv out/scale_compare_500.md
       - name: figures recompute from item logs and assert against summaries
         run: python scripts/09_make_figures.py
+      - name: claims gate - README conclusions must still be supported by the artifacts
+        run: python scripts/11_verify_claims.py
 
   compile:
     name: all scripts byte-compile

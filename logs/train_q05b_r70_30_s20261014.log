@@ -1,0 +1,22 @@
+config=r70_30 samples=1200 max_len=512 base=Qwen2.5-0.5B-Instruct sha256=fdf756fa7fcb…
+Loading weights:   0%|          | 0/290 [00:00<?, ?it/s]Loading weights:  11%|█▏        | 33/290 [00:00<00:00, 318.56it/s]Loading weights:  29%|██▉       | 85/290 [00:00<00:00, 417.66it/s]Loading weights:  45%|████▌     | 131/290 [00:00<00:00, 434.49it/s]Loading weights:  60%|██████    | 175/290 [00:00<00:00, 426.21it/s]Loading weights:  78%|███████▊  | 227/290 [00:00<00:00, 434.97it/s]Loading weights:  95%|█████████▍| 275/290 [00:00<00:00, 442.34it/s]Loading weights: 100%|██████████| 290/290 [00:00<00:00, 448.50it/s]
+trainable 8.80 M / 502.83 M (1.75%)
+prefix-mask verified on 200/200 probe records
+loss check: HF=0.685938 response-CE=0.685938 |diff|=0.00e+00
+encoded 1162 rows (dropped 38 over 512 tok, 0 with no trainable token; 0 unmasked)
+  step 10/150 loss=1.857 marginal=2.5s peakAlloc=3159MiB peakResv=4520MiB
+  step 20/150 loss=2.165 marginal=2.3s peakAlloc=3226MiB peakResv=5116MiB
+  step 30/150 loss=2.498 marginal=2.4s peakAlloc=3226MiB peakResv=5116MiB
+  step 40/150 loss=1.161 marginal=2.3s peakAlloc=3226MiB peakResv=5116MiB
+  step 50/150 loss=2.273 marginal=2.4s peakAlloc=3226MiB peakResv=5116MiB
+  step 60/150 loss=2.205 marginal=2.3s peakAlloc=3226MiB peakResv=5116MiB
+  step 70/150 loss=1.408 marginal=2.4s peakAlloc=3226MiB peakResv=6206MiB
+  step 80/150 loss=1.997 marginal=2.3s peakAlloc=3226MiB peakResv=6206MiB
+  step 90/150 loss=2.141 marginal=2.3s peakAlloc=3226MiB peakResv=6206MiB
+  step 100/150 loss=2.410 marginal=2.3s peakAlloc=3226MiB peakResv=6206MiB
+  step 110/150 loss=2.555 marginal=2.3s peakAlloc=3226MiB peakResv=6206MiB
+  step 120/150 loss=1.340 marginal=2.3s peakAlloc=3226MiB peakResv=6206MiB
+  step 130/150 loss=1.820 marginal=2.3s peakAlloc=3226MiB peakResv=6206MiB
+  step 140/150 loss=0.837 marginal=2.3s peakAlloc=3226MiB peakResv=6206MiB
+  step 150/150 loss=2.266 marginal=2.3s peakAlloc=3226MiB peakResv=6206MiB
+{"config": "r70_30", "tag": "q05b_r70_30_s20261014", "seed": 20261014, "steps": 150, "first_loss": 2.191, "final_loss": 1.8368, "min_loss": 0.8374, "s_per_step_overall": 2.34, "peak_alloc_mib": 3226.4, "peak_reserved_mib": 6206.0, "trainable_rows": 1162, "dropped_too_long": 38, "adapter_dir": "models\\lora_q05b_r70_30_s20261014"}

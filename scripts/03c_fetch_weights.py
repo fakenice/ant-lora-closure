@@ -281,6 +281,12 @@ def main() -> int:
     files = sorted(p for p in DEST.rglob("*") if p.is_file() and ".parts" not in p.parts
                    and ".cache" not in p.parts)
     total_bytes = sum(p.stat().st_size for p in files)
+    # `endpoint` / `method` describe THIS script's download channel (the hf-mirror route), not
+    # necessarily where the bytes on disk originally came from. When the mirror returned 502 for
+    # every LFS object (2026-11-20), the 0.5B weights were fetched by an out-of-repo ModelScope
+    # fallback and this run only recorded `skipped: already complete on disk` plus the HF LFS
+    # digest check; see docs/DECISIONS.md entry 17. Reproducing that fallback needs a ModelScope
+    # path implemented here first -- the in-repo entry point for weights is still this script.
     manifest = {
         "repo": REPO, "revision": REVISION, "endpoint": MIRROR,
         "method": ("sharded staggered ranged GET; HF_HUB_DISABLE_XET=1 because the Xet CAS "

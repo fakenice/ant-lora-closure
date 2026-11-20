@@ -68,7 +68,7 @@
 
 - **负结论没有变。** 唯一均值高于 base 的是 `r70_30`（+2.4 pt），但三个 seed 的配对 McNemar p 分别为 0.266 / 0.543 / 0.089，均大于 0.05；三 seed 的 95% t 区间约为 **−0.1 ~ +4.9 pt**，跨 0。不能写成“70:30 提升准确率”。base 只跑了一个 seed，其自身波动未估计。
 - **`r30_70` 的单 seed 显著不复现。** seed 20261014 上 p=0.020，但同档另外两个 seed 为 +1.0 / −2.4 pt；三 seed 均值 +1.0 pt，不构成稳定效应。
-- **`r100_0` 的下降是格式，不是知识。** 500 题上 29–74 题不可解析（旧 100 题是 7 题）；纯对话档保留长答语，混入考题后输出塌缩为单个字母，这个方向与旧结果一致。
+- **`r100_0` 的下降是格式，不是知识。** 500 题上 29–74 题不可解析（旧 100 题是 7 题）；纯对话档保留长答语，混入考题后输出塌缩为单个字母，这个方向与旧结果一致。2026-11-20 的规模复核把这句定性话量化了：158 题（3 seed 合计）不可解析里有 93 题是用满 `max_new_tokens=12` 被截断的，只统计可解析题时该档对 base 的差从 −7.3 pt 收到 **−0.6 pt**，而且换到 0.5B 基座后这个下降根本不复现（+2.9 pt）。见 `out/scale_compare_500.md` §3 与结论 8。
 - **旧 100 题偏容易。** base 在旧 100 题上 73.0%，在 500 题上 65.8%；新增 400 题上 base 为 64.0%。因此旧表的绝对准确率不能与新 500 题直接比较，只能做同题内的 arm 对比。
 - **原 100 题子集也没有一档超过 base。** `r70_30` 为 73.0%（与 base 持平），其余 65.0–71.3%；旧表的“74 vs 73”是单 seed 的波动。
 
@@ -115,16 +115,17 @@
 5. 因此这个实验支撑的说法是：**"我在消费级显卡上做了一套带数据登记、泄漏剔除、prompt 屏蔽校验和确定性评测的中文医疗指令消融流程，并给出了负结论与格式效应"**；不支撑"我通过调配数据比例把医学选择题准确率提升了 X 个百分点"。
 6. **500 题 × 3 seed 复现后，负结论不变。** 没有一档在三个 seed 上都显著高于 base；`r70_30` 均值 +2.4 pt 但 p>0.05，`r30_70` 的单 seed p=0.020 未复现。可以直接说"多 seed 后仍看不到稳定提升"。
 7. **管线灵敏度已由阳性对照验证。** 用评测题正确标签训练的诊断 arm 达 99.2%，同题打乱标签只有 17.6%（接近随机基线），说明训练+评测能测出标签特异的增益，且不是格式效应；但这是记忆诊断，不能替代真实知识增益的功效分析。
+8. **"配比无稳定提升"随基座规模成立（2026-11-20 换 0.5B 复核）。** 除基座权重外全部沿用发布配方，四档对 base 的题层面 bootstrap 区间全部跨 0，6 对两两比较也全部跨 0。同时两条附带更正式的确认：1.5B 上唯一显著的档间差异（`r100_0` −7.3 pt）在 0.5B 上不复现（+2.9 pt），而它 158 题不可解析里有 93 题是 `max_new_tokens=12` 截断造成的——只统计可解析题时该差只剩 −0.6 pt，所以那是判分口径与输出风格的产物，不是配比效应；格式效应本身（混考题→单字母、纯对话→长答语）在两个基座上都复现。见 §7c 与 `out/scale_compare_500.md`。
 
 ## 6. 限制（不可回避）
 
 1. 对话语料是 4.7% 前缀样本，配比结论只在该前缀内成立。
 2. 旧 100 题的半宽约 ±10 个百分点；2026-11-03 已用 500 题 × 3 seed 复现（见 §4），500 题下两比例 MDE 约 8 pt，仍只能测中等以上效应。
-3. 单 seed 已由 3 seed 覆盖，阳性对照已做；剩余的是**单 epoch、单模型（1.5B）、短训练预算**。阳性对照（99.2% vs 打乱 17.6%）只排除"管线失效"，仍不能区分"配比无影响"与"1,200 行 × 1 epoch 本身不足以移动基座"。
+3. 单 seed 已由 3 seed 覆盖，阳性对照已做，规模已由 1.5B/0.5B 两个点复核（§7c）；剩余的是**单 epoch、短训练预算、只有两个规模点**。阳性对照（99.2% vs 打乱 17.6%）只排除"管线失效"，仍不能区分"配比无影响"与"1,200 行 × 1 epoch 本身不足以移动基座"——规模复核没有改变这一条，它只是把同一句话在 0.5B 上又说了一遍。
 4. 训练目标与评测目标同构（都是"读题→出字母"），所以"混考题→输出更规范"是必然结果，不能读成医学能力提升。
 5. `max_len=512` 丢弃了最长的那部分对话样本（`r100_0` 丢 51 条），长度截断对不同档位的影响不等。
 6. 五选项题随机基线 20%。旧 100 题里正确项字母 D 占 26%；新 500 题为 A 94 / B 105 / C 109 / D 103 / E 89（D=20.6%），字母偏好的影响变小但没有消失（本评测未做去偏处理）。
-7. fp16 + 1.5B + 11 GB 的绝对值只对本机成立，不能外推到其他硬件。
+7. fp16 + 1.5B + 11 GB 的绝对值只对本机成立，不能外推到其他硬件；2026-11-20 的 0.5B 复核在同一张 2080 Ti 上跑（`peak reserved` 2.4–6.2 GB），耗时与显存的绝对值同样只对本机成立。
 8. CMExam 数据许可与用途限制见 `docs/DATASHEET.md`，本仓库未重新分发原始数据。
 
 ## 7. 复现
@@ -140,25 +141,34 @@ bash run_stage4b.sh                     # 训练缺失配比 + 全部评测（�
 python scripts/06_collect_results.py    # 汇总 out/summary.json / ablation.csv / ablation.md / resources.md
 python scripts/03d_build_eval_500.py    # 500 题集：原 100 题 + 400 道无训练池重叠的新题
 bash scripts/run_multiseed_500.sh       # 4 档 × 3 seed 训练 + base/12 adapter 的 500 题评测
+BASE_MODEL_DIR=Qwen2.5-0.5B-Instruct TAG_PREFIX=q05b_ \
+  LOG=logs/multiseed_500_0p5b.log bash scripts/run_multiseed_500.sh  # §7c 规模复核：产物全部带 q05b_ 前缀
+python scripts/10_scale_compare.py      # 两规模对照表 out/scale_compare_500.*（CPU，只读已发布产物）
 python scripts/03e_build_positive_control.py  # 阳性/打乱标签诊断集（故意泄漏）
 python scripts/09_make_figures.py         # README 图（out/figures/*.png，从逐题日志重算并与 summary 断言）
+python scripts/11_verify_claims.py        # 结论口径校验（23 项断言，只读已提交产物，无 GPU）
 ```
+
+每个脚本的输入输出与确定性声明见 [`docs/SCRIPTS.md`](docs/SCRIPTS.md)。
 
 依赖锁定：`requirements.lock.txt`（2026-11-18 由本机复现环境 `uv pip freeze` 导出，Python 3.11；torch 需 `--extra-index-url https://download.pytorch.org/whl/cu124`）。
 
 ## 7b. 持续验证（CI）
 
-`.github/workflows/ci.yml` 只覆盖**无 GPU 可再生**的三层，训练/评测不在 CI 范围：
+`.github/workflows/ci.yml` 只覆盖**无 GPU 可再生**的四层，训练/评测不在 CI 范围：
 
 1. 数据完整性测试（`tests/`，纯 stdlib，Python 3.11/3.13 双版本）；
-2. drift gate：从已提交的逐题日志重跑 06/07/08，`git diff --exit-code` 要求已提交汇总与再生结果逐字节一致；
-3. 图：`09_make_figures.py` 从逐题 jsonl 重算 correct/unparseable 计数并与 `multiseed_500_summary.json`、`positive_control_summary.json` 断言，对不上就拒绝出图。
+2. drift gate：从已提交的逐题日志重跑 06/07/08/10，`git diff --exit-code` 要求已提交汇总与再生结果逐字节一致（10 是 2026-11-20 的两规模对照，bootstrap 固定 B=2000、seed 42，所以它的产物也进 gate）；
+3. 图：`09_make_figures.py` 从逐题 jsonl 重算 correct/unparseable 计数，并与两份 multiseed 汇总、`positive_control_summary.json`、`scale_compare_500.json` 断言，对不上就拒绝出图；
+4. 结论口径校验：`python scripts/11_verify_claims.py`（23 项断言）把 §5 的结论 1/2/3/6/8 和 §6 限制第 1 条逐条对回已提交产物——它不重跑模型，只检查"文档说的还站得住吗"：区间是否仍然重叠、0.5B 是否仍然没有一档与 base 分开、1.5B 唯一分离是否仍然只在 `r100_0` 且仍然绑在判分口径上、格式效应在两个基座是否都还在、`≥5 pt` 那句能排除的结论是否仍然与区间半宽一致。
+
+第 2 层与第 4 层的分工：drift gate 证明产物可逐字节再生，claims gate 证明再生出来的产物仍然支持 README 的措辞。改动数据或口径后如果只想先看会不会撬动结论，直接跑第 4 层。
 
 图产物本身（png 字节）不进 drift gate——matplotlib 版本变化会改写 png 字节，CI 校验的是数字一致性而非二进制。
 
 单档可控重跑：`python scripts/04_train_lora.py --config r70_30 --steps 150 --accum 8 --max_len 512 --seed 20261015 --tag r70_30_s20261015`，评测 `python scripts/05_eval.py --adapter models/lora_r70_30_s20261015 --eval-file data/clean/mcq_eval_500.jsonl --tag r70_30_s20261015_500`。
 
-## 7c. 规模复核：同一配方换 0.5B 基座（2026-11-20 起）
+## 7c. 规模复核：同一配方换 0.5B 基座（2026-11-20 跑完）
 
 结论 6 说的"看不到稳定提升"只在 1.5B 上验证过。要判断它是否随基座规模成立，
 只需要换权重、不动配方：
@@ -182,6 +192,55 @@ BASE_MODEL_DIR=Qwen2.5-0.5B-Instruct TAG_PREFIX=q05b_ \
 直连 huggingface.co 被连接重置），因此 0.5B 权重改从 ModelScope 分片下载，再以 HF API 报的
 LFS sha256（`fdf756fa…`）逐位校验后才放入 `models/`；校验口径见 `docs/DECISIONS.md` 第 17 条。
 
+### 跑完的实况
+
+2026-11-20 01:17:12 → 02:43:03，12 次训练 + 13 次评测全部 rc=0，串行 5,151 s（1.43 h）。
+0.5B 侧训练 s/step 2.21–2.31、`peak reserved` 2,408–6,248 MiB（同协议下 1.5B 是
+3.72–4.46 s/step、6,928–10,821 MiB）；可训练行数与各档被截断行数和 1.5B 逐档相同
+（1149/51、1162/38、1174/26、1200/0），因为数据与 tokenizer 族没动。
+
+base（`Qwen2.5-0.5B-Instruct`，无 SFT）：**41.6%**（208/500，Wilson 37.4–46.0%）。
+
+| 配比 | 3 seed 均值 | SD | 对 base 均值差 | 题层面配对 bootstrap 95% CI | 不可解析（3 seed 合计） |
+|---|---|---|---|---|---|
+| `r100_0` | 44.5% | 1.4 pt | +2.9 pt | [−0.5, +6.5] | 9 |
+| `r70_30` | 44.5% | 1.9 pt | +2.9 pt | [−1.1, +7.1] | 0 |
+| `r30_70` | 43.5% | 0.6 pt | +1.9 pt | [−2.4, +6.4] | 8 |
+| `r0_100` | 41.9% | 1.5 pt | +0.3 pt | [−3.9, +4.4] | 0 |
+
+bootstrap 的重抽单位是 500 道题、同一档三个 seed 先按题平均，所以区间含题目抽样误差、
+**不含**训练随机性；B=2000、`random.Random(42)`，与 McNemar 的 p 一起由
+`scripts/10_scale_compare.py` 从已发布产物再生（`out/scale_compare_500.{json,csv,md}`，
+两两比较、判分口径与成本对照都在那份文件里）。
+
+判读（四条，逐条对应上面那张表和 `out/scale_compare_500.md`）：
+
+1. **结论 6 在 0.5B 上照样成立**：四档对 base 的区间全部跨 0，六对两两比较也全部跨 0
+   （档间最大差 +2.6 pt，CI [−0.9, +6.1]）。"配比无稳定提升"不绑定 1.5B 这一个规模。
+2. **1.5B 上唯一被测出来的档间差异绑在判分口径上，不随规模复现**：那里 `r100_0` 显著更差
+   （−7.3 pt，CI [−10.6, −4.1]），可它的 158 题不可解析有 93 题是用满 `max_new_tokens=12`
+   被截断的；只统计可解析题时差收到 −0.6 pt。0.5B 同一档只有 9 题不可解析（截断 2 题）、
+   Δ 是 +2.9 pt。所以那是"1.5B 的长答语风格 × 12 token 预算"的产物，不是配比的性质。
+3. **连"LoRA 本身有没有用"也在两个规模上都判不出**：四档平均对 base 的差 1.5B 是
+   −0.7 pt [−3.5, +1.9]，0.5B 是 +2.0 pt [−1.4, +5.6]，方向甚至不同向，两边都跨 0。
+4. **格式效应随规模复现，结论 3 不动**：混入考题数据的三档在两个基座上都塌成单字母
+   （answer-marker 占比 0%、平均 2.0 token），纯对话档保留"答案："长答语
+   （1.5B 7.2 token / 0.5B 3.9 token，answer-marker 占比 16% / 84%）。
+   唯一一处口径差是 0.5B 的 `r30_70` 也有 8 题不可解析，但它们一题都没撞 token 上限——
+   是格式没写长，不是判分器读不出来。
+
+能排除的与不能外推的：区间半宽实测是档 vs base 3.1–4.4 pt、档间配对 2.6–3.6 pt（这是 95%
+区间口径；功效口径下 n=500 的两比例 MDE 约 8 pt，见 §6 第 2 条），所以这次复核排除的是
+"某档配比带来 ≥5 pt 的稳定提升"，排除不了 2–3 pt 量级的效应——0.5B 表里 `r100_0` 与
+`r70_30` 并列 44.5%、`r0_100` 垫底 41.9%，这些点差都落在噪声内。这句话的门槛不是手写的：
+`scripts/10_scale_compare.py` 从区间半宽向上取整算出它，`scripts/11_verify_claims.py`
+再检查一次"半宽确实 <5 pt、文档写的门槛确实等于向上取整的结果"。
+其余限制照旧：只换了两个规模点、一个题源、一个训练预算，而且"规模"在这里只改了参数量，
+没有分离预训练语料与数据量——两档 base 相差 24.2 pt 本身就说明可动空间不同。
+
+![规模复核 1.5B vs 0.5B](out/figures/fig3_scale_compare.png)
+
+
 ## 8. 过程中的三次事故与处理（如实记录）
 
 1. **两个训练循环抢同一张卡。** 用后台任务停掉一个循环时，它的 python 子进程和 bash 循环都还活着，于是两组 150-step 训练并发 → 单步时间飙到 154 s，`r30_70`、`r0_100` 被新加的慢步保护中止（rc=3）。处理：确认 `nvidia-smi` 显存回落到 1.3 GB 才重启，并在 `run_stage4b.sh` / `run_stage4c.sh` 开头加硬闸门——启动前显存占用 > 4000 MiB 直接 `exit 9`。教训：`TaskStop` 杀不掉子孙进程，重启前必须查显存和日志。
@@ -197,16 +256,22 @@ LFS sha256（`fdf756fa…`）逐位校验后才放入 `models/`；校验口径�
 | `data/raw_manifest.json`、`data/stats/quality_report.json` | 原始取数与清洗漏斗计数 |
 | `data/clean/dialog_zh.jsonl`（58,787）、`mcq_eval_100.jsonl`、`mcq_eval_500.jsonl`、`mcq_train_pool.jsonl`（46,421）、`mcq_train_pool_qhashes.txt` | 清洗后语料；500 题集保留原 100 题并过滤 172 道训练池重叠题。两份大 jsonl 不入库（见 .gitignore），评测集随仓库发布；训练池只发布归一题干哈希（`02b` 再生，本地有池时测试会校验哈希未过期） |
 | `data/ratios/*.jsonl` + `ratios_manifest.json` | 四档配比与 seed；另有 `poscontrol_evaltrain.jsonl` / `poscontrol_shuffled.jsonl`（诊断用，故意泄漏） |
-| `models/Qwen2.5-1.5B-Instruct/` | 基座权重（sha256 已校验） |
+| `models/Qwen2.5-1.5B-Instruct/` | 发布版基座权重（sha256 已校验，不入库） |
+| `models/Qwen2.5-0.5B-Instruct/`、`models/lora_q05b_*` | §7c 规模复核的基座与 12 份 adapter（同样不入库，权重按登记文件 sha256 复核后才可用） |
 | `models/lora_*`（4 份原版） + `models/lora_*_s2026*`（12 份多种子） | 150-step LoRA adapter |
 | `out/train_<cfg>.jsonl`、`out/train_*_s2026*.jsonl` | 逐事件：setup / mask_check / loss_check / encode / step / done |
 | `out/eval/eval_*.json` + `_items.jsonl` | 评测汇总与逐题记录（100 题与 500 题两套） |
 | `out/multiseed_500_summary.{json,csv,md}` | 4 档 × 3 seed 的均值/SD、配对 McNemar、原 100 题子集 |
-| `out/figures/fig1_multiseed_500.png`、`fig2_positive_control.png` | README 图（`scripts/09_make_figures.py` 生成，出图前与两份 summary 断言） |
+| `out/multiseed_500_q05b_summary.{json,csv,md}`、`out/eval/eval_q05b_*`、`out/train_q05b_*.jsonl`、`logs/*_q05b*.log`、`logs/multiseed_500_0p5b.log` | 2026-11-20 的 0.5B 规模复核全套产物，全部带 `q05b_` 命名空间，不覆盖任何发布件 |
+| `out/scale_compare_500.{json,csv,md}` | 1.5B vs 0.5B 对照：题层面配对 bootstrap（档 vs base、6 对两两）、判分口径（含 12-token 截断计数）、成本；`scripts/10_scale_compare.py` 生成，进 CI drift gate |
+| `out/model_download_Qwen2.5-0.5B-Instruct.json` | 0.5B 权重的登记与复核记录（`model.safetensors` 那条是 `skipped: already complete on disk` + HF API 报的 LFS `sha256_upstream`；权重的实际来历是仓库外的兜底下载脚本，见 `docs/DECISIONS.md` 第 17 条） |
+| `out/figures/fig1_multiseed_500.png`、`fig2_positive_control.png`、`fig3_scale_compare.png` | README 图（`scripts/09_make_figures.py` 生成，出图前从逐题日志重算并与三份汇总/对照表断言） |
 | `requirements.lock.txt` | 本机环境完整依赖锁定（uv pip freeze 导出） |
 | `out/positive_control_summary.{json,md}`、`data/stats/positive_control_report.json` | 阳性对照（99.2%）与打乱标签（17.6%）诊断 |
 | `out/summary.json`、`ablation.csv`、`ablation.md`、`resources.md` | 原四档消融表与资源账 |
 | `docs/DATASHEET.md` | 来源登记、漏斗、抽样偏差、许可与限制 |
+| `docs/SCRIPTS.md` | 每个脚本的输入输出、确定性声明、被哪些测试与文档引用，以及"改了东西要重跑什么" |
+| `scripts/11_verify_claims.py` | 结论口径校验（23 项断言，纯 stdlib、只读已提交产物）；CI 第 4 层，也是本地改数据/口径后的第一道自检 |
 | `logs/` | 每档训练与评测的原始日志、`stage4.log` 运行序列 |
 
 ## 10. 引用（How to cite）

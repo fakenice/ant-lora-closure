@@ -1,0 +1,482 @@
+{
+  "boot": {
+    "B": 2000,
+    "seed": 42,
+    "unit": "500 eval items",
+    "ci": "nearest-rank 2.5/97.5 percentile",
+    "caveat": "the three seeds per config are averaged per item before resampling: the intervals carry item-sampling error, not training randomness; with 3 seeds the seed-to-seed spread is reported separately in the multiseed summaries"
+  },
+  "scales": [
+    {
+      "label": "1.5B",
+      "tag_prefix": "",
+      "base_model": "Qwen2.5-1.5B-Instruct",
+      "base_correct": 329,
+      "base_n": 500,
+      "base_acc": 0.658,
+      "base_acc_parseable": 0.6593,
+      "base_unparseable": 1,
+      "base_unparseable_capped": 1,
+      "max_new_tokens": 12,
+      "base_mean_new_tokens": 8.45,
+      "eval_wallclock_s": 403,
+      "sweep_wallclock_s": 9596,
+      "sweep_start": "2026-11-03 09:37:59",
+      "sweep_end": "2026-11-03 12:17:55",
+      "arms": [
+        {
+          "config": "r100_0",
+          "mcnemar_p_vs_base": [
+            0.200678,
+            6.6e-05,
+            0.0
+          ],
+          "acc_mean": 0.5853,
+          "acc_sd": 0.0454,
+          "acc_min": 0.544,
+          "acc_max": 0.634,
+          "delta_vs_base": -0.0727,
+          "delta_ci95": [
+            -0.106,
+            -0.0413
+          ],
+          "delta_ci_excludes_0": true,
+          "unparseable_mean": 52.67,
+          "unparseable_total": 158,
+          "unparseable_capped_total": 93,
+          "answer_marker_share_mean": 0.156,
+          "mean_new_tokens": 7.19,
+          "acc_parseable_mean": 0.6537,
+          "delta_vs_base_parseable": -0.0057,
+          "s_per_step": 4.46,
+          "peak_reserved_mib": 10820.7,
+          "peak_alloc_mib": 6419.8,
+          "final_loss": 2.307,
+          "train_wallclock_s": 685.7,
+          "eval_wallclock_s": 293,
+          "trainable_rows": 1149,
+          "dropped_too_long": 51
+        },
+        {
+          "config": "r70_30",
+          "mcnemar_p_vs_base": [
+            0.266406,
+            0.54261,
+            0.089321
+          ],
+          "acc_mean": 0.682,
+          "acc_sd": 0.01,
+          "acc_min": 0.672,
+          "acc_max": 0.692,
+          "delta_vs_base": 0.024,
+          "delta_ci95": [
+            -0.0113,
+            0.058
+          ],
+          "delta_ci_excludes_0": false,
+          "unparseable_mean": 0.33,
+          "unparseable_total": 1,
+          "unparseable_capped_total": 0,
+          "answer_marker_share_mean": 0.0,
+          "mean_new_tokens": 2.01,
+          "acc_parseable_mean": 0.6825,
+          "delta_vs_base_parseable": 0.0231,
+          "s_per_step": 3.93,
+          "peak_reserved_mib": 9301.3,
+          "peak_alloc_mib": 6426.2,
+          "final_loss": 1.766,
+          "train_wallclock_s": 605.7,
+          "eval_wallclock_s": 96.3,
+          "trainable_rows": 1162,
+          "dropped_too_long": 38
+        },
+        {
+          "config": "r30_70",
+          "mcnemar_p_vs_base": [
+            0.019827,
+            0.668285,
+            0.302878
+          ],
+          "acc_mean": 0.668,
+          "acc_sd": 0.034,
+          "acc_min": 0.634,
+          "acc_max": 0.702,
+          "delta_vs_base": 0.01,
+          "delta_ci95": [
+            -0.0227,
+            0.0387
+          ],
+          "delta_ci_excludes_0": false,
+          "unparseable_mean": 0.67,
+          "unparseable_total": 2,
+          "unparseable_capped_total": 0,
+          "answer_marker_share_mean": 0.0,
+          "mean_new_tokens": 2.01,
+          "acc_parseable_mean": 0.6689,
+          "delta_vs_base_parseable": 0.0096,
+          "s_per_step": 3.72,
+          "peak_reserved_mib": 8852.0,
+          "peak_alloc_mib": 6438.0,
+          "final_loss": 0.85,
+          "train_wallclock_s": 574.3,
+          "eval_wallclock_s": 97,
+          "trainable_rows": 1174,
+          "dropped_too_long": 26
+        },
+        {
+          "config": "r0_100",
+          "mcnemar_p_vs_base": [
+            0.19779,
+            0.479692,
+            0.656992
+          ],
+          "acc_mean": 0.6693,
+          "acc_sd": 0.0194,
+          "acc_min": 0.648,
+          "acc_max": 0.686,
+          "delta_vs_base": 0.0113,
+          "delta_ci95": [
+            -0.0213,
+            0.044
+          ],
+          "delta_ci_excludes_0": false,
+          "unparseable_mean": 0,
+          "unparseable_total": 0,
+          "unparseable_capped_total": 0,
+          "answer_marker_share_mean": 0.0,
+          "mean_new_tokens": 2.0,
+          "acc_parseable_mean": 0.6693,
+          "delta_vs_base_parseable": 0.01,
+          "s_per_step": 3.91,
+          "peak_reserved_mib": 6928.0,
+          "peak_alloc_mib": 4766.5,
+          "final_loss": 0.294,
+          "train_wallclock_s": 603,
+          "eval_wallclock_s": 95,
+          "trainable_rows": 1200,
+          "dropped_too_long": 0
+        }
+      ],
+      "pairs": [
+        {
+          "a": "r100_0",
+          "b": "r70_30",
+          "delta": -0.0967,
+          "ci95": [
+            -0.132,
+            -0.0593
+          ],
+          "excludes_0": true
+        },
+        {
+          "a": "r100_0",
+          "b": "r30_70",
+          "delta": -0.0827,
+          "ci95": [
+            -0.1167,
+            -0.0467
+          ],
+          "excludes_0": true
+        },
+        {
+          "a": "r100_0",
+          "b": "r0_100",
+          "delta": -0.084,
+          "ci95": [
+            -0.114,
+            -0.0507
+          ],
+          "excludes_0": true
+        },
+        {
+          "a": "r70_30",
+          "b": "r30_70",
+          "delta": 0.014,
+          "ci95": [
+            -0.012,
+            0.04
+          ],
+          "excludes_0": false
+        },
+        {
+          "a": "r70_30",
+          "b": "r0_100",
+          "delta": 0.0127,
+          "ci95": [
+            -0.0153,
+            0.04
+          ],
+          "excludes_0": false
+        },
+        {
+          "a": "r30_70",
+          "b": "r0_100",
+          "delta": -0.0013,
+          "ci95": [
+            -0.0287,
+            0.026
+          ],
+          "excludes_0": false
+        }
+      ],
+      "spread": {
+        "value": 0.0967,
+        "ci95": [
+          0.0647,
+          0.1327
+        ],
+        "note": "这是从四档里挑出的最大减最小，属于挑过的统计量：区间不是「档间有差异」的检验，极值挑选本身把它放大了"
+      },
+      "mean_delta": {
+        "value": -0.0068,
+        "ci95": [
+          -0.0348,
+          0.0195
+        ]
+      },
+      "mcnemar_below_005": 3,
+      "mcnemar_tests": 12
+    },
+    {
+      "label": "0.5B",
+      "tag_prefix": "q05b_",
+      "base_model": "Qwen2.5-0.5B-Instruct",
+      "base_correct": 208,
+      "base_n": 500,
+      "base_acc": 0.416,
+      "base_acc_parseable": 0.416,
+      "base_unparseable": 0,
+      "base_unparseable_capped": 0,
+      "max_new_tokens": 12,
+      "base_mean_new_tokens": 2.26,
+      "eval_wallclock_s": 64,
+      "sweep_wallclock_s": 5151,
+      "sweep_start": "2026-11-20 01:17:12",
+      "sweep_end": "2026-11-20 02:43:03",
+      "arms": [
+        {
+          "config": "r100_0",
+          "mcnemar_p_vs_base": [
+            0.152338,
+            0.046044,
+            0.54261
+          ],
+          "acc_mean": 0.4453,
+          "acc_sd": 0.0142,
+          "acc_min": 0.43,
+          "acc_max": 0.458,
+          "delta_vs_base": 0.0293,
+          "delta_ci95": [
+            -0.0053,
+            0.0653
+          ],
+          "delta_ci_excludes_0": false,
+          "unparseable_mean": 3,
+          "unparseable_total": 9,
+          "unparseable_capped_total": 2,
+          "answer_marker_share_mean": 0.8387,
+          "mean_new_tokens": 3.9,
+          "acc_parseable_mean": 0.448,
+          "delta_vs_base_parseable": 0.032,
+          "s_per_step": 2.31,
+          "peak_reserved_mib": 6248.0,
+          "peak_alloc_mib": 3229.3,
+          "final_loss": 2.515,
+          "train_wallclock_s": 358,
+          "eval_wallclock_s": 102,
+          "trainable_rows": 1149,
+          "dropped_too_long": 51
+        },
+        {
+          "config": "r70_30",
+          "mcnemar_p_vs_base": [
+            0.096394,
+            0.145366,
+            0.811457
+          ],
+          "acc_mean": 0.4453,
+          "acc_sd": 0.0186,
+          "acc_min": 0.424,
+          "acc_max": 0.458,
+          "delta_vs_base": 0.0293,
+          "delta_ci95": [
+            -0.0107,
+            0.0707
+          ],
+          "delta_ci_excludes_0": false,
+          "unparseable_mean": 0,
+          "unparseable_total": 0,
+          "unparseable_capped_total": 0,
+          "answer_marker_share_mean": 0.0,
+          "mean_new_tokens": 2.0,
+          "acc_parseable_mean": 0.4453,
+          "delta_vs_base_parseable": 0.0293,
+          "s_per_step": 2.29,
+          "peak_reserved_mib": 5950.7,
+          "peak_alloc_mib": 3224.6,
+          "final_loss": 1.974,
+          "train_wallclock_s": 355.7,
+          "eval_wallclock_s": 58.3,
+          "trainable_rows": 1162,
+          "dropped_too_long": 38
+        },
+        {
+          "config": "r30_70",
+          "mcnemar_p_vs_base": [
+            0.341294,
+            0.582476,
+            0.613547
+          ],
+          "acc_mean": 0.4353,
+          "acc_sd": 0.0058,
+          "acc_min": 0.432,
+          "acc_max": 0.442,
+          "delta_vs_base": 0.0193,
+          "delta_ci95": [
+            -0.024,
+            0.064
+          ],
+          "delta_ci_excludes_0": false,
+          "unparseable_mean": 2.67,
+          "unparseable_total": 8,
+          "unparseable_capped_total": 0,
+          "answer_marker_share_mean": 0.0,
+          "mean_new_tokens": 2.01,
+          "acc_parseable_mean": 0.4377,
+          "delta_vs_base_parseable": 0.0217,
+          "s_per_step": 2.27,
+          "peak_reserved_mib": 4928.7,
+          "peak_alloc_mib": 3228.5,
+          "final_loss": 1.023,
+          "train_wallclock_s": 351.7,
+          "eval_wallclock_s": 58.7,
+          "trainable_rows": 1174,
+          "dropped_too_long": 26
+        },
+        {
+          "config": "r0_100",
+          "mcnemar_p_vs_base": [
+            0.698084,
+            0.689054,
+            0.620842
+          ],
+          "acc_mean": 0.4193,
+          "acc_sd": 0.015,
+          "acc_min": 0.402,
+          "acc_max": 0.428,
+          "delta_vs_base": 0.0033,
+          "delta_ci95": [
+            -0.0387,
+            0.044
+          ],
+          "delta_ci_excludes_0": false,
+          "unparseable_mean": 0,
+          "unparseable_total": 0,
+          "unparseable_capped_total": 0,
+          "answer_marker_share_mean": 0.0,
+          "mean_new_tokens": 2.0,
+          "acc_parseable_mean": 0.4193,
+          "delta_vs_base_parseable": 0.0033,
+          "s_per_step": 2.21,
+          "peak_reserved_mib": 2408.0,
+          "peak_alloc_mib": 1912.4,
+          "final_loss": 0.477,
+          "train_wallclock_s": 342.3,
+          "eval_wallclock_s": 59,
+          "trainable_rows": 1200,
+          "dropped_too_long": 0
+        }
+      ],
+      "pairs": [
+        {
+          "a": "r100_0",
+          "b": "r70_30",
+          "delta": 0.0,
+          "ci95": [
+            -0.0347,
+            0.0327
+          ],
+          "excludes_0": false
+        },
+        {
+          "a": "r100_0",
+          "b": "r30_70",
+          "delta": 0.01,
+          "ci95": [
+            -0.026,
+            0.0433
+          ],
+          "excludes_0": false
+        },
+        {
+          "a": "r100_0",
+          "b": "r0_100",
+          "delta": 0.026,
+          "ci95": [
+            -0.0093,
+            0.0607
+          ],
+          "excludes_0": false
+        },
+        {
+          "a": "r70_30",
+          "b": "r30_70",
+          "delta": 0.01,
+          "ci95": [
+            -0.02,
+            0.04
+          ],
+          "excludes_0": false
+        },
+        {
+          "a": "r70_30",
+          "b": "r0_100",
+          "delta": 0.026,
+          "ci95": [
+            -0.0053,
+            0.0587
+          ],
+          "excludes_0": false
+        },
+        {
+          "a": "r30_70",
+          "b": "r0_100",
+          "delta": 0.016,
+          "ci95": [
+            -0.014,
+            0.0473
+          ],
+          "excludes_0": false
+        }
+      ],
+      "spread": {
+        "value": 0.026,
+        "ci95": [
+          0.0113,
+          0.064
+        ],
+        "note": "这是从四档里挑出的最大减最小，属于挑过的统计量：区间不是「档间有差异」的检验，极值挑选本身把它放大了"
+      },
+      "mean_delta": {
+        "value": 0.0203,
+        "ci95": [
+          -0.014,
+          0.056
+        ]
+      },
+      "mcnemar_below_005": 1,
+      "mcnemar_tests": 12
+    }
+  ],
+  "verdict": [
+    "**1.5B**：四档里显著高于 base 的 0 档（无），显著低于 base 的 1 档（r100_0）；6 对两两比较里 3 对 CI 排除 0；最好档−最差档 9.7 pt。",
+    "**0.5B**：四档里显著高于 base 的 0 档（无），显著低于 base 的 0 档（无）；6 对两两比较里 0 对 CI 排除 0；最好档−最差档 2.6 pt。",
+    "回答原问题：「配比无稳定提升」**在 0.5B 上同样成立**——四档对 base 的区间全部跨 0，6 对两两比较也全部跨 0。档间最大差是 r100_0 − r0_100 = +2.6 pt，CI [-0.9, +6.1]——含 0（同幅差还有 1 对）。",
+    "1.5B 上唯一被测出来的档间差异全部涉及 `r100_0`（纯对话档），且它是显著更差：-7.3 pt，CI [-10.6, -4.1]。这个差几乎全来自判分口径：该档 3 seed 共 158 题不可解析（base 只有 1 题），只统计可解析题时 Δ 收到 -0.6 pt。",
+    "同一个档在 0.5B 上不可解析只有 9 题，Δ 为 +2.9 pt [-0.5, +6.5]，即「纯对话档吃亏」不随规模复现。机制写在 §3 的截断列里：1.5B 的 158 题不可解析有 93 题是用满 max_new_tokens=12 被截断的，0.5B 只贡献了 2 题这种截断——它绑在 1.5B 的长答语风格与生成预算上，不是配比本身的性质。",
+    "两个规模的四档平均效应甚至不同向：1.5B -0.7 pt [-3.5, +1.9]，0.5B +2.0 pt [-1.4, +5.6]，两者都跨 0，所以「这套 1,200 行 × 1 epoch 的 LoRA 本身有没有用」在两个规模上都判不出。",
+    "格式效应则随规模复现（结论 3 不受影响）：混入考题数据的三档在两个基座上都塌成单字母（answer-marker 占比 1.5B 0% / 0.5B 0%、平均 2.0 token），纯对话档保留长答语（0.5B 3.9 token / 1.5B 7.2 token）——0.5B 的纯对话档虽然还写「答案：」，但 3.9 token 就写完，没撞上限。",
+    "这次复核能排除什么：档 vs base 的区间半宽 3.1–4.4 pt，档间配对区间的半宽 2.6–3.6 pt，所以它排除的是「某档配比带来 ≥5 pt 的稳定提升」，排除不了 2–3 pt 量级的效应——0.5B 表里 r100_0、r70_30 并列 44.5%、r0_100 垫底 41.9%，这些点差都落在噪声内。",
+    "不能从这里外推的东西：只换了两个规模点、一个题源（CMExam 500 题）、一个训练预算（1,200 行 × 150 步）；「规模」在这里只改了参数量，没有分离预训练语料与数据量，而两档 base 的准确率差 24.2 pt（65.8% vs 41.6%）本身就说明可动空间不同。"
+  ]
+}

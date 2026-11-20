@@ -1,8 +1,9 @@
 """Figure step: README figures for the multi-seed 500-item result and the controls.
 
-Two panels, both recomputed from the per-item eval logs (out/eval/*_items.jsonl)
+Every panel is recomputed from the per-item eval logs (out/eval/*_items.jsonl)
 and asserted against the published summaries (out/multiseed_500_summary.json,
-out/positive_control_summary.json) before anything is drawn. If a summary ever
+out/multiseed_500_q05b_summary.json, out/positive_control_summary.json,
+out/scale_compare_500.json) before anything is drawn. If a summary ever
 drifts from the item logs, this script refuses to plot.
 
 fig1_multiseed_500.png  - per-seed accuracy (12 runs) with config means and the
@@ -10,6 +11,10 @@ fig1_multiseed_500.png  - per-seed accuracy (12 runs) with config means and the
                           show what the ratios actually moved: output format.
 fig2_positive_control.png - the two diagnostic arms against base with Wilson
                           intervals and the 20% five-choice chance line.
+fig3_scale_compare.png  - the 2026-11-20 scale check: each ratio's delta vs its
+                          own base with the item-level bootstrap interval, at
+                          1.5B and 0.5B, plus the unparseable counts split into
+                          "hit the 12-token cap" and "not the cap".
 
 Usage: python scripts/09_make_figures.py   (matplotlib only; no GPU, no torch)
 Writes out/figures/*.png.
@@ -28,7 +33,10 @@ ROOT = Path(__file__).resolve().parents[1]
 EVAL = ROOT / "out" / "eval"
 FIG = ROOT / "out" / "figures"
 MS = json.loads((ROOT / "out" / "multiseed_500_summary.json").read_text(encoding="utf-8"))
+MS_Q05B = json.loads((ROOT / "out" / "multiseed_500_q05b_summary.json")
+                     .read_text(encoding="utf-8"))
 PC = json.loads((ROOT / "out" / "positive_control_summary.json").read_text(encoding="utf-8"))
+SC = json.loads((ROOT / "out" / "scale_compare_500.json").read_text(encoding="utf-8"))
 
 plt.rcParams.update({"figure.dpi": 150, "font.size": 9, "axes.spines.top": False,
                      "axes.spines.right": False})
@@ -47,6 +55,12 @@ def recount(tag: str) -> tuple[int, int]:
     correct = sum(1 for r in rows if r["outcome"] == "correct")
     unp = sum(1 for r in rows if r["outcome"] == "unparseable")
     return correct, unp
+
+
+def capped_unparseable(tag: str, max_new_tokens: int) -> int:
+    """Unparseable answers that ran out of the generation budget (as scripts/10 counts)."""
+    return sum(1 for r in load_items(tag)
+               if r["outcome"] == "unparseable" and r["n_new_tokens"] >= max_new_tokens)
 
 
 def assert_ms_run(run: dict) -> tuple[int, int]:
@@ -137,11 +151,86 @@ def fig2_positive_control() -> None:
     plt.close(fig)
 
 
+def fig3_scale_compare() -> None:
+    """2026-11-20 scale check: every ratio's delta vs its own base, at both scales."""
+    summaries = {"": MS, "q05b_": MS_Q05B}
+    rows = []
+    for scale in SC["scales"]:
+        prefix = scale["tag_prefix"]
+        assert prefix in summaries, f"no published summary loaded for prefix {prefix!r}"
+        ms = summaries[prefix]
+        assert ms.get("tag_prefix", "") == prefix, f"{prefix}: summary prefix mismatch"
+        assert ms["base"]["correct"] == scale["base_correct"], f"{prefix}: base count mismatch"
+        for arm in scale["arms"]:
+            runs = [r for r in ms["runs"] if r["config"] == arm["config"]]
+            assert len(runs) == 3, f"{prefix}/{arm['config']}: expected 3 seeds, got {len(runs)}"
+            accs, unp_total, capped_total = [], 0, 0
+            for run in runs:
+                c, u = recount(run["tag"])
+                assert c == run["correct"], f"{run['tag']}: items {c} vs summary {run['correct']}"
+                assert u == run["unparseable"], f"{run['tag']}: unparseable {u} vs {run['unparseable']}"
+                accs.append(c / run["n"])
+                unp_total += u
+                capped_total += capped_unparseable(run["tag"], scale["max_new_tokens"])
+            assert abs(sum(accs) / 3 - arm["acc_mean"]) < 5e-5, f"{prefix}/{arm['config']}: mean acc"
+            assert unp_total == arm["unparseable_total"], f"{prefix}/{arm['config']}: unparseable total"
+            assert capped_total == arm["unparseable_capped_total"], f"{prefix}/{arm['config']}: capped total"
+            rows.append({"label": f"{scale['label']}  {arm['config']}",
+                         "delta": arm["delta_vs_base"], "ci": arm["delta_ci95"],
+                         "excludes_0": arm["delta_ci_excludes_0"],
+                         "unparseable": unp_total, "capped": capped_total,
+                         "parseable_delta": arm["delta_vs_base_parseable"]})
+    assert len(rows) == 8, f"scale check has {len(rows)} arm rows, expected 8"
+
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(9.4, 4.4), constrained_layout=True,
+                                   gridspec_kw={"width_ratios": [1.4, 1]})
+    ys = list(range(len(rows)))[::-1]
+    for y, row in zip(ys, rows):
+        lo, hi = row["ci"]
+        col = C_BAD if row["excludes_0"] else C_CFG
+        ax1.errorbar(row["delta"] * 100, y, xerr=[[(row["delta"] - lo) * 100],
+                                                  [(hi - row["delta"]) * 100]],
+                     fmt="o", color=col, ecolor=col, elinewidth=1.2, capsize=3, ms=5,
+                     mec="k", mew=0.4)
+        ax2.barh(y, row["unparseable"] - row["capped"], height=0.55, color=C_CFG)
+        ax2.barh(y, row["capped"], left=row["unparseable"] - row["capped"], height=0.55,
+                 color=C_BAD)
+    sep = len(rows) - 4 - 0.5
+    for ax in (ax1, ax2):
+        ax.axhline(sep, color=C_BASE, lw=0.8, ls=":")
+        ax.set(yticks=ys, yticklabels=[r["label"] for r in rows], xlim=(None, None))
+        ax.set_ylim(-0.6, len(rows) - 0.4)
+    ax1.axvline(0, color="k", lw=1.0)
+    worst = next(r for r in rows if r["excludes_0"])
+    ax1.annotate(f"only separated arm: {worst['delta'] * 100:+.1f} pt,\n"
+                 f"{worst['parseable_delta'] * 100:+.1f} pt if only parseable\n"
+                 f"answers count (grading, not knowledge)",
+                 xy=(worst["delta"] * 100, ys[rows.index(worst)]),
+                 xytext=(-9.5, ys[rows.index(worst)] - 1.6), fontsize=7, ha="left",
+                 arrowprops={"arrowstyle": "-", "lw": 0.7, "color": C_BAD})
+    ax1.set(xlabel="accuracy delta vs the same-scale base (pt)\n"
+                   "item-level paired bootstrap 95% CI, seeds averaged per item",
+            title="Same recipe on two base sizes (2026-11-20)\n"
+                  "no ratio separates at 0.5B; at 1.5B the one that does is a grading artifact")
+    ax1.legend(handles=[plt.Line2D([], [], color=C_BAD, marker="o", ls="none",
+                                   label="CI excludes 0"),
+                         plt.Line2D([], [], color=C_CFG, marker="o", ls="none",
+                                    label="CI crosses 0")],
+               fontsize=7, loc="lower right")
+    ax2.set(xlabel="unparseable answers, 3 seeds pooled (of 1500)\n"
+                   "red = generation hit the 12-token cap", ylabel="")
+    ax2.set_title("dialogue-only keeps long answers;\nmixing MCQ collapses them to one letter",
+                  fontsize=8.5)
+    fig.savefig(FIG / "fig3_scale_compare.png")
+    plt.close(fig)
+
+
 def main() -> None:
     FIG.mkdir(parents=True, exist_ok=True)
     fig1_multiseed()
     fig2_positive_control()
-    print(f"wrote 2 figures to {FIG}")
+    fig3_scale_compare()
+    print(f"wrote 3 figures to {FIG}")
 
 
 if __name__ == "__main__":

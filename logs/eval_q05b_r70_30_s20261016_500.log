@@ -1,0 +1,65 @@
+eval items=500 adapter=models/lora_q05b_r70_30_s20261016 file=E:\Desktop\projects\ant-lora-closure\data\clean\mcq_eval_500.jsonl
+base=Qwen2.5-0.5B-Instruct (E:\Desktop\projects\ant-lora-closure\models\Qwen2.5-0.5B-Instruct)
+Loading weights:   0%|          | 0/290 [00:00<?, ?it/s]Loading weights:  20%|██        | 59/290 [00:00<00:00, 539.04it/s]Loading weights:  39%|███▉      | 113/290 [00:00<00:00, 498.32it/s]Loading weights:  56%|█████▌    | 163/290 [00:00<00:00, 479.38it/s]Loading weights:  73%|███████▎  | 211/290 [00:00<00:00, 466.76it/s]Loading weights:  89%|████████▉ | 258/290 [00:00<00:00, 457.46it/s]Loading weights: 100%|██████████| 290/290 [00:00<00:00, 479.76it/s]
+  merged adapter models/lora_q05b_r70_30_s20261016
+  20/500 correct=7 (2s, 0.11s/item)
+  40/500 correct=13 (4s, 0.10s/item)
+  60/500 correct=24 (6s, 0.10s/item)
+  80/500 correct=27 (8s, 0.10s/item)
+  100/500 correct=37 (10s, 0.10s/item)
+  120/500 correct=46 (12s, 0.10s/item)
+  140/500 correct=55 (14s, 0.10s/item)
+  160/500 correct=61 (16s, 0.10s/item)
+  180/500 correct=71 (18s, 0.10s/item)
+  200/500 correct=78 (20s, 0.10s/item)
+  220/500 correct=86 (22s, 0.10s/item)
+  240/500 correct=96 (24s, 0.10s/item)
+  260/500 correct=104 (26s, 0.10s/item)
+  280/500 correct=113 (28s, 0.10s/item)
+  300/500 correct=123 (30s, 0.10s/item)
+  320/500 correct=134 (32s, 0.10s/item)
+  340/500 correct=143 (34s, 0.10s/item)
+  360/500 correct=152 (36s, 0.10s/item)
+  380/500 correct=162 (38s, 0.10s/item)
+  400/500 correct=170 (40s, 0.10s/item)
+  420/500 correct=180 (42s, 0.10s/item)
+  440/500 correct=188 (44s, 0.10s/item)
+  460/500 correct=200 (46s, 0.10s/item)
+  480/500 correct=203 (48s, 0.10s/item)
+  500/500 correct=212 (50s, 0.10s/item)
+{
+  "tag": "q05b_r70_30_s20261016_500",
+  "adapter": "models/lora_q05b_r70_30_s20261016",
+  "base_model": "Qwen2.5-0.5B-Instruct",
+  "eval_file": "E:\\Desktop\\projects\\ant-lora-closure\\data\\clean\\mcq_eval_500.jsonl",
+  "n_items": 500,
+  "correct": 212,
+  "wrong": 288,
+  "unparseable": 0,
+  "accuracy": 0.424,
+  "wrong_rate": 0.576,
+  "unparseable_rate": 0.0,
+  "wilson_ci95": [
+    0.3814,
+    0.4677
+  ],
+  "chance_note": "五选项单选，随机基线约 20%；本评测集正确项字母分布见 answer_letter_distribution",
+  "answer_letter_distribution": {
+    "A": 94,
+    "B": 105,
+    "E": 89,
+    "C": 109,
+    "D": 103
+  },
+  "mean_new_tokens": 2.0,
+  "s_per_item": 0.1,
+  "peak_vram_mib": 1024.8,
+  "parse_path_counts": {
+    "first-letter": 500,
+    "answer-marker": 0,
+    "none": 0
+  },
+  "max_new_tokens": 12,
+  "decoding": "greedy",
+  "binomial_note": "n=500 的准确率 95% 半宽约 4.4 个百分点（正态近似）"
+}
