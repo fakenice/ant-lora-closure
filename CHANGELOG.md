@@ -52,7 +52,13 @@
   ⑤ 用干净克隆模拟 CI，发现口径校验第 4 层读不入库的 `data/clean/dialog_zh.jsonl`（在 CI 里会
   直接 FileNotFoundError）：改为「本机有语料文件时数行数，没有时跳过并改校验漏斗计数自洽
   （`final_kept == after_filters − minhash_duplicates`）」，断言数从 23 变 24。
-  全仓 27 项 unittest + 24 项口径断言通过。
+  ⑥ 同一趟模拟还发现 drift gate 对解释器版本敏感：Python 3.12 起 `sum()` 对 float 用 Neumaier
+  补偿求和，`r30_70` 的 `loss_last10` 正好卡在 0.99685 临界上（3.11 → 0.9968，3.13 → 0.9969），
+  只有 `summary.json`/`ablation.*` 这一处变，其余 9 份进 gate 的产物两版本逐字节相同。
+  已发布产物按 3.11 冻结、不改写；改为在 `ci.yml` 里把 regenerate 作业的 3.11 显式注明原因，
+  并登记为 `docs/DECISIONS.md` 第 22 条 + README §7b 与 `docs/SCRIPTS.md` 的说明。
+  全仓 27 项 unittest + 24 项口径断言通过（干净克隆里 3.11/3.13 各跑一遍，CI 场景下第 4 层
+  为 24 项 1 跳过）。
 - ~~计划：0.5B 基座上的配比复现（把「配比收益依赖基座规模」从假设变成实测，GPU ~1 天）~~
   已于 2026-11-20 完成，见上条。
 - 2026-11-18 新增 `docs/external_baselines.md`：CMExam / HuatuoGPT-II / CMB / DISC 已发表数字

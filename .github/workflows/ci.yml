@@ -39,6 +39,10 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
+          # Pinned to the interpreter the published artifacts were produced with. From 3.12 on,
+          # sum() uses Neumaier compensated summation for floats, which moves one 1-ulp case
+          # (out/summary.json r30_70 loss_last10: 0.9968 under 3.11 vs 0.9969 under 3.12+) and
+          # would fail the drift gate on a display digit only. See docs/DECISIONS.md entry 22.
           python-version: "3.11"
       - name: install (matplotlib only; no torch needed)
         run: pip install matplotlib==3.11.2

@@ -51,6 +51,13 @@
 discover 要求模块名是合法标识符，而 `11_verify_claims` 以数字开头。它自带 unittest 结构，
 既可直接运行，也能被 `python -m unittest scripts.11_verify_claims` 加载。
 
+**已知的解释器依赖**：`06_collect_results.py` 的 `loss_last10`/`loss_first10` 用 `sum()/n`，
+Python 3.12 起 `sum()` 对 float 改用 Neumaier 补偿求和，`r30_70` 的末 10 步均值正好落在
+0.99685 这个临界上（3.11 → 0.9968，3.12+ → 0.9969）。已发布产物按 3.11 冻结，CI 的
+regenerate 作业因此钉在 3.11；本机用 3.12+ 跑 drift gate 只会在 `summary.json`/`ablation.*`
+这一处出 diff，那是解释器而不是数据变了（`docs/DECISIONS.md` 第 22 条）。
+`07`/`08`/`10`/`11` 在 3.11 与 3.13 下产物与判定完全一致。
+
 ## 4. 改了东西要重跑什么
 
 - 改数据链（§1）：`01→02→02b→03→03d`，之后所有训练与评测都要重来，已发布结论作废。

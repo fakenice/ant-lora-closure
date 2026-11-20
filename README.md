@@ -166,6 +166,8 @@ python scripts/11_verify_claims.py        # 结论口径校验（23 项断言，
 
 图产物本身（png 字节）不进 drift gate——matplotlib 版本变化会改写 png 字节，CI 校验的是数字一致性而非二进制。
 
+drift gate 对解释器版本敏感，CI 的 regenerate 作业因此钉在 Python 3.11（已发布产物就是 3.11 产出的）：3.12 起 `sum()` 对 float 改用 Neumaier 补偿求和，而 `r30_70` 的末 10 步 loss 均值正好落在 0.99685 这个四舍五入临界上，3.11 记作 0.9968、3.12+ 记作 0.9969。本机若用 3.12+ 重跑，只会在 `summary.json`/`ablation.*` 的这一位出 diff，那是解释器而不是数据变了；其余 9 份进 gate 的产物两个版本逐字节相同（`docs/DECISIONS.md` 第 22 条）。
+
 单档可控重跑：`python scripts/04_train_lora.py --config r70_30 --steps 150 --accum 8 --max_len 512 --seed 20261015 --tag r70_30_s20261015`，评测 `python scripts/05_eval.py --adapter models/lora_r70_30_s20261015 --eval-file data/clean/mcq_eval_500.jsonl --tag r70_30_s20261015_500`。
 
 ## 7c. 规模复核：同一配方换 0.5B 基座（2026-11-20 跑完）
