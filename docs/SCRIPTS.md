@@ -45,7 +45,7 @@
 | `08_positive_control_summary.py` | 三份对照评测 | `out/positive_control_summary.{json,md}` | 同上 |
 | `09_make_figures.py` | 逐题 jsonl + 三份汇总 | `out/figures/fig{1,2,3}_*.png` | 出图前先与汇总断言；png 字节不进 gate（matplotlib 版本会改写二进制） |
 | `10_scale_compare.py` | 两份 multiseed 汇总 + 逐题 jsonl + sweep 日志 | `out/scale_compare_500.{json,csv,md}` | bootstrap `B=2000`、`random.Random(42)`，逐字节可再生；判读文本由表算出，不手写 |
-| `11_verify_claims.py` | 上述全部产物 + `data/` 登记 | 无（只断言，非零退出即失败） | README 结论 1/2/3/6/8 与限制第 1 条的机器校验，CI 的 claims gate |
+| `11_verify_claims.py` | 上述全部产物 + `data/` 登记 | 无（只断言，非零退出即失败） | README 结论 1/2/3/6/8 与限制第 1 条的机器校验，CI 的 claims gate。24 项里唯一读不入库文件（`data/clean/dialog_zh.jsonl`）的那项在本机执行、在 CI 自动跳过，跳过时改校验漏斗计数自洽 |
 
 为什么不放进 `tests/`：`tests/` 由 `python -m unittest discover -s tests` 跑，
 discover 要求模块名是合法标识符，而 `11_verify_claims` 以数字开头。它自带 unittest 结构，

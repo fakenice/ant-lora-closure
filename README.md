@@ -160,7 +160,7 @@ python scripts/11_verify_claims.py        # 结论口径校验（23 项断言，
 1. 数据完整性测试（`tests/`，纯 stdlib，Python 3.11/3.13 双版本）；
 2. drift gate：从已提交的逐题日志重跑 06/07/08/10，`git diff --exit-code` 要求已提交汇总与再生结果逐字节一致（10 是 2026-11-20 的两规模对照，bootstrap 固定 B=2000、seed 42，所以它的产物也进 gate）；
 3. 图：`09_make_figures.py` 从逐题 jsonl 重算 correct/unparseable 计数，并与两份 multiseed 汇总、`positive_control_summary.json`、`scale_compare_500.json` 断言，对不上就拒绝出图；
-4. 结论口径校验：`python scripts/11_verify_claims.py`（23 项断言）把 §5 的结论 1/2/3/6/8 和 §6 限制第 1 条逐条对回已提交产物——它不重跑模型，只检查"文档说的还站得住吗"：区间是否仍然重叠、0.5B 是否仍然没有一档与 base 分开、1.5B 唯一分离是否仍然只在 `r100_0` 且仍然绑在判分口径上、格式效应在两个基座是否都还在、`≥5 pt` 那句能排除的结论是否仍然与区间半宽一致。
+4. 结论口径校验：`python scripts/11_verify_claims.py`（24 项断言）把 §5 的结论 1/2/3/6/8 和 §6 限制第 1 条逐条对回已提交产物——它不重跑模型，只检查"文档说的还站得住吗"：区间是否仍然重叠、0.5B 是否仍然没有一档与 base 分开、1.5B 唯一分离是否仍然只在 `r100_0` 且仍然绑在判分口径上、格式效应在两个基座是否都还在、`≥5 pt` 那句能排除的结论是否仍然与区间半宽一致。其中「58,787 条对话语料」那条依赖不入库的 `data/clean/dialog_zh.jsonl`，在 CI 里自动跳过并改校验清洗漏斗计数自洽（`final_kept == after_filters − minhash_duplicates`）。
 
 第 2 层与第 4 层的分工：drift gate 证明产物可逐字节再生，claims gate 证明再生出来的产物仍然支持 README 的措辞。改动数据或口径后如果只想先看会不会撬动结论，直接跑第 4 层。
 
@@ -271,7 +271,7 @@ bootstrap 的重抽单位是 500 道题、同一档三个 seed 先按题平均�
 | `out/summary.json`、`ablation.csv`、`ablation.md`、`resources.md` | 原四档消融表与资源账 |
 | `docs/DATASHEET.md` | 来源登记、漏斗、抽样偏差、许可与限制 |
 | `docs/SCRIPTS.md` | 每个脚本的输入输出、确定性声明、被哪些测试与文档引用，以及"改了东西要重跑什么" |
-| `scripts/11_verify_claims.py` | 结论口径校验（23 项断言，纯 stdlib、只读已提交产物）；CI 第 4 层，也是本地改数据/口径后的第一道自检 |
+| `scripts/11_verify_claims.py` | 结论口径校验（24 项断言，纯 stdlib、只读已提交产物）；CI 第 4 层，也是本地改数据/口径后的第一道自检 |
 | `logs/` | 每档训练与评测的原始日志、`stage4.log` 运行序列 |
 
 ## 10. 引用（How to cite）

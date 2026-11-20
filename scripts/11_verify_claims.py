@@ -264,6 +264,15 @@ class TestLimitationsAndLeakage(Artefacts):
                         "取数范围不再小于全量文件，「前缀样本」这条限制要重写")
         self.assertEqual(rec["range_requested"], rec["bytes"])
         stages = jload(ROOT / "data" / "stats" / "quality_report.json")["dialog"]["stages"]
+        self.assertEqual(stages["final_kept"],
+                         stages["after_filters"] - stages["minhash_duplicates"],
+                         "清洗漏斗的 final_kept 不再等于过滤后计数减去 MinHash 重复数")
+
+    @unittest.skipUnless((CLEAN / "dialog_zh.jsonl").exists(),
+                         "dialog_zh.jsonl 不入库（.gitignore），CI 无此文件")
+    def test_final_kept_matches_the_deduped_corpus_on_disk(self):
+        """本机有清洗产物时才校验「58,787 条」这句话；CI 走上一条的漏斗内部一致性。"""
+        stages = jload(ROOT / "data" / "stats" / "quality_report.json")["dialog"]["stages"]
         self.assertEqual(stages["final_kept"], len(jsonl(CLEAN / "dialog_zh.jsonl")))
 
     def test_eval_sets_do_not_overlap_the_train_pool(self):

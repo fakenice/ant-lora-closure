@@ -33,7 +33,7 @@
   models 目录里跑（原先依赖本机是否恰好存在 0.5B 权重）；全仓 27 项测试通过。
   文档：README §4/§5/§6/§7/§7b/§7c/§9 相应条目、`docs/DECISIONS.md` 第 18–21 条。
 - 2026-11-20 补上「文档说的话有没有产物支撑」这一层，并改掉两处口径过度：
-  ① 新增 `scripts/11_verify_claims.py`（纯 stdlib，23 项断言，把 README 结论 1/2/3/6/8 与
+  ① 新增 `scripts/11_verify_claims.py`（纯 stdlib，24 项断言，把 README 结论 1/2/3/6/8 与
   限制第 1 条逐条对回 `out/` 与 `data/` 的已提交产物；不写进 `tests/` 以免 `compileall`
   报模块名不合法），CI 的 regenerate 作业新增同名步骤。它与 drift gate 的分工是：
   gate 证明产物可逐字节再生，本脚本证明再生出来的产物仍然支持文档的说法。
@@ -46,9 +46,13 @@
   （仍为 ≥5 pt，但现在是数据而不是手写的）；README §7c 判读第 4 条补上 0.5B `r30_70` 的
   8 题不可解析（0 题截断），不再让纯对话档看起来是唯一有不可解析的一档。
   ④ README §7c 加 `out/figures/fig3_scale_compare.png`（`09_make_figures.py` 出图前
-  从逐题日志重算并与两份汇总＋对照表断言）。README §7b 的 CI 说明从三层改为四层（新增结论
-  口径校验一层），§9 产物清单补 `scripts/11_verify_claims.py`、`docs/SCRIPTS.md`、fig3 与
-  0.5B 权重登记文件的真实内容。全仓 27 项 unittest + 23 项口径断言通过。
+  从逐题日志重算并与两份汇总＋对照表断言）；README §7b 的 CI 说明从三层改为四层（新增结论口径
+  校验一层并写明它与 drift gate 的分工），§9 产物清单补 `scripts/11_verify_claims.py`、
+  `docs/SCRIPTS.md`、fig3 与 0.5B 权重登记文件的真实内容。
+  ⑤ 用干净克隆模拟 CI，发现口径校验第 4 层读不入库的 `data/clean/dialog_zh.jsonl`（在 CI 里会
+  直接 FileNotFoundError）：改为「本机有语料文件时数行数，没有时跳过并改校验漏斗计数自洽
+  （`final_kept == after_filters − minhash_duplicates`）」，断言数从 23 变 24。
+  全仓 27 项 unittest + 24 项口径断言通过。
 - ~~计划：0.5B 基座上的配比复现（把「配比收益依赖基座规模」从假设变成实测，GPU ~1 天）~~
   已于 2026-11-20 完成，见上条。
 - 2026-11-18 新增 `docs/external_baselines.md`：CMExam / HuatuoGPT-II / CMB / DISC 已发表数字
